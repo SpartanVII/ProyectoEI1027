@@ -2,7 +2,6 @@ package mvc.controller;
 
 import mvc.dao.EjemploDao;
 import mvc.model.Ejemplo;
-import es.uji.ei1027.clubesportiu.services.ClassificacioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,20 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/ejemplo")
 public class EjemploController {
-    private ClassificacioService classificacioService;
-    private EjemploDao classificacioDao;
-    //
-    @Autowired
-    public void setClassificacioService(ClassificacioService classificacioService) {
-        this.classificacioService = classificacioService;
-    }
-
-    @RequestMapping("/perpais")
-    public String listClsfPerPais(Model model) {
-        model.addAttribute("classificacions",
-                classificacioService.getClassificationByCountry("Duos Sincro"));
-        return "ejemplo/perpais";
-    }
 
     //
     @Autowired
