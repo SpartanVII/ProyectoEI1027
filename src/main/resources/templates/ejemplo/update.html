@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edita classificacio</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+<h2>Edita la classificacio</h2>
+<form action="#" th:action="@{/classificacio/update}"
+      th:object="${classificacio}" method="post">
+    <table>
+        <tr>
+            <td><label>Nom del Nadador</label></td>
+            <td><input type="text" th:field="*{nomNadador}" /></td>
+        </tr>
+        <tr>
+            <td><label>Nom de la Prova</label></td>
+            <td><input type="text" th:field="*{nomProva}" /></td>
+        </tr>
+        <tr>
+            <td><label>Temps</label></td>
+            <td><input type="text" th:field="*{temps}" /></td>
+        </tr>
+        <tr>
+            <td><label>Posició</label></td>
+            <td><input type="number" th:field="*{posicio}" /></td>
+        </tr>
+
+        <tr>
+            <td colspan="2"><input type="submit" value="Actualitza classificacio" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
