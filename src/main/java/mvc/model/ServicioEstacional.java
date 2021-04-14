@@ -3,7 +3,7 @@ package mvc.model;
 
 import mvc.model.enumerations.TipoServicio;
 
-public class ServPermanentInst {
+public class ServicioEstacional {
 
 
     private String nombre;

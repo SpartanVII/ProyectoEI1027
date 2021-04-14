@@ -1,6 +1,7 @@
 package mvc.dao;
 
 import mvc.model.Ejemplo;
+import mvc.model.GestorMunicipal;
 import mvc.model.Municipio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -36,7 +37,6 @@ public class MunicipioDao {
         jdbcTemplate.update("DELETE from Municipio where nombre=?",
                 municipio.getNombre());
     }
-
 
 
     public Municipio getMunicipio(String municipio) {

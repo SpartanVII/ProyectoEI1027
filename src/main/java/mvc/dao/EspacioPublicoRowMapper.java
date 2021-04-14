@@ -2,9 +2,7 @@ package mvc.dao;
 
 
 import mvc.model.EspacioPublico;
-import mvc.model.ServPermanentInst;
 import mvc.model.enumerations.TipoAcceso;
-import mvc.model.enumerations.TipoServicio;
 import mvc.model.enumerations.TipoTerreno;
 import org.springframework.jdbc.core.RowMapper;
 

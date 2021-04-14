@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/ejemplo")
 public class EjemploController {
+    /*
 
     //
     @Autowired
@@ -66,5 +67,5 @@ public class EjemploController {
             return "ejemplo/add";
         classificacioDao.addClassificacio(classificacio);
         return "redirect:list";
-    }
+    }*/
 }

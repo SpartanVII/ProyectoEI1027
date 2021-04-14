@@ -2,7 +2,6 @@ package mvc.dao;
 
 
 import mvc.model.EspacioPublico;
-import mvc.model.ServPermanentInst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -43,9 +42,9 @@ public class EspacioPublicoDao {
     public void updateEspacioPublico(EspacioPublico espacioPublico) {
         jdbcTemplate.update("UPDATE EspacioPublico SET descripcion=?, localizacionGeografica=?, ocupacion=?, longitud=?, " +
                         "amplitud=?, orientacion=?, comentario=?, tipoTerreno=?, tipoAcceso=? where nombre=?",
-                espacioPublico.getDescripcion(), espacioPublico.getLocalizacionGeografica(), espacioPublico.getOcupacion(),
-                espacioPublico.getLongitud(), espacioPublico.getAmplitud(), espacioPublico.getOrientacion(),
-                espacioPublico.getComentario(), espacioPublico.getTipoTerreno(), espacioPublico.getTipoAcceso());
+                espacioPublico.getDescripcion(), espacioPublico.getLocalizacionGeografica(), espacioPublico.getOcupacion(), espacioPublico.getLongitud(),
+                espacioPublico.getAmplitud(), espacioPublico.getOrientacion(), espacioPublico.getComentario(), espacioPublico.getTipoTerreno(),
+                espacioPublico.getTipoAcceso() , espacioPublico.getNombre());
     }
 
 
