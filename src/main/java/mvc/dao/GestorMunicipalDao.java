@@ -24,7 +24,7 @@ public class GestorMunicipalDao {
 
 
     public void addGestorMunicipal(GestorMunicipal gestorMunicipal) {
-        jdbcTemplate.update("INSERT INTO Municipio VALUES(?,?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO GestorMunicipal VALUES(?,?,?,?,?,?,?,?)",
                 gestorMunicipal.getNombre(),gestorMunicipal.getDni(),gestorMunicipal.getTelefono(), gestorMunicipal.getCodPostal(),
                 gestorMunicipal.getPais(),gestorMunicipal.getDireccion(), gestorMunicipal.getEmail(), gestorMunicipal.getNombreMunicipio());
     }

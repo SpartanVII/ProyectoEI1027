@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crear nou nadador</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+<h2>Nuevo Gestor Municipal</h2>
+<form action="#" th:action="@{/gestorMunicipal/add}"
+      th:object="${gestor}" method="post">
+    <table>
+        <tr>
+            <td><label>Nombre</label></td>
+            <td><input type="text" th:field="*{nombre}" /></td>
+        </tr>
+        <tr>
+            <td><label>DNI</label></td>
+            <td><input type="text" th:field="*{dni}" /></td>
+        </tr>
+        <tr>
+            <td><label>Telefono</label></td>
+            <td><input type="number" th:field="*{telefono}" /></td>
+        </tr>
+        <tr>
+            <td><label>Código Postal</label></td>
+            <td><input type="number" th:field="*{codPostal}" /></td>
+        </tr>
+        <tr>
+            <td><label>País</label></td>
+            <td><input type="text" th:field="*{pais}" /></td>
+        </tr>
+        <tr>
+            <td><label>Dirección</label></td>
+            <td><input type="text" th:field="*{direccion}" /></td>
+        </tr>
+        <tr>
+            <td><label>Email</label></td>
+            <td><input type="text" th:field="*{email}" /></td>
+        </tr>
+        <tr>
+            <td><label>Nombre Municipio</label></td>
+            <td><input type="text" th:field="*{nombreMunicipio}" /></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Añadir Gestor" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

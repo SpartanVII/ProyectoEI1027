@@ -16,7 +16,7 @@
         <th>Cod.Postal</th>
         <th>Pais</th>
         <th>Dirección</th>
-        <th>email</th>
+        <th>Email</th>
         <th>Municipio</th>
         <th></th>
     </tr>
@@ -32,6 +32,10 @@
         <td th:text="${gestor.direccion}"></td>
         <td th:text="${gestor.email}"></td>
         <td th:text="${gestor.nombreMunicipio}"></td>
+        <td><a th:href="@{/gestorMunicipal/update/{dni}(dni=${gestor.dni})}">Edita</a>
+        </td>
+        <td><a th:href="@{/gestorMunicipal/delete/{dni}(dni=${gestor.dni})}">Borra</a>
+        </td>
     </tr>
     </tbody>
 
