@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Crear nuevo gestor municipal</title>
+    <title>Modificar gestor municipal</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
 </head>
 <body>
-<h2>Nuevo Gestor Municipal</h2>
-<form action="#" th:action="@{/gestorMunicipal/add}"
+<h2>Actualizar Gestor Municipal</h2>
+<form action="#" th:action="@{/gestorMunicipal/update}"
       th:object="${gestor}" method="post">
     <table>
         <tr>
@@ -44,7 +44,7 @@
             <td><input type="text" th:field="*{nombreMunicipio}" /></td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit" value="Añadir Gestor" /></td>
+            <td colspan="2"><input type="submit" value="Actualizar Gestor" /></td>
         </tr>
     </table>
 </form>
