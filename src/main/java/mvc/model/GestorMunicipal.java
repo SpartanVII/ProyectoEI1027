@@ -74,4 +74,5 @@ public class GestorMunicipal {
     public void setNombreMunicipio(String nombreMunicipio) {
         this.nombreMunicipio = nombreMunicipio;
     }
+
 }

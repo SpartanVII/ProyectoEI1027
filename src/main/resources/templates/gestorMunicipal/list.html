@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestionar Gestores Municipales</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+</head>
+<body>
+<h1>Lista de Gestores municipales</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>DNI</th>
+        <th>Telefono</th>
+        <th>Cod.Postal</th>
+        <th>Pais</th>
+        <th>Dirección</th>
+        <th>email</th>
+        <th>Municipio</th>
+        <th></th>
+    </tr>
+
+    </thead>
+    <tbody>
+    <tr th:each="gestor: ${gestores}">
+        <td th:text="${gestor.nombre}"></td>
+        <td th:text="${gestor.dni}"></td>
+        <td th:text="${gestor.telefono}"></td>
+        <td th:text="${gestor.codPostal}"></td>
+        <td th:text="${gestor.pais}"></td>
+        <td th:text="${gestor.direccion}"></td>
+        <td th:text="${gestor.email}"></td>
+        <td th:text="${gestor.nombreMunicipio}"></td>
+    </tr>
+    </tbody>
+
+</table>
+<a href="add" class="btn btn-success" role="button">Añade Gestor Municipal</a>
+</body>
+</html>
