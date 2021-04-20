@@ -24,9 +24,9 @@ public class GestorMunicipalDao {
 
 
     public void addGestionarMunicipal(GestorMunicipal gestorMunicipal) {
-        jdbcTemplate.update("INSERT INTO Municipio VALUES(?,?,?,?,?,?)",
-                gestorMunicipal.getNombre(),gestorMunicipal.getDni(),gestorMunicipal.getTelefono(),
-                gestorMunicipal.getCodPostal(),gestorMunicipal.getPais(),gestorMunicipal.getDireccion());
+        jdbcTemplate.update("INSERT INTO Municipio VALUES(?,?,?,?,?,?,?,?)",
+                gestorMunicipal.getNombre(),gestorMunicipal.getDni(),gestorMunicipal.getTelefono(), gestorMunicipal.getCodPostal(),
+                gestorMunicipal.getPais(),gestorMunicipal.getDireccion(), gestorMunicipal.getEmail(), gestorMunicipal.getNombreMunicipio());
     }
 
 
@@ -40,9 +40,9 @@ public class GestorMunicipalDao {
     }
 
     public void updateGestorMunicipal(GestorMunicipal gestorMunicipal) {
-        jdbcTemplate.update("UPDATE GestorMunicipal SET nombre=?, telefono=?, codPostal=?, pais=?, direccion=? where dni=?",
-                gestorMunicipal.getNombre(), gestorMunicipal.getTelefono(), gestorMunicipal.getCodPostal(),
-                gestorMunicipal.getPais(), gestorMunicipal.getDireccion(), gestorMunicipal.getDni());
+        jdbcTemplate.update("UPDATE GestorMunicipal SET nombre=?, telefono=?, codPostal=?, pais=?, direccion=?, email=?, nombre_municipio=? where dni=?",
+                gestorMunicipal.getNombre(), gestorMunicipal.getTelefono(), gestorMunicipal.getCodPostal(), gestorMunicipal.getPais(),
+                gestorMunicipal.getDireccion(), gestorMunicipal.getEmail(), gestorMunicipal.getNombreMunicipio(), gestorMunicipal.getDni());
     }
 
 

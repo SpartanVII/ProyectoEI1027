@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,29 +23,29 @@ public class ReservaDao {
 
 
     public void addReserva(Reserva reserva) {
-        jdbcTemplate.update("INSERT INTO Reserva VALUES(?,?,?,?)",
-                reserva.getCodigo(), reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado());
+        jdbcTemplate.update("INSERT INTO Reserva VALUES(?,?,?,?,?)",
+                reserva.getIdentificador(), reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado(), reserva.getDniCIudadano());
     }
 
 
-    public void deleteReserva(String codigo) {
-        jdbcTemplate.update("DELETE from Reserva where codigo=?",
-                codigo);
+    public void deleteReserva(String identificador) {
+        jdbcTemplate.update("DELETE from Reserva where identificador=?",
+                identificador);
     }
     public void deleteReserva(Reserva reserva) {
-        jdbcTemplate.update("DELETE from Reserva where codigo=?",
-                reserva.getCodigo());
+        jdbcTemplate.update("DELETE from Reserva where identificador=?",
+                reserva.getIdentificador());
     }
 
     public void updateReserva(Reserva reserva) {
-        jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, estado=? where codigo=?",
-                reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado(), reserva.getCodigo());
+        jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, estado=?, dni_ciudadano=? where identificador=?",
+                reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado(), reserva.getDniCIudadano(), reserva.getIdentificador());
     }
 
 
     public Reserva getReserva(String codigo) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * from Reserva WHERE codigo=?",
+            return jdbcTemplate.queryForObject("SELECT * from Reserva WHERE identificador=?",
                     new ReservaRowMapper(), codigo);
         }
         catch(EmptyResultDataAccessException e) {

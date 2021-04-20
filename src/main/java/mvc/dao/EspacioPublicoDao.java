@@ -23,10 +23,10 @@ public class EspacioPublicoDao {
 
 
     public void addEspacioPublico(EspacioPublico espacioPublico) {
-        jdbcTemplate.update("INSERT INTO EspacioPublico VALUES(?,?,?,?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO EspacioPublico VALUES(?,?,?,?,?,?,?,?,?,?,?)",
                 espacioPublico.getNombre(), espacioPublico.getDescripcion(), espacioPublico.getLocalizacionGeografica(),
                 espacioPublico.getOcupacion(), espacioPublico.getLongitud(), espacioPublico.getAmplitud(), espacioPublico.getOrientacion(),
-                espacioPublico.getComentario(), espacioPublico.getTipoTerreno(), espacioPublico.getTipoAcceso());
+                espacioPublico.getComentario(), espacioPublico.getTipoTerreno(), espacioPublico.getTipoAcceso(), espacioPublico.getNombreMunicipio());
     }
 
 
@@ -41,10 +41,10 @@ public class EspacioPublicoDao {
 
     public void updateEspacioPublico(EspacioPublico espacioPublico) {
         jdbcTemplate.update("UPDATE EspacioPublico SET descripcion=?, localizacionGeografica=?, ocupacion=?, longitud=?, " +
-                        "amplitud=?, orientacion=?, comentario=?, tipoTerreno=?, tipoAcceso=? where nombre=?",
+                        "amplitud=?, orientacion=?, comentario=?, tipoTerreno=?, tipoAcceso=?, nombre_municipio=? where nombre=?",
                 espacioPublico.getDescripcion(), espacioPublico.getLocalizacionGeografica(), espacioPublico.getOcupacion(), espacioPublico.getLongitud(),
                 espacioPublico.getAmplitud(), espacioPublico.getOrientacion(), espacioPublico.getComentario(), espacioPublico.getTipoTerreno(),
-                espacioPublico.getTipoAcceso() , espacioPublico.getNombre());
+                espacioPublico.getTipoAcceso(), espacioPublico.getNombreMunicipio(), espacioPublico.getNombre());
     }
 
 

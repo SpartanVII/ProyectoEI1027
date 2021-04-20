@@ -15,6 +15,7 @@ public class EspacioPublico {
     private String comentario;
     private TipoTerreno tipoTerreno;
     private TipoAcceso tipoAcceso;
+    private String nombreMunicipio;
 
     public String getNombre() {
         return nombre;
@@ -94,5 +95,13 @@ public class EspacioPublico {
 
     public void setTipoAcceso(TipoAcceso tipoAcceso) {
         this.tipoAcceso = tipoAcceso;
+    }
+
+    public String getNombreMunicipio() {
+        return nombreMunicipio;
+    }
+
+    public void setNombreMunicipio(String nombreMunicipio) {
+        this.nombreMunicipio = nombreMunicipio;
     }
 }

@@ -6,17 +6,18 @@ import java.util.Date;
 
 public class Reserva {
 
-    private String codigo;
+    private String identificador;
     private int numPersonas;
     private Date fecha;
     private EstadoReserva estado;
+    private String dniCIudadano;
 
-    public String getCodigo() {
-        return codigo;
+    public String getIdentificador() {
+        return identificador;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
     }
 
     public Date getFecha() {
@@ -41,5 +42,13 @@ public class Reserva {
 
     public void setEstado(EstadoReserva estado) {
         this.estado = estado;
+    }
+
+    public String getDniCIudadano() {
+        return dniCIudadano;
+    }
+
+    public void setDniCIudadano(String dniCIudadano) {
+        this.dniCIudadano = dniCIudadano;
     }
 }

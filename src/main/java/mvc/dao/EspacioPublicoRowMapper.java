@@ -25,6 +25,7 @@ public final class EspacioPublicoRowMapper implements
         espacioPublico.setComentario(rs.getString("comentario"));
         espacioPublico.setTipoTerreno(rs.getObject("tipoTerreno", TipoTerreno.class));
         espacioPublico.setTipoAcceso(rs.getObject("tipoAcceso", TipoAcceso.class));
+        espacioPublico.setNombreMunicipio(rs.getString("nombre_municipio"));
         return espacioPublico;
     }
 }

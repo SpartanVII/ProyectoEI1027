@@ -14,10 +14,11 @@ public final class ReservaRowMapper implements
     public Reserva mapRow(ResultSet rs, int rowNum) throws SQLException
     {
         Reserva reserva = new Reserva();
-        reserva.setCodigo(rs.getString("codigo"));
+        reserva.setIdentificador(rs.getString("identificador"));
         reserva.setNumPersonas(rs.getInt("numPersonas"));
         reserva.setFecha(rs.getDate("fecha"));
         reserva.setEstado(rs.getObject("estado", EstadoReserva.class));
+        reserva.setDniCIudadano(rs.getString("dni_ciudadano"));
         return reserva;
     }
 }
