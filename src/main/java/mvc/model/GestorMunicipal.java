@@ -4,8 +4,8 @@ public class GestorMunicipal {
 
     private String nombre;
     private String dni;
-    private int telefono;
-    private int codPostal;
+    private String telefono;
+    private String codPostal;
     private String pais;
     private String direccion;
     private String email;
@@ -27,19 +27,19 @@ public class GestorMunicipal {
         this.dni = dni;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
-    public int getCodPostal() {
+    public String getCodPostal() {
         return codPostal;
     }
 
-    public void setCodPostal(int codPostal) {
+    public void setCodPostal(String codPostal) {
         this.codPostal = codPostal;
     }
 

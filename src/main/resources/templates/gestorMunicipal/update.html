@@ -21,11 +21,11 @@
         </tr>
         <tr>
             <td><label>Telefono</label></td>
-            <td><input type="number" th:field="*{telefono}" /></td>
+            <td><input type="tel" pattern="[0-9]{9}" th:field="*{telefono}" /></td>
         </tr>
         <tr>
             <td><label>Código Postal</label></td>
-            <td><input type="number" th:field="*{codPostal}" /></td>
+            <td><input type="text" th:field="*{codPostal}" /></td>
         </tr>
         <tr>
             <td><label>País</label></td>

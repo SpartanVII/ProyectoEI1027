@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Crear nuevo gestor municipal</title>
+    <title>Modificar ciudadano</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
 </head>
 <body>
-<h2>Nuevo Gestor Municipal</h2>
-<form action="#" th:action="@{/gestorMunicipal/add}"
-      th:object="${gestor}" method="post">
+<h2>Actualizar Ciudadano</h2>
+<form action="#" th:action="@{/ciudadano/update}"
+      th:object="${ciudadano}" method="post">
     <table>
         <tr>
             <td><label>Nombre</label></td>
@@ -40,11 +40,19 @@
             <td><input type="text" th:field="*{email}" /></td>
         </tr>
         <tr>
-            <td><label>Nombre Municipio</label></td>
-            <td><input type="text" th:field="*{nombreMunicipio}" /></td>
+            <td><label>Ciudad</label></td>
+            <td><input type="text" th:field="*{ciudad}" /></td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit" value="Añadir Gestor" /></td>
+            <td><label>Codigo Ciudadano</label></td>
+            <td><input type="text" th:field="*{codigoCiudadano}" /></td>
+        </tr>
+        <tr>
+            <td><label>Pin</label></td>
+            <td><input type="text" th:field="*{pin}" /></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Actualizar Ciudadano" /></td>
         </tr>
     </table>
 </form>

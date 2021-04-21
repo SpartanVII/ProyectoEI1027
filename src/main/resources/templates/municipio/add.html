@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crear nuevo municipio</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+<h2>Nuevo Municipio</h2>
+<form action="#" th:action="@{/municipio/add}"
+      th:object="${municipio}" method="post">
+    <table>
+        <tr>
+            <td><label>Nombre</label></td>
+            <td><input type="text" th:field="*{nombre}" /></td>
+        </tr>
+
+        <tr>
+            <td colspan="2"><input type="submit" value="Añadir Municipio" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

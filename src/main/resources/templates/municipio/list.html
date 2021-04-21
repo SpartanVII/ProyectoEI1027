@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestionar Gestores Municipales</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+</head>
+<body>
+<h1>Lista de Gestores municipales</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+    </tr>
+
+    </thead>
+    <tbody>
+    <tr th:each="municipio: ${municipios}">
+        <td th:text="${municipio.nombre}"></td>
+        <td><a th:href="@{/municipio/delete/{nombre}(nombre=${municipio.nombre})}"  class="btn btn-danger" role="button">Borra</a>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+<a href="add" class="btn btn-success" role="button">Añade Municipio</a>
+</body>
+</html>

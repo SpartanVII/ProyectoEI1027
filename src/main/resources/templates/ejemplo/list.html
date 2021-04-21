@@ -26,7 +26,8 @@
             <td th:text="${classificacio.nomProva}"></td>
             <td th:text="${classificacio.posicio}"></td>
             <td th:text="${{classificacio.temps}}"></td>
-            <td> <a th:href="@{/classificacio/update/{nom}/{nomProva}(nom=${classificacio.nomNadador}, nomProva=${classificacio.nomProva})}" class="btn btn-warning" role="button">Edita</a></td>
+            <button type="button" class="btn btn-warning">Warning</button>
+            <td> <a th:href="@{/classificacio/update/{nom}/{nomProva}(nom=${classificacio.nomNadador}, nomProva=${classificacio.nomProva})}" class="btn btn-warning" type="button">Edita</a></td>
             <td><a th:href="@{/classificacio/delete/{nom}/{nomProva}(nom=${classificacio.nomNadador},nomProva=${classificacio.nomProva})}" class="btn btn-danger" role="button">Esborra</a></td>
         </tr>
         </tbody>

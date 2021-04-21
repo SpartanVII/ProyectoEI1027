@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestionar Ciudadanos</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+</head>
+<body>
+<h1>Lista de Ciudadanos</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>DNI</th>
+        <th>Telefono</th>
+        <th>Cod.Postal</th>
+        <th>Pais</th>
+        <th>Dirección</th>
+        <th>Email</th>
+        <th>Ciudad</th>
+        <th>Codigo Ciudadano</th>
+        <th>Pin</th>
+        <th></th>
+
+    </tr>
+
+    </thead>
+    <tbody>
+    <tr th:each="ciudadano: ${ciudadanos}">
+        <td th:text="${ciudadano.nombre}"></td>
+        <td th:text="${ciudadano.dni}"></td>
+        <td th:text="${ciudadano.telefono}"></td>
+        <td th:text="${ciudadano.codPostal}"></td>
+        <td th:text="${ciudadano.pais}"></td>
+        <td th:text="${ciudadano.direccion}"></td>
+        <td th:text="${ciudadano.email}"></td>
+        <td th:text="${ciudadano.ciudad}"></td>
+        <td th:text="${ciudadano.codigoCiudadano}"></td>
+        <td th:text="${ciudadano.pin}"></td>
+        <td><a th:href="@{/ciudadano/update/{dni}(dni=${ciudadano.dni})}"  class="btn btn-warning" type="button">Edita</a></td>
+        <td><a th:href="@{/ciudadano/delete/{dni}(dni=${ciudadano.dni})}" class="btn btn-danger" role="button">Borra</a>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+<a href="add" class="btn btn-success" role="button">Añade Gestor Municipal</a>
+</body>
+</html>

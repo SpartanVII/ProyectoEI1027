@@ -32,9 +32,9 @@
         <td th:text="${gestor.direccion}"></td>
         <td th:text="${gestor.email}"></td>
         <td th:text="${gestor.nombreMunicipio}"></td>
-        <td><a th:href="@{/gestorMunicipal/update/{dni}(dni=${gestor.dni})}">Edita</a>
+        <td><a th:href="@{/gestorMunicipal/update/{dni}(dni=${gestor.dni})}"  class="btn btn-warning" type="button">Edita</a>
         </td>
-        <td><a th:href="@{/gestorMunicipal/delete/{dni}(dni=${gestor.dni})}">Borra</a>
+        <td><a th:href="@{/gestorMunicipal/delete/{dni}(dni=${gestor.dni})}" class="btn btn-danger" role="button">Borra</a>
         </td>
     </tr>
     </tbody>

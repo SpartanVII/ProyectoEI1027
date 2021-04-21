@@ -42,7 +42,7 @@ public class CiudadanoDao {
         jdbcTemplate.update("UPDATE Ciudadano SET nombre=?, telefono=?, codPostal=?, pais=?, direccion=?, " +
                             "email=?, ciudad=?, codigoCiudadano=?, pin=? where dni=?",
                 ciudadano.getNombre(), ciudadano.getTelefono(), ciudadano.getCodPostal(), ciudadano.getPais(), ciudadano.getDireccion(),
-                ciudadano.getEmail(), ciudadano.getCiudad(), ciudadano.getCodigoCiudadano(), ciudadano.getDni(), ciudadano.getDni());
+                ciudadano.getEmail(), ciudadano.getCiudad(), ciudadano.getCodigoCiudadano(), ciudadano.getPin(), ciudadano.getDni());
     }
 
 
