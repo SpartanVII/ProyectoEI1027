@@ -14,7 +14,7 @@ public final class PeriodosServiciosEstacionalesEnEspacioRowMapper implements
     public PeriodosServiciosEstacionalesEnEspacio mapRow(ResultSet rs, int rowNum) throws SQLException
     {
         PeriodosServiciosEstacionalesEnEspacio periodosServiciosEstacionalesEnEspacio = new PeriodosServiciosEstacionalesEnEspacio();
-        periodosServiciosEstacionalesEnEspacio.setFechaInicio(rs.getObject("fechaInicio", Date.class));
+        periodosServiciosEstacionalesEnEspacio.setFechaInicio(rs.getDate("fechaInicio"));
         periodosServiciosEstacionalesEnEspacio.setFechaFin(rs.getDate("fechaFin"));
         periodosServiciosEstacionalesEnEspacio.setNombreEspacioPublico(rs.getString("nombre_espacioPublico"));
         periodosServiciosEstacionalesEnEspacio.setNombreServicioEstacional(rs.getString("nombre_servicioEstacional"));

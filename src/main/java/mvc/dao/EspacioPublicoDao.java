@@ -59,7 +59,7 @@ public class EspacioPublicoDao {
     }
 
 
-    public List<EspacioPublico> getGestores() {
+    public List<EspacioPublico> getEspaciosPublicos() {
         try {
             return jdbcTemplate.query("SELECT * from EspacioPublico",
                     new EspacioPublicoRowMapper());

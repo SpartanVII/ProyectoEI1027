@@ -1,4 +1,4 @@
 package mvc.model.enumerations;
 
-public enum TipoAcceso {
+public enum TipoAcceso { RESTRINGIDO, ABIERTO, CERRADO
 }

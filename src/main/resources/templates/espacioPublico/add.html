@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crear nuevo ciudadano</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+<h2>Nuevo Ciudadanol</h2>
+<form action="#" th:action="@{/ciudadano/add}"
+      th:object="${ciudadano}" method="post">
+    <table>
+        <tr>
+            <td><label>Nombre</label></td>
+            <td><input type="text" th:field="*{nombre}" /></td>
+        </tr>
+        <tr>
+            <td><label>Descripción</label></td>
+            <td> <textarea rows="10" cols="50"  th:field="*{descripcion}"></textarea></td>
+        </tr>
+        <tr>
+            <td><label>Localización Geogrfica</label></td>
+            <td><input type="text"  th:field="*{localizacionGeografica}" /></td>
+        </tr>
+        <tr>
+            <td><label>Ócupación</label></td>
+            <td><input type="number" th:field="*{ocupacion}" /></td>
+        </tr>
+        <tr>
+            <td><label>Longitud</label></td>
+            <td><input type="number" th:field="*{longitud}" /></td>
+        </tr>
+        <tr>
+            <td><label>Amplitud</label></td>
+            <td><input type="number" th:field="*{amplitud}" /></td>
+        </tr>
+        <tr>
+            <td><label>Orientación</label></td>
+            <td><input type="text" th:field="*{orientacion}" /></td>
+        </tr>
+        <tr>
+            <td><label>Comentario</label></td>
+            <td> <textarea rows="10" cols="50"  th:field="*{comentario}"></textarea></td>
+        </tr>
+        <tr>
+            <td><label>Tipo Terreno</label></td>
+            <select name="my_html_select_box" th:field="*{tipoTerreno}">
+                <option>ARENA</option>
+                <option>TIERRA</option>
+                <option>PIEDRA</option>
+                <option>ROCOSO</option>
+            </select>
+        </tr>
+        <tr>
+            <td><label>Tipo Accceso</label></td>
+            <select name="my_html_select_box" th:field="*{tipoAcceso}">
+                <option>RESTRINGIDO</option>
+                <option>ABIERTO</option>
+                <option>CERRADO</option>
+            </select>
+        </tr>
+        <tr>
+            <td><label>Municipio</label></td>
+            <td><input type="text" th:field="*{Municipio}" /></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Añadir Espacio Publico" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

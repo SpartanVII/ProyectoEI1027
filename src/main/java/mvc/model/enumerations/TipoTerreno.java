@@ -1,4 +1,4 @@
 package mvc.model.enumerations;
 
-public enum TipoTerreno {
+public enum TipoTerreno { ARENA, PIEDRA, ROCOSO, TIERRA
 }

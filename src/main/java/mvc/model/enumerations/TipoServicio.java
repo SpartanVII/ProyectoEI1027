@@ -1,4 +1,4 @@
 package mvc.model.enumerations;
 
-public enum TipoServicio {
+public enum TipoServicio { ENTRETENIMIENTO, URGENCIA, SEGURIDAD
 }

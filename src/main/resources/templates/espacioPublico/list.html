@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestionar Espacios Publicos</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+</head>
+<body>
+<h1>Lista de Espacios Publicos</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Localización Geografica</th>
+        <th>Ocupación</th>
+        <th>Longitud</th>
+        <th>Amplitud</th>
+        <th>Orientación</th>
+        <th>Comentario</th>
+        <th>Tipo Terreno</th>
+        <th>Tipo Acceso</th>
+        <th>Municipio</th>
+        <th></th>
+
+    </tr>
+
+    </thead>
+    <tbody>
+    <tr th:each="espacioPublico: ${espaciosPublicos}">
+        <td th:text="${espacioPublico.nombre}"></td>
+        <td th:text="${espacioPublico.descripcion}"></td>
+        <td th:text="${espacioPublico.localizaciónGeografica}"></td>
+        <td th:text="${espacioPublico.ocupacion}"></td>
+        <td th:text="${espacioPublico.longitud}"></td>
+        <td th:text="${espacioPublico.amplitud}"></td>
+        <td th:text="${espacioPublico.orientacion}"></td>
+        <td th:text="${espacioPublico.comentario}"></td>
+        <td th:text="${espacioPublico.tipoTerreno}"></td>
+        <td th:text="${espacioPublico.tipoAcceso}"></td>
+        <td th:text="${espacioPublico.municipio}"></td>
+        <td><a th:href="@{/espacioPublico/update/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-warning" type="button">Edita</a></td>
+        <td><a th:href="@{/espacioPublico/delete/{nombre}(nombre=${espacioPublico.nombre})}" class="btn btn-danger" role="button">Borra</a>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+<a href="add" class="btn btn-success" role="button">Añade Gestor Municipal</a>
+</body>
+</html>
