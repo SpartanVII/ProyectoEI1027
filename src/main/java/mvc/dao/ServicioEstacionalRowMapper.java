@@ -15,7 +15,7 @@ public final class ServicioEstacionalRowMapper implements
     {
         ServicioEstacional servicioEstacional = new ServicioEstacional();
         servicioEstacional.setNombre(rs.getString("nombre"));
-        servicioEstacional.setTipoServicio(rs.getObject("tipoServicio", TipoServicio.class));
+        servicioEstacional.setTipoServicio(rs.getString("tipoServicio"));
         return servicioEstacional;
     }
 }

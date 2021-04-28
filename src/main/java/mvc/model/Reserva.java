@@ -10,7 +10,7 @@ public class Reserva {
     private String identificador;
     private int numPersonas;
     private LocalDate fecha;
-    private EstadoReserva estado;
+    private String estado;
     private String dniCIudadano;
     private LocalTime horaEntrada;
     private LocalTime horaSalida;
@@ -32,11 +32,11 @@ public class Reserva {
         this.numPersonas = numPersonas;
     }
 
-    public EstadoReserva getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoReserva estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 

@@ -15,7 +15,7 @@ public final class ServicioPermaRowMapper implements
     {
         ServicioPerma servicioPerma = new ServicioPerma();
         servicioPerma.setNombre(rs.getString("nombre"));
-        servicioPerma.setTipoServicio(rs.getObject("tipoServicio", TipoServicio.class));
+        servicioPerma.setTipoServicio(rs.getString("tipoServicio"));
         return servicioPerma;
     }
 }

@@ -13,8 +13,8 @@ public class EspacioPublico {
     private int amplitud;
     private String orientacion;
     private String comentario;
-    private TipoTerreno tipoTerreno;
-    private TipoAcceso tipoAcceso;
+    private String tipoTerreno;
+    private String tipoAcceso;
     private String nombreMunicipio;
 
     public String getNombre() {
@@ -81,19 +81,19 @@ public class EspacioPublico {
         this.comentario = comentario;
     }
 
-    public TipoTerreno getTipoTerreno() {
+    public String getTipoTerreno() {
         return tipoTerreno;
     }
 
-    public void setTipoTerreno(TipoTerreno tipoTerreno) {
+    public void setTipoTerreno(String tipoTerreno) {
         this.tipoTerreno = tipoTerreno;
     }
 
-    public TipoAcceso getTipoAcceso() {
+    public String getTipoAcceso() {
         return tipoAcceso;
     }
 
-    public void setTipoAcceso(TipoAcceso tipoAcceso) {
+    public void setTipoAcceso(String tipoAcceso) {
         this.tipoAcceso = tipoAcceso;
     }
 

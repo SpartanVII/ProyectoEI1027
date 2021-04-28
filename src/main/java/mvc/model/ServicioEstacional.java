@@ -1,13 +1,11 @@
 package mvc.model;
 
 
-import mvc.model.enumerations.TipoServicio;
-
 public class ServicioEstacional {
 
 
     private String nombre;
-    private TipoServicio tipoServicio;
+    private String tipoServicio;
 
     public String getNombre() {
         return nombre;
@@ -17,11 +15,11 @@ public class ServicioEstacional {
         this.nombre = nombre;
     }
 
-    public TipoServicio getTipoServicio() {
+    public String getTipoServicio() {
         return tipoServicio;
     }
 
-    public void setTipoServicio(TipoServicio tipoServicio) {
+    public void setTipoServicio(String tipoServicio) {
         this.tipoServicio = tipoServicio;
     }
 

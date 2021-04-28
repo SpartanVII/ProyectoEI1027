@@ -19,7 +19,7 @@ public final class ReservaRowMapper implements
         reserva.setIdentificador(rs.getString("identificador"));
         reserva.setNumPersonas(rs.getInt("numPersonas"));
         reserva.setFecha(rs.getObject("fecha", LocalDate.class));
-        reserva.setEstado(rs.getObject("estado", EstadoReserva.class));
+        reserva.setEstado(rs.getString("estado"));
         reserva.setDniCIudadano(rs.getString("dni_ciudadano"));
         reserva.setHoraEntrada(rs.getObject("horaEntrada", LocalTime.class));
         reserva.setHoraSalida(rs.getObject("horaSalida", LocalTime.class));
