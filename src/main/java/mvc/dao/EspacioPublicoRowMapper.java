@@ -23,8 +23,8 @@ public final class EspacioPublicoRowMapper implements
         espacioPublico.setAmplitud(rs.getInt("amplitud"));
         espacioPublico.setOrientacion(rs.getString("orientacion"));
         espacioPublico.setComentario(rs.getString("comentario"));
-        espacioPublico.setTipoTerreno(rs.getObject("tipoTerreno", TipoTerreno.class));
-        espacioPublico.setTipoAcceso(rs.getObject("tipoAcceso", TipoAcceso.class));
+        espacioPublico.setTipoTerreno(TipoTerreno.valueOf(rs.getString("tipoTerreno")));
+        espacioPublico.setTipoAcceso(TipoAcceso.valueOf(rs.getString("tipoAcceso")));
         espacioPublico.setNombreMunicipio(rs.getString("nombre_municipio"));
         return espacioPublico;
     }

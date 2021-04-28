@@ -2,15 +2,19 @@ package mvc.model;
 
 import mvc.model.enumerations.EstadoReserva;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Reserva {
 
     private String identificador;
     private int numPersonas;
-    private Date fecha;
+    private LocalDate fecha;
     private EstadoReserva estado;
     private String dniCIudadano;
+    private LocalTime horaEntrada;
+    private LocalTime horaSalida;
+
 
     public String getIdentificador() {
         return identificador;
@@ -18,14 +22,6 @@ public class Reserva {
 
     public void setIdentificador(String identificador) {
         this.identificador = identificador;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
     }
 
     public int getNumPersonas() {
@@ -50,5 +46,29 @@ public class Reserva {
 
     public void setDniCIudadano(String dniCIudadano) {
         this.dniCIudadano = dniCIudadano;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public LocalTime getHoraEntrada() {
+        return horaEntrada;
+    }
+
+    public void setHoraEntrada(LocalTime horaEntrada) {
+        this.horaEntrada = horaEntrada;
+    }
+
+    public LocalTime getHoraSalida() {
+        return horaSalida;
+    }
+
+    public void setHoraSalida(LocalTime horaSalida) {
+        this.horaSalida = horaSalida;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
     }
 }
