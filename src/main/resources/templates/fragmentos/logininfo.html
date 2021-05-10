@@ -1,0 +1,9 @@
+<div class="loggeduser" th:object="${session}">
+    <p th:if="*{user == null}">
+        Sin identificar <a href="/login" th:href="@{/login}">Entrar</a>
+    </p>
+    <p th:unless="*{user == null}">
+        Identificado como <span th:text="*{user.username}"></span> <a
+            href="/logout" th:href="@{/logout}">Eixir</a>
+    </p>
+</div>

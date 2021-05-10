@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragmentos/base}">
 <head>
     <title>Gestionar Gestores Municipales</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.css" />
 </head>
 <body>
+<div layout:fragment="content">
 <h1>Lista de Gestores municipales</h1>
 <table class="table table-striped">
     <thead>
@@ -41,5 +44,6 @@
 
 </table>
 <a href="add" class="btn btn-success" role="button">Añade Gestor Municipal</a>
+</div>
 </body>
 </html>

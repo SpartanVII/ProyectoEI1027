@@ -1,8 +1,6 @@
 package mvc.model;
 
 
-import mvc.model.enumerations.TipoServicio;
-
 import java.util.Date;
 
 public class PeriodosServiciosEstacionalesEnEspacio {

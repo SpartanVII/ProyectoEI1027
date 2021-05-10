@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragmentos/base}">
 <head>
     <meta charset="UTF-8" />
     <title>EI1027</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
 </head>
 <body>
+<div layout:fragment="content">
 <h1>Gestión de Espacios Naturales</h1>
 <ul>
     <li><a href="gestorMunicipal/list">Gestión de Gestores Municipales</a></li>
@@ -14,5 +17,6 @@
     <li><a href="espacioPublico/list">Gestión de Espacios Publicos</a></li>
 
 </ul>
+</div>
 </body>
 </html>
