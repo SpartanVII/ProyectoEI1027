@@ -1,56 +1,60 @@
 <!DOCTYPE html>
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragmentos/base}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/base}">
 <head>
     <title>Crear nuevo gestor municipal</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet"
-          href=href="https://bootswatch.com/5/minty/bootstrap.css"/>
+    <link rel="stylesheet"  href=href="https://bootswatch.com/5/minty/bootstrap.css"/>
 </head>
 <body>
 <div layout:fragment="content">
 <h2>Nuevo Gestor Municipal</h2>
 <form action="#" th:action="@{/gestorMunicipal/add}"
       th:object="${gestor}" method="post">
-    <table>
-        <tr>
-            <td><label>Nombre</label></td>
-            <td><input type="text" th:field="*{nombre}" /></td>
-        </tr>
-        <tr>
-            <td><label>DNI</label></td>
-            <td><input type="text" th:field="*{dni}" /></td>
-        </tr>
-        <tr>
-            <td><label>Telefono</label></td>
-            <td><input type="tel" pattern="[0-9]{9}" th:field="*{telefono}" /></td>
-        </tr>
-        <tr>
-            <td><label>Código Postal</label></td>
-            <td><input type="text" th:field="*{codPostal}" /></td>
-        </tr>
-        <tr>
-            <td><label>País</label></td>
-            <td><input type="text" th:field="*{pais}" /></td>
-        </tr>
-        <tr>
-            <td><label>Dirección</label></td>
-            <td><input type="text" th:field="*{direccion}" /></td>
-        </tr>
-        <tr>
-            <td><label>Email</label></td>
-            <td><input type="text" th:field="*{email}" /></td>
-        </tr>
-        <tr>
-            <td><label>Nombre Municipio</label></td>
-            <td><input type="text" th:field="*{nombreMunicipio}" /></td>
-        </tr>
-        <tr>
-            <td colspan="2"><input type="submit" value="Añadir Gestor" /></td>
-        </tr>
-    </table>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="InputNombre" class="f--orm-label mt-4">Nombre</label>
+                <input type="text" th:field="*{nombre}" class="form-control" id="InputNombre" placeholder="Introduzca su nombre">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="InputDni" class="form-label mt-4">DNI</label>
+                <input type="text" th:field="*{dni}" class="form-control" id="InputDni" placeholder="Introduzca su dni">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="InputTel" class="form-label mt-4">Teléfono</label>
+                <input type="tel" th:field="*{telefono}" pattern="[0-9]{9}" class="form-control" id="InputTel" placeholder="Introduzca su número de telefono">
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="InputCP" class="form-label mt-4">Código Postal</label>
+            <input type="text" th:field="*{codPostal}" class="form-control" id="InputCP" placeholder="Introduzca su código postal">
+        </div>
+        <div class="form-group">
+            <label for="InputPais" class="form-label mt-4">País</label>
+            <input type="text" th:field="*{pais}" class="form-control" id="InputPais" placeholder="Introduzca su país">
+        </div>
+        <div class="form-group">
+            <label for="InputDir" class="form-label mt-4">Dirección</label>
+            <input type="text" th:field="*{direccion}" class="form-control" id="InputDir" placeholder="Introduzca su dirección">
+        </div>
+
+        <div class="form-group">
+            <label for="InputEmail1" class="form-label mt-4">Email</label>
+            <input type="email" th:field="*{email}" class="form-control" id="InputEmail1" aria-describedby="emailHelp" placeholder="Introduzca su email">
+            <small id="emailHelp" class="form-text text-muted">No compartremos su correo con nadie.</small>
+        </div>
+        <div class="form-group">
+            <label for="InputNMunicipio" class="form-label mt-4">Nombre Municipio</label>
+            <input type="text" th:field="*{nombreMunicipio}" class="form-control" id="InputNMunicipio" placeholder="Introduzca su municipio">
+        </div>
+
+
+        <input type="submit" class="btn btn-success" value="Añadir Gestor" />
+
+
 </form>
 </div>
 </body>
