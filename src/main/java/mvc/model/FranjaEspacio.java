@@ -1,12 +1,15 @@
 package mvc.model;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 
 public class FranjaEspacio {
 
-
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalDateTime horaEntrada;
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalDateTime horaSalida;
 
     public LocalDateTime getHoraEntrada() {

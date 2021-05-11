@@ -1,12 +1,15 @@
 package mvc.model;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class PeriodosServiciosEstacionalesEnEspacio {
 
-
+    @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
     private Date fechaInicio;
+    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
     private Date fechaFin;
     private String nombreEspacioPublico;
     private String nombreServicioEstacional;

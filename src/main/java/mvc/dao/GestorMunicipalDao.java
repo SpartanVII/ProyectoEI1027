@@ -1,8 +1,6 @@
 package mvc.dao;
 
-import mvc.model.Ejemplo;
 import mvc.model.GestorMunicipal;
-import mvc.model.Municipio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

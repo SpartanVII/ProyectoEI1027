@@ -1,6 +1,7 @@
 package mvc.model;
 
 import mvc.model.enumerations.EstadoReserva;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,7 +13,9 @@ public class Reserva {
     private LocalDate fecha;
     private String estado;
     private String dniCIudadano;
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime horaEntrada;
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime horaSalida;
 
 
