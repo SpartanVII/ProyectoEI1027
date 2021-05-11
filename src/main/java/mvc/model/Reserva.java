@@ -12,7 +12,7 @@ public class Reserva {
     private int numPersonas;
     private LocalDate fecha;
     private String estado;
-    private String dniCIudadano;
+    private String dniCiudadano;
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime horaEntrada;
     @DateTimeFormat(pattern = "HH:mm")
@@ -43,12 +43,12 @@ public class Reserva {
         this.estado = estado;
     }
 
-    public String getDniCIudadano() {
-        return dniCIudadano;
+    public String getDniCiudadano() {
+        return dniCiudadano;
     }
 
-    public void setDniCIudadano(String dniCIudadano) {
-        this.dniCIudadano = dniCIudadano;
+    public void setDniCiudadano(String dniCiudadano) {
+        this.dniCiudadano = dniCiudadano;
     }
 
     public void setFecha(LocalDate fecha) {

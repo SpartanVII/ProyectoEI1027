@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragmentos/base}">
+<head>
+    <title>Crear nueva reserva</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href=href="https://bootswatch.com/5/minty/bootstrap.css"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <h2>Nueva Reserva</h2>
+    <form action="#" th:action="@{/reserva/add}"
+          th:object="${reserva}" method="post">
+        <table>
+            <tr>
+                <td><label>DNI</label></td>
+                <td><input type="text" maxlength="9" th:field="*{dniCiudadano}" /></td>
+            </tr>
+            <tr>
+                <td><label>Num Personas</label></td>
+                <td><input type="number" value="1" min="1" max="16" th:field="*{numPersonas}" /></td>
+            </tr>
+            <tr>
+                <td><label>Fecha</label></td>
+                <td><input type="date" th:field="*{fecha}"/></td>
+            </tr>
+            <tr>
+                <td><label>Hora Entrada</label></td>
+                <td><input type="time" th:field="*{horaEntrada}" /></td>
+            </tr>
+            <tr>
+                <td><label>Hora Salida</label></td>
+                <td><input type="time" th:field="*{horaSalida}" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Añadir Reserva" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

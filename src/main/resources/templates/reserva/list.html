@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragmentos/base}">
+<head>
+    <title>Reservas</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.css" />
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Lista de Reservas</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Dni ciudadano</th>
+            <th>Identificador</th>
+            <th>Num Personas</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Hora Entrada</th>
+            <th>Hora Salida</th>
+            <th></th>
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr th:each="reserva: ${reservas}">
+            <td th:text="${reserva.dni_ciudadano}"></td>
+            <td th:text="${reserva.identificador}"></td>
+            <td th:text="${reserva.numpersonas}"></td>
+            <td th:text="${reserva.estado}"></td>
+            <td th:text="${reserva.fecha}"></td>
+            <td th:text="${reserva.horaentrada}"></td>
+            <td th:text="${reserva.horasalida}"></td>
+            <td><a th:href="@{/reserva/update/{identificador}(identificador=${reserva.identificador})}"  class="btn btn-warning" type="button">Edita</a>
+            </td>
+            <td><a th:href="@{/reserva/delete/{identificador}(identificador=${reserva.identificador})}" class="btn btn-danger" role="button">Borra</a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+    <a href="add" class="btn btn-success" role="button">Crear Reserva</a>
+</div>
+</body>
+</html>

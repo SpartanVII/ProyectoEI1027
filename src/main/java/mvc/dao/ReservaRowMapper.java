@@ -2,7 +2,6 @@ package mvc.dao;
 
 
 import mvc.model.Reserva;
-import mvc.model.enumerations.EstadoReserva;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -20,7 +19,7 @@ public final class ReservaRowMapper implements
         reserva.setNumPersonas(rs.getInt("numPersonas"));
         reserva.setFecha(rs.getObject("fecha", LocalDate.class));
         reserva.setEstado(rs.getString("estado"));
-        reserva.setDniCIudadano(rs.getString("dni_ciudadano"));
+        reserva.setDniCiudadano(rs.getString("dni_ciudadano"));
         reserva.setHoraEntrada(rs.getObject("horaEntrada", LocalTime.class));
         reserva.setHoraSalida(rs.getObject("horaSalida", LocalTime.class));
         return reserva;

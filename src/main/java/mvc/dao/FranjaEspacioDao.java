@@ -29,7 +29,7 @@ public class FranjaEspacioDao {
 
 
     public void deleteFranjaEspacio(FranjaEspacio franjaEspacio) {
-        jdbcTemplate.update("DELETE from FranjaEspacio where horaEntrada=? and horaSalida=?",
+        jdbcTemplate.update("DELETE from FranjaEspacio WHERE horaEntrada=? and horaSalida=?",
                 franjaEspacio.getHoraEntrada(), franjaEspacio.getHoraSalida());
     }
 

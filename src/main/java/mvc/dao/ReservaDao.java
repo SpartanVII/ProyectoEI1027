@@ -24,7 +24,7 @@ public class ReservaDao {
 
     public void addReserva(Reserva reserva) {
         jdbcTemplate.update("INSERT INTO Reserva VALUES(?,?,?,?,?,?,?)",
-                reserva.getIdentificador(), reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado(), reserva.getDniCIudadano(),
+                reserva.getIdentificador(), reserva.getNumPersonas(), reserva.getFecha(),"", reserva.getDniCiudadano(),
                 reserva.getHoraEntrada(), reserva.getHoraSalida());
     }
 
@@ -40,7 +40,7 @@ public class ReservaDao {
 
     public void updateReserva(Reserva reserva) {
         jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, estado=?, dni_ciudadano=?, horaEntrada=?, horaSalida=? where identificador=?",
-                reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado(), reserva.getDniCIudadano(),
+                reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado(), reserva.getDniCiudadano(),
                 reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getIdentificador());
     }
 
