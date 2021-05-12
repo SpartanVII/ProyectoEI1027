@@ -4,27 +4,33 @@ package mvc.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class FranjaEspacio {
 
     @DateTimeFormat(pattern = "HH:mm")
-    private LocalDateTime horaEntrada;
+    private LocalTime horaEntrada;
     @DateTimeFormat(pattern = "HH:mm")
-    private LocalDateTime horaSalida;
+    private LocalTime horaSalida;
 
-    public LocalDateTime getHoraEntrada() {
+    public LocalTime getHoraEntrada() {
         return horaEntrada;
     }
 
-    public void setHoraEntrada(LocalDateTime horaEntrada) {
+    public void setHoraEntrada(LocalTime horaEntrada) {
         this.horaEntrada = horaEntrada;
     }
 
-    public LocalDateTime getHoraSalida() {
+    public LocalTime getHoraSalida() {
         return horaSalida;
     }
 
-    public void setHoraSalida(LocalDateTime horaSalida) {
+    public void setHoraSalida(LocalTime horaSalida) {
         this.horaSalida = horaSalida;
+    }
+
+    @Override
+    public String toString() {
+        return horaEntrada+" / "+horaSalida;
     }
 }
