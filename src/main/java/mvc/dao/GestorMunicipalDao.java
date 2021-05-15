@@ -22,9 +22,9 @@ public class GestorMunicipalDao {
 
 
     public void addGestorMunicipal(GestorMunicipal gestorMunicipal) {
-        jdbcTemplate.update("INSERT INTO GestorMunicipal VALUES(?,?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO GestorMunicipal VALUES(?,?,?,?,?,?,?,?,?)",
                 gestorMunicipal.getNombre(),gestorMunicipal.getDni(),gestorMunicipal.getTelefono(), gestorMunicipal.getCodPostal(),
-                gestorMunicipal.getPais(),gestorMunicipal.getDireccion(), gestorMunicipal.getEmail(), gestorMunicipal.getNombreMunicipio());
+                gestorMunicipal.getPais(),gestorMunicipal.getDireccion(), gestorMunicipal.getEmail(), gestorMunicipal.getNombreMunicipio(), gestorMunicipal.getPin());
     }
 
 
@@ -38,9 +38,9 @@ public class GestorMunicipalDao {
     }
 
     public void updateGestorMunicipal(GestorMunicipal gestorMunicipal) {
-        jdbcTemplate.update("UPDATE GestorMunicipal SET nombre=?, telefono=?, codPostal=?, pais=?, direccion=?, email=?, nombre_municipio=? where dni=?",
+        jdbcTemplate.update("UPDATE GestorMunicipal SET nombre=?, telefono=?, codPostal=?, pais=?, direccion=?, email=?, nombre_municipio=?, pin=? where dni=?",
                 gestorMunicipal.getNombre(), gestorMunicipal.getTelefono(), gestorMunicipal.getCodPostal(), gestorMunicipal.getPais(),
-                gestorMunicipal.getDireccion(), gestorMunicipal.getEmail(), gestorMunicipal.getNombreMunicipio(), gestorMunicipal.getDni());
+                gestorMunicipal.getDireccion(), gestorMunicipal.getEmail(), gestorMunicipal.getNombreMunicipio(), gestorMunicipal.getDni(), gestorMunicipal.getPin());
     }
 
 
@@ -48,6 +48,16 @@ public class GestorMunicipalDao {
         try {
             return jdbcTemplate.queryForObject("SELECT * from GestorMunicipal WHERE dni=?",
                     new GestorMunicipalRowMapper(), dni);
+        }
+        catch(EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public GestorMunicipal getGestorMunicipal(String dni, String pin) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT * from GestorMunicipal WHERE dni=? AND pin=?",
+                    new GestorMunicipalRowMapper(), dni, pin);
         }
         catch(EmptyResultDataAccessException e) {
             return null;

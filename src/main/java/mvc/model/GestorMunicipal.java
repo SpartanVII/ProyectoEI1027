@@ -10,6 +10,15 @@ public class GestorMunicipal {
     private String direccion;
     private String email;
     private String nombreMunicipio;
+    private String pin;
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
 
     public String getNombre() {
         return nombre;

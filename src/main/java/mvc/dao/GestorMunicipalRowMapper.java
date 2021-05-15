@@ -22,6 +22,7 @@ public final class GestorMunicipalRowMapper implements
         gestorMunicipal.setDireccion(rs.getString("direccion"));
         gestorMunicipal.setEmail(rs.getString("email"));
         gestorMunicipal.setNombreMunicipio(rs.getString("nombre_municipio"));
+        gestorMunicipal.setPin(rs.getString("pin"));
         return gestorMunicipal;
     }
 }

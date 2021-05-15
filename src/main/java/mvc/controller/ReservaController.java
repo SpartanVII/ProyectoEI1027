@@ -4,6 +4,7 @@ import mvc.dao.FranjaEspacioDao;
 import mvc.dao.ReservaDao;
 import mvc.model.FranjaEspacio;
 import mvc.model.Reserva;
+import mvc.model.UserDetails;
 import mvc.model.Zona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +50,13 @@ public class ReservaController {
     }
 
     @RequestMapping(value = "/add")
-    public String addReserva(Model model) {
+    public String addReserva(HttpSession session, Model model) {
+        if (session.getAttribute("user") == null)
+        {
+            model.addAttribute("user", new UserDetails());
+            session.setAttribute("nextUrl","reserva/add");
+            return "login";
+        }
         model.addAttribute("reserva", new Reserva());
         return "reserva/add";
     }

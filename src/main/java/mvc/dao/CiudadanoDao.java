@@ -56,6 +56,15 @@ public class CiudadanoDao {
         }
     }
 
+    public Ciudadano getCiudadano(String dni, String pin) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT * from Ciudadano WHERE dni=? AND pin=?",
+                    new CiudadanoRowMapper(), dni, pin);
+        }
+        catch(EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 
     public List<Ciudadano> getCiudadanos() {
         try {
