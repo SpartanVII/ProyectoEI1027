@@ -10,7 +10,6 @@ public class Ciudadano {
     private String direccion;
     private String email;
     private String ciudad;
-    private String codigoCiudadano;
     private String pin;
 
     public String getNombre() {
@@ -75,14 +74,6 @@ public class Ciudadano {
 
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
-    }
-
-    public String getCodigoCiudadano() {
-        return codigoCiudadano;
-    }
-
-    public void setCodigoCiudadano(String codigoCiudadano) {
-        this.codigoCiudadano = codigoCiudadano;
     }
 
     public String getPin() {

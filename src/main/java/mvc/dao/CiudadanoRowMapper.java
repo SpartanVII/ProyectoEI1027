@@ -21,7 +21,6 @@ public final class CiudadanoRowMapper implements
         ciudadano.setDireccion(rs.getString("direccion"));
         ciudadano.setEmail(rs.getString("email"));
         ciudadano.setCiudad(rs.getString("ciudad"));
-        ciudadano.setCodigoCiudadano(rs.getString("codigoCiudadano"));
         ciudadano.setPin(rs.getString("pin"));
         return ciudadano;
     }

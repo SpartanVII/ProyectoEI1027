@@ -1,60 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <title>Crear nuevo ciudadano</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/css/nuestro.css"
+          th:href="@{/css/nuestro.css}"/>
 </head>
 <body>
-<h2>Nuevo Ciudadanol</h2>
-<form action="#" th:action="@{/ciudadano/add}"
+<div layout:fragment="content">
+<h1>Crear usuario</h1>
+<form align="center" action="#" th:action="@{/ciudadano/add}"
       th:object="${ciudadano}" method="post">
     <table>
         <tr>
             <td><label>Nombre</label></td>
-            <td><input type="text" th:field="*{nombre}" /></td>
+            <td><input type="text" maxlength="50" th:field="*{nombre}" required/></td>
         </tr>
         <tr>
             <td><label>DNI</label></td>
-            <td><input type="text" th:field="*{dni}" /></td>
+            <td><input type="text" maxlength="9" th:field="*{dni}" required/></td>
         </tr>
         <tr>
             <td><label>Telefono</label></td>
-            <td><input type="tel" pattern="[0-9]{9}" th:field="*{telefono}" /></td>
+            <td><input type="tel" pattern="[0-9]{9}" th:field="*{telefono}" required/></td>
         </tr>
         <tr>
             <td><label>Código Postal</label></td>
-            <td><input type="text" th:field="*{codPostal}" /></td>
+            <td><input type="text" maxlength="12" th:field="*{codPostal}" required/></td>
         </tr>
         <tr>
             <td><label>País</label></td>
-            <td><input type="text" th:field="*{pais}" /></td>
+            <td><input type="text" maxlength="50" th:field="*{pais}" required/></td>
         </tr>
         <tr>
             <td><label>Dirección</label></td>
-            <td><input type="text" th:field="*{direccion}" /></td>
+            <td><input type="text" maxlength="200" th:field="*{direccion}" required/></td>
         </tr>
         <tr>
             <td><label>Email</label></td>
-            <td><input type="text" th:field="*{email}" /></td>
+            <td><input type="text" maxlength="50" th:field="*{email}" required/></td>
         </tr>
         <tr>
             <td><label>Ciudad</label></td>
-            <td><input type="text" th:field="*{ciudad}" /></td>
-        </tr>
-        <tr>
-            <td><label>Codigo Ciudadano</label></td>
-            <td><input type="text" th:field="*{codigoCiudadano}" /></td>
+            <td><input type="text" maxlength="40" th:field="*{ciudad}" required/></td>
         </tr>
         <tr>
             <td><label>Pin</label></td>
-            <td><input type="text" th:field="*{pin}" /></td>
+            <td><input type="text" maxlength="4" th:field="*{pin}" required/></td>
         </tr>
-        <tr>
-            <td colspan="2"><input type="submit" value="Añadir Ciudadano" /></td>
-        </tr>
-    </table>
+    </table><br>
+    <td colspan="2"><input type="submit" value="Crear cuenta" required/></td>
 </form>
+</div>
 </body>
 </html>

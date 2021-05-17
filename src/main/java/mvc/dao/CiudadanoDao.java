@@ -22,10 +22,9 @@ public class CiudadanoDao {
 
 
     public void addCiudadano(Ciudadano ciudadano) {
-        jdbcTemplate.update("INSERT INTO Ciudadano VALUES(?,?,?,?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO Ciudadano VALUES(?,?,?,?,?,?,?,?,?)",
                 ciudadano.getNombre(), ciudadano.getDni(), ciudadano.getTelefono(), ciudadano.getCodPostal(),
-                ciudadano.getPais(), ciudadano.getDireccion(), ciudadano.getEmail(), ciudadano.getCiudad(),
-                ciudadano.getCodigoCiudadano(), ciudadano.getPin());
+                ciudadano.getPais(), ciudadano.getDireccion(), ciudadano.getEmail(), ciudadano.getCiudad(), ciudadano.getPin());
     }
 
 
@@ -40,9 +39,9 @@ public class CiudadanoDao {
 
     public void updateCiudadano(Ciudadano ciudadano) {
         jdbcTemplate.update("UPDATE Ciudadano SET nombre=?, telefono=?, codPostal=?, pais=?, direccion=?, " +
-                            "email=?, ciudad=?, codigoCiudadano=?, pin=? where dni=?",
+                            "email=?, ciudad=?, pin=? where dni=?",
                 ciudadano.getNombre(), ciudadano.getTelefono(), ciudadano.getCodPostal(), ciudadano.getPais(), ciudadano.getDireccion(),
-                ciudadano.getEmail(), ciudadano.getCiudad(), ciudadano.getCodigoCiudadano(), ciudadano.getPin(), ciudadano.getDni());
+                ciudadano.getEmail(), ciudadano.getCiudad(), ciudadano.getPin(), ciudadano.getDni());
     }
 
 

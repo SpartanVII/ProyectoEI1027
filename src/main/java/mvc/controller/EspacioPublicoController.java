@@ -31,6 +31,18 @@ public class EspacioPublicoController {
         return "espacioPublico/list";
     }
 
+    @RequestMapping("/listSinRegistrar")
+    public String listEspacioPublicoSinRegistrar(Model model) {
+        model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
+        return "espacioPublico/listSinRegistrar";
+    }
+
+    @RequestMapping("/listCiudadano")
+    public String listEspacioPublicoCiudadano(Model model) {
+        model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
+        return "espacioPublico/listCiudadano";
+    }
+
     @RequestMapping(value="/add")
     public String addEspacioPublico(Model model) {
         model.addAttribute("espacioPublico", new EspacioPublico());

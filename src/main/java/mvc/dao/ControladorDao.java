@@ -56,6 +56,16 @@ public class ControladorDao {
         }
     }
 
+    public Controlador getControlador(String dni, String pin) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT * from Controlador WHERE dni=?",
+                    new ControladorRowMapper(), dni);
+        }
+        catch(EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
 
     public List<Controlador> getControladores() {
         try {

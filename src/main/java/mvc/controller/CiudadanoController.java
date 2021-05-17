@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/ciudadano")
 public class CiudadanoController {
@@ -26,6 +28,11 @@ public class CiudadanoController {
 
     // Operacions: Crear, llistar, actualitzar, esborrar
     // ...
+    @RequestMapping("/indice")
+    public String indice() {
+        return "ciudadano/indice";
+    }
+
     @RequestMapping("/list")
     public String listCiudadanos(Model model) {
         model.addAttribute("ciudadanos", ciudadanoDao.getCiudadanos());
@@ -40,11 +47,13 @@ public class CiudadanoController {
 
     @RequestMapping(value="/add", method= RequestMethod.POST)
     public String processAddSubmit(@ModelAttribute("ciudadano") Ciudadano ciudadano,
-                                   BindingResult bindingResult) {
+                                   BindingResult bindingResult,
+                                   HttpSession session) {
         if (bindingResult.hasErrors())
             return "ciudadano/add";
         ciudadanoDao.addCiudadano(ciudadano);
-        return "redirect:list";
+        session.setAttribute("user", ciudadano);
+        return "redirect:indice";
     }
 
     @RequestMapping(value="/update/{dni}", method = RequestMethod.GET)

@@ -6,10 +6,13 @@
     <meta charset="UTF-8" />
     <title>EI1027</title>
     <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/css/nuestro.css"
+          th:href="@{/css/nuestro.css}"/>
 </head>
 <body>
 <div layout:fragment="content">
 <h1>Gestión de Espacios Naturales</h1>
+    <!--
 <ul>
     <li><a href="gestorMunicipal/list">Gestión de Gestores Municipales</a></li>
     <li><a href="ciudadano/list">Gestión de Ciudadanos</a></li>
@@ -18,6 +21,12 @@
     <li><a href="reserva/list">Gestión de Reservas</a></li>
     <li></li>
 </ul>
+-->
+</div>
+<div>
+    <a href="/ciudadano/add" class="btn btn-primary" type="button">Registrarse</a><br><br>
+    <a href="login" class="btn btn-primary" type="button">Iniciar sesión</a><br><br>
+    <a href="/espacioPublico/listSinRegistrar" class="btn btn-light" type="button">Entrar como invitado</a><br><br>
 </div>
 </body>
 </html>

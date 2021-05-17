@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestionar Espacios Publicos</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/css/nuestro.css"
+          th:href="@{/css/nuestro.css}"/>
+</head>
+<body>
+<h1>Lista de Espacios Publicos</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Localización Geografica</th>
+        <th>Ocupación</th>
+        <th>Longitud</th>
+        <th>Amplitud</th>
+        <th>Orientación</th>
+        <th>Comentario</th>
+        <th>Tipo Terreno</th>
+        <th>Tipo Acceso</th>
+        <th>Municipio</th>
+        <th></th>
+
+    </tr>
+
+    </thead>
+    <tbody>
+    <tr th:each="espacioPublico: ${espaciosPublicos}">
+        <td th:text="${espacioPublico.nombre}"></td>
+        <td th:text="${espacioPublico.descripcion}"></td>
+        <td th:text="${espacioPublico.localizacionGeografica}"></td>
+        <td th:text="${espacioPublico.ocupacion}"></td>
+        <td th:text="${espacioPublico.longitud}"></td>
+        <td th:text="${espacioPublico.amplitud}"></td>
+        <td th:text="${espacioPublico.orientacion}"></td>
+        <td th:text="${espacioPublico.comentario}"></td>
+        <td th:text="${espacioPublico.tipoTerreno}"></td>
+        <td th:text="${espacioPublico.tipoAcceso}"></td>
+        <td th:text="${espacioPublico.nombreMunicipio}"></td>
+    </tr>
+    </tbody>
+
+</table>
+</body>
+</html>

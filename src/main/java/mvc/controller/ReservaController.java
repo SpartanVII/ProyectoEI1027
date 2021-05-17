@@ -1,5 +1,6 @@
 package mvc.controller;
 
+import mvc.dao.EspacioPublicoDao;
 import mvc.dao.FranjaEspacioDao;
 import mvc.dao.ReservaDao;
 import mvc.model.FranjaEspacio;
@@ -26,6 +27,7 @@ public class ReservaController {
 
     private ReservaDao reservaDao;
     private FranjaEspacioDao franjaEspacioDao;
+    private EspacioPublicoDao espacioPublicoDao;
 
     @Autowired
     public void setReservaDao(ReservaDao reservaDao) {
@@ -35,6 +37,11 @@ public class ReservaController {
     @Autowired
     public void setFranjaEspacioDao(FranjaEspacioDao franjaEspacioDao) {
         this.franjaEspacioDao = franjaEspacioDao;
+    }
+
+    @Autowired
+    public void setEspacioPublicoDao(EspacioPublicoDao espacioPublicoDao) {
+        this.espacioPublicoDao = espacioPublicoDao;
     }
 
 
@@ -70,6 +77,11 @@ public class ReservaController {
         return "redirect:list";
     }
 
+    @RequestMapping(value="/add/{nombre}", method = RequestMethod.GET)
+    public String addReservaEspacio(Model model, @PathVariable String nombreEspacio) {
+        model.addAttribute("espacioPublico", espacioPublicoDao.getEspacioPublico(nombreEspacio));
+        return "reserva/add";
+    }
 
     @RequestMapping(value = "/delete/{identificador}")
     public String processDelete(@PathVariable String identificador) {

@@ -18,7 +18,6 @@
         <th>Dirección</th>
         <th>Email</th>
         <th>Ciudad</th>
-        <th>Codigo Ciudadano</th>
         <th>Pin</th>
         <th></th>
 
@@ -35,7 +34,6 @@
         <td th:text="${ciudadano.direccion}"></td>
         <td th:text="${ciudadano.email}"></td>
         <td th:text="${ciudadano.ciudad}"></td>
-        <td th:text="${ciudadano.codigoCiudadano}"></td>
         <td th:text="${ciudadano.pin}"></td>
         <td><a th:href="@{/ciudadano/update/{dni}(dni=${ciudadano.dni})}"  class="btn btn-warning" type="button">Edita</a></td>
         <td><a th:href="@{/ciudadano/delete/{dni}(dni=${ciudadano.dni})}" class="btn btn-danger" role="button">Borra</a>

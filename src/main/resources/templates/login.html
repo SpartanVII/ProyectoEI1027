@@ -17,12 +17,12 @@
           th:object="${user}" method="post">
         <p>
             <label>DNI:</label>
-            <input class="form_control" type="text" th:field="*{username}"/>
+            <input class="form_control" type="text" maxlength="9" th:field="*{username}"/>
         <div class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
         </p>
         <p>
             <label>Pin:</label>
-            <input class="form_control" type="password" th:field="*{password}"/>
+            <input class="form_control" type="password" maxlength="4" th:field="*{password}"/>
         <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
         </p>
         <input type="submit" value="Acceder" />

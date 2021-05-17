@@ -3,9 +3,9 @@ package mvc.controller;
 import javax.servlet.http.HttpSession;
 
 import mvc.dao.CiudadanoDao;
+import mvc.dao.ControladorDao;
 import mvc.dao.GestorMunicipalDao;
 import mvc.model.Ciudadano;
-import mvc.model.GestorMunicipal;
 import mvc.model.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,11 +39,25 @@ class UserValidator implements Validator {
 
 @Controller
 public class LoginController {
-    @Autowired
+
     private GestorMunicipalDao gestorMunicipalDao;
+    private CiudadanoDao ciudadanoDao;
+    private ControladorDao controladorDao;
 
     @Autowired
-    private CiudadanoDao ciudadanoDao;
+    public void setCiudadanoDaoDao(CiudadanoDao ciudadanoDao) {
+        this.ciudadanoDao = ciudadanoDao;
+    }
+
+    @Autowired
+    public void setGestorMunicipalDao(GestorMunicipalDao gestorMunicipalDao) {
+        this.gestorMunicipalDao=gestorMunicipalDao;
+    }
+
+    @Autowired
+    public void setControladorDao(ControladorDao controladorDao) {
+        this.controladorDao = controladorDao;
+    }
 
     @RequestMapping("/login")
     public String login(Model model) {
@@ -60,8 +74,6 @@ public class LoginController {
             return "login";
         }
 
-        // Comprova que el login siga correcte
-        // intentant carregar les dades de l'usuari
         Object usuario = null;
         if(gestorMunicipalDao.getGestorMunicipal(user.getUsername(), user.getPassword())!=null){
             usuario = gestorMunicipalDao.getGestorMunicipal(user.getUsername());
@@ -69,22 +81,27 @@ public class LoginController {
         else if(ciudadanoDao.getCiudadano(user.getUsername(), user.getPassword())!=null){
             usuario = ciudadanoDao.getCiudadano(user.getUsername());
         }
+        else if(controladorDao.getControlador(user.getUsername(), user.getPassword())!=null){
+            usuario = controladorDao.getControlador(user.getUsername());
+        }
 
         if (usuario == null) {
             bindingResult.rejectValue("password", "badpw", "Usuario o contraseña incorrectos");
             return "login";
         }
 
-        // Autenticats correctament.
-        // Guardem les dades de l'usuari autenticat a la sessió
         session.setAttribute("user", usuario);
 
+        /*
         if(session.getAttribute("nextUrl")!=null) {
             String url = session.getAttribute("nextUrl").toString();
             session.removeAttribute("nextUrl");
-            return "redirect:" + url;
-        }
+            return "redirect:/" + url;
+        }*/
 
+        if (usuario.getClass().equals(Ciudadano.class)){
+            return "redirect:/ciudadano/indice";
+        }
         // Torna a la pàgina principal
         return "redirect:/";
     }
