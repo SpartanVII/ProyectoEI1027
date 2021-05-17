@@ -1,9 +1,12 @@
 package mvc.model;
 
+import mvc.dao.EspacioPublicoDao;
+
 public class Zona {
 
     private String identificador;
     private int capMaxima;
+    private String nombreEspacio;
 
     public String getIdentificador() {
         return identificador;
@@ -19,5 +22,13 @@ public class Zona {
 
     public void setCapMaxima(int capMaxima) {
         this.capMaxima = capMaxima;
+    }
+
+    public String getNombreEspacio() {
+        return nombreEspacio;
+    }
+
+    public void setNombreEspacio(String nombreEspacio) {
+        this.nombreEspacio = nombreEspacio;
     }
 }

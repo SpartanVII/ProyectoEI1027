@@ -3,10 +3,9 @@ package mvc.controller;
 import mvc.dao.EspacioPublicoDao;
 import mvc.dao.FranjaEspacioDao;
 import mvc.dao.ReservaDao;
-import mvc.model.FranjaEspacio;
-import mvc.model.Reserva;
-import mvc.model.UserDetails;
-import mvc.model.Zona;
+import mvc.dao.ZonaDao;
+import mvc.model.*;
+import mvc.services.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpSession;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -27,7 +24,7 @@ public class ReservaController {
 
     private ReservaDao reservaDao;
     private FranjaEspacioDao franjaEspacioDao;
-    private EspacioPublicoDao espacioPublicoDao;
+    private ZonaDao zonaDao;
 
     @Autowired
     public void setReservaDao(ReservaDao reservaDao) {
@@ -40,10 +37,9 @@ public class ReservaController {
     }
 
     @Autowired
-    public void setEspacioPublicoDao(EspacioPublicoDao espacioPublicoDao) {
-        this.espacioPublicoDao = espacioPublicoDao;
+    public void setZonaDao(ZonaDao zonaDao) {
+        this.zonaDao = zonaDao;
     }
-
 
     @ModelAttribute("franjas")
     public List<FranjaEspacio> franjaList() { return  franjaEspacioDao.getFranjaEspacioList(); }
@@ -58,12 +54,6 @@ public class ReservaController {
 
     @RequestMapping(value = "/add")
     public String addReserva(HttpSession session, Model model) {
-        if (session.getAttribute("user") == null)
-        {
-            model.addAttribute("user", new UserDetails());
-            session.setAttribute("nextUrl","reserva/add");
-            return "login";
-        }
         model.addAttribute("reserva", new Reserva());
         return "reserva/add";
     }
@@ -77,9 +67,13 @@ public class ReservaController {
         return "redirect:list";
     }
 
-    @RequestMapping(value="/add/{nombre}", method = RequestMethod.GET)
-    public String addReservaEspacio(Model model, @PathVariable String nombreEspacio) {
-        model.addAttribute("espacioPublico", espacioPublicoDao.getEspacioPublico(nombreEspacio));
+
+    @RequestMapping(value="/add/{identificador}")
+    public String addReservaEspacio(Model model, @PathVariable String identificador,
+                                    HttpSession session) {
+        model.addAttribute("zona", zonaDao.getZona(identificador));
+        Ciudadano ciudadano = (Ciudadano) session.getAttribute("user");
+        model.addAttribute("dni", ciudadano.getDni());
         return "reserva/add";
     }
 
@@ -88,4 +82,12 @@ public class ReservaController {
         reservaDao.deleteReserva(identificador);
         return "redirect:../list";
     }
+
+    @RequestMapping("/listParticular")
+    public String listReservaDni(Model model, HttpSession session) {
+        Ciudadano ciudadano = (Ciudadano) session.getAttribute("user");
+        model.addAttribute("reservas", reservaDao.getReservasParticular(ciudadano.getDni()));
+        return "reserva/particular";
+    }
+
 }

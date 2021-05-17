@@ -52,7 +52,7 @@ public class CiudadanoController {
         if (bindingResult.hasErrors())
             return "ciudadano/add";
         ciudadanoDao.addCiudadano(ciudadano);
-        session.setAttribute("user", ciudadano);
+        //session.setAttribute("user", ciudadano);
         return "redirect:indice";
     }
 

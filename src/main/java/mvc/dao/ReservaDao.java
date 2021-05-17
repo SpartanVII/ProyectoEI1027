@@ -23,9 +23,9 @@ public class ReservaDao {
 
 
     public void addReserva(Reserva reserva) {
-        jdbcTemplate.update("INSERT INTO Reserva VALUES(?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO Reserva VALUES(?,?,?,?,?,?,?,?)",
                 reserva.getIdentificador(), reserva.getNumPersonas(), reserva.getFecha(),"", reserva.getDniCiudadano(),
-                reserva.getHoraEntrada(), reserva.getHoraSalida());
+                reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getIdentificadorZona());
     }
 
 
@@ -39,9 +39,9 @@ public class ReservaDao {
     }
 
     public void updateReserva(Reserva reserva) {
-        jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, estado=?, dni_ciudadano=?, horaEntrada=?, horaSalida=? where identificador=?",
+        jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, estado=?, dni_ciudadano=?, horaEntrada=?, horaSalida=?, identificador_zona=? where identificador=?",
                 reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado(), reserva.getDniCiudadano(),
-                reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getIdentificador());
+                reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getIdentificador(), reserva.getIdentificadorZona());
     }
 
 
@@ -60,6 +60,15 @@ public class ReservaDao {
         try {
             return jdbcTemplate.query("SELECT * from Reserva",
                     new ReservaRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Reserva> getReservasParticular(String dni){
+        try {
+            return jdbcTemplate.query("SELECT * from Reserva WHERE dni_ciudadano=?",
+                    new ReservaRowMapper(), dni);
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
         }

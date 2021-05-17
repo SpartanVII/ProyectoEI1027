@@ -22,8 +22,8 @@ public class ZonaDao {
 
 
     public void addZona(Zona zona) {
-        jdbcTemplate.update("INSERT INTO Zona VALUES(?,?)",
-                zona.getIdentificador(), zona.getCapMaxima());
+        jdbcTemplate.update("INSERT INTO Zona VALUES(?,?,?)",
+                zona.getIdentificador(), zona.getCapMaxima(), zona.getNombreEspacio());
     }
 
 
@@ -37,7 +37,7 @@ public class ZonaDao {
     }
 
     public void updateZona(Zona zona) {
-        jdbcTemplate.update("UPDATE Zona SET capMaxima=? where identificador=?",
+        jdbcTemplate.update("UPDATE Zona SET capMaxima=?, nombre_espacioPublico=?, where identificador=?",
                 zona.getCapMaxima(), zona.getIdentificador());
     }
 
@@ -58,6 +58,17 @@ public class ZonaDao {
                     new ZonaRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
+        }
+    }
+
+    public List<Zona> getZonasEspacio(String nombreEspacio) {
+        try {
+            return this.jdbcTemplate.query(
+                    "SELECT * FROM zona WHERE nombre_espacioPublico=?",
+                    new Object[] {nombreEspacio}, new ZonaRowMapper());
+        }
+        catch(EmptyResultDataAccessException e) {
+            return new ArrayList<Zona>();
         }
     }
 

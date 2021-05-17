@@ -41,7 +41,7 @@
         <td th:text="${espacioPublico.tipoTerreno}"></td>
         <td th:text="${espacioPublico.tipoAcceso}"></td>
         <td th:text="${espacioPublico.nombreMunicipio}"></td>
-        <td><a th:href="@{/reserva/add/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-warning" type="button">Reserva</a></td>
+        <td><a th:href="@{/zona/particular/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-warning" type="button">Ver Zonas</a></td>
     </tr>
     </tbody>
 </table>

@@ -15,8 +15,12 @@
           th:object="${reserva}" method="post">
         <table>
             <tr>
+                <td><label>Zona</label></td>
+                <td th:text="${zona.identificador}" th:field="*{}"></td>
+            </tr>
+            <tr>
                 <td><label>DNI</label></td>
-                <td><input type="text" maxlength="9" th:field="*{dniCiudadano}" /></td>
+                <td th:text="${dni}"></td>
             </tr>
             <tr>
                 <td><label>Num Personas</label></td>

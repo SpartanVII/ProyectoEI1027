@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestionar Espacios Publicos</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/css/nuestro.css"
+          th:href="@{/css/nuestro.css}"/>
+</head>
+<body>
+<h1>Lista de Espacios Publicos</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Identificador</th>
+        <th>Capacidad máxima</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="zona: ${zonas}">
+        <td th:text="${zona.identificador}"></td>
+        <td th:text="${zona.capMaxima}"></td>
+        <td><a th:href="@{/reserva/add/{identificador}(identificador=${zona.identificador})}"  class="btn btn-warning" type="button">Reservar</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
