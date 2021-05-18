@@ -58,12 +58,12 @@ public class ReservaController {
 
         if(user.getRol().equals("gestorMunicipal")){
             model.addAttribute("reservas", reservaDao.getReservas());
-            return "reserva/particular";
+            return "reserva/listGestorMunicipal";
         }
 
         //Controlador
         model.addAttribute("reservas", reservaDao.getReservasEnMiEspacio(user.getUsername()));
-        return "reserva/list";
+        return "reserva/listControlador";
     }
 
     @RequestMapping(value = "/add")
