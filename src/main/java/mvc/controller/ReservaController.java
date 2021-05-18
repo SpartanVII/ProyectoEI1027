@@ -5,7 +5,6 @@ import mvc.dao.FranjaEspacioDao;
 import mvc.dao.ReservaDao;
 import mvc.dao.ZonaDao;
 import mvc.model.*;
-import mvc.services.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,8 +84,8 @@ public class ReservaController {
 
     @RequestMapping("/listParticular")
     public String listReservaDni(Model model, HttpSession session) {
-        Ciudadano ciudadano = (Ciudadano) session.getAttribute("user");
-        model.addAttribute("reservas", reservaDao.getReservasParticular(ciudadano.getDni()));
+        UserDetails user = (UserDetails) session.getAttribute("user");
+        model.addAttribute("reservas", reservaDao.getReservasParticular(user.getUsername()));
         return "reserva/particular";
     }
 
