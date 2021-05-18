@@ -22,8 +22,11 @@ public class ControladorController {
         this.controladorDao=controladorDao;
     }
 
-    // Operacions: Crear, llistar, actualitzar, esborrar
-    // ...
+    @RequestMapping("/indice")
+    public String indice() {
+        return "controlador/indice";
+    }
+
     @RequestMapping("/list")
     public String listControladors(Model model) {
         model.addAttribute("controladores", controladorDao.getControladores());

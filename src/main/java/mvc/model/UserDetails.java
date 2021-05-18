@@ -1,9 +1,10 @@
 package mvc.model;
 
 public class UserDetails {
-    String username;
-    String password;
-    String rol;
+    private String username;
+    private String password;
+    private String nombre;
+    private String rol;
 
     public String getUsername() {
         return username;
@@ -27,5 +28,13 @@ public class UserDetails {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

@@ -37,6 +37,9 @@ public class EspacioPublicoController {
         if(user.getRol().equals("gestorMunicipal"))
             return "espacioPublico/list";
 
+        if(user.getRol().equals("controlador"))
+            return "espacioPublico/listControlador";
+
         return "espacioPublico/listConReserva";
     }
 

@@ -6,6 +6,8 @@ import mvc.dao.CiudadanoDao;
 import mvc.dao.ControladorDao;
 import mvc.dao.GestorMunicipalDao;
 import mvc.model.Ciudadano;
+import mvc.model.Controlador;
+import mvc.model.GestorMunicipal;
 import mvc.model.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -74,23 +76,28 @@ public class LoginController {
             return "login";
         }
 
-        if(gestorMunicipalDao.getGestorMunicipal(user.getUsername(), user.getPassword())!=null){
+        GestorMunicipal gestor = gestorMunicipalDao.getGestorMunicipal(user.getUsername(), user.getPassword());
+        Ciudadano ciudadano = ciudadanoDao.getCiudadano(user.getUsername(), user.getPassword());
+        Controlador controlador= controladorDao.getControlador(user.getUsername(), user.getPassword());
+        user.setPassword(""); //Como ya no necesitamos la contraseña, la borramos por motivos de seguridad
+
+        if(gestor!=null){
+            user.setNombre(gestor.getNombre());
             user.setRol("gestorMunicipal");
-            user.setPassword(""); //Como ya no necesitamos la contraseña, la borramos por motivos de seguridad
             session.setAttribute("user", user);
             return "redirect:/gestorMunicipal/indice";
         }
 
-        if(ciudadanoDao.getCiudadano(user.getUsername(), user.getPassword())!=null){
+        if(ciudadano!=null){
+            user.setNombre(ciudadano.getNombre());
             user.setRol("ciudadano");
-            user.setPassword("");
             session.setAttribute("user", user);
             return "redirect:/ciudadano/indice";
         }
 
-        if(controladorDao.getControlador(user.getUsername(), user.getPassword())!=null){
+        if(controlador!=null){
+            user.setNombre(controlador.getNombre());
             user.setRol("controlador");
-            user.setPassword("");
             session.setAttribute("user", user);
             return "redirect:/controlador/indice";
         }
