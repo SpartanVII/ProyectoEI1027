@@ -76,9 +76,11 @@ public class ReservaController {
     @RequestMapping(value="/add/{identificador}")
     public String addReservaEspacio(Model model, @PathVariable String identificador,
                                     HttpSession session) {
-        model.addAttribute("zona", zonaDao.getZona(identificador));
-        Ciudadano ciudadano = (Ciudadano) session.getAttribute("user");
-        model.addAttribute("dni", ciudadano.getDni());
+        UserDetails user = (UserDetails) session.getAttribute("user");
+        Reserva reserva = new Reserva();
+        reserva.setDniCiudadano(user.getUsername());
+        reserva.setIdentificadorZona(identificador);
+        model.addAttribute("reserva", reserva);
         return "reserva/add";
     }
 

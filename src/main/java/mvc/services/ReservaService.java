@@ -5,5 +5,5 @@ import mvc.model.Reserva;
 import java.util.List;
 
 public interface ReservaService {
-   // List<Reserva> getReservaPorNombre(String dni);
+    Reserva crearReserva(String dni, String zona);
 }
