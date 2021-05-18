@@ -4,6 +4,7 @@ import mvc.dao.CiudadanoDao;
 import mvc.dao.GestorMunicipalDao;
 import mvc.model.Ciudadano;
 import mvc.model.GestorMunicipal;
+import mvc.model.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,7 +53,12 @@ public class CiudadanoController {
         if (bindingResult.hasErrors())
             return "ciudadano/add";
         ciudadanoDao.addCiudadano(ciudadano);
-        //session.setAttribute("user", ciudadano);
+
+        //Añadimos el usuario a la sesión
+        UserDetails user = new UserDetails();
+        user.setRol("ciudadano");
+        user.setUsername(ciudadano.getDni());
+        session.setAttribute("user", user);
         return "redirect:indice";
     }
 

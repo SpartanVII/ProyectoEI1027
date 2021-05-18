@@ -3,6 +3,8 @@ package mvc.controller;
 import mvc.dao.EspacioPublicoDao;
 import mvc.model.Ciudadano;
 import mvc.model.EspacioPublico;
+import mvc.model.UserDetails;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/espacioPublico")
@@ -25,22 +29,19 @@ public class EspacioPublicoController {
 
     // Operacions: Crear, llistar, actualitzar, esborrar
     // ...
-    @RequestMapping("/list")
-    public String listEspacioPublico(Model model) {
+    @RequestMapping("/listRegistrado")
+    public String listEspacioPublico(Model model, HttpSession session) {
+        UserDetails user = (UserDetails) session.getAttribute("user");
         model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
-        return "espacioPublico/list";
+        if(user.getRol().equals("gestorMunicipal"))
+            return "espacioPublico/list";
+        return "espacioPublico/listConReserva";
     }
 
     @RequestMapping("/listSinRegistrar")
     public String listEspacioPublicoSinRegistrar(Model model) {
         model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
         return "espacioPublico/listSinRegistrar";
-    }
-
-    @RequestMapping("/listConReserva")
-    public String listEspacioPublicoCiudadano(Model model) {
-        model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
-        return "espacioPublico/listConReserva";
     }
 
     @RequestMapping(value="/add")

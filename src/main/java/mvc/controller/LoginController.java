@@ -74,33 +74,27 @@ public class LoginController {
             return "login";
         }
 
-        boolean denegarAcceso = true;
         if(gestorMunicipalDao.getGestorMunicipal(user.getUsername(), user.getPassword())!=null){
-            user.setRol("gestor");
-            denegarAcceso = false;
+            user.setRol("gestorMunicipal");
+            user.setPassword(""); //Como ya no necesitamos la contraseña, la borramos por motivos de seguridad
+            session.setAttribute("user", user);
+            return "redirect:/";
         }
         else if(ciudadanoDao.getCiudadano(user.getUsername(), user.getPassword())!=null){
             user.setRol("ciudadano");
-            denegarAcceso = false;
+            user.setPassword("");
+            session.setAttribute("user", user);
+            return "redirect:/ciudadano/indice";
         }
         else if(controladorDao.getControlador(user.getUsername(), user.getPassword())!=null){
             user.setRol("controlador");
-            denegarAcceso = false;
+            user.setPassword("");
+            session.setAttribute("user", user);
+            return "redirect:/";
         }
 
-        if (denegarAcceso) {
-            bindingResult.rejectValue("password", "badpw", "Usuario o contraseña incorrectos");
-            return "login";
-        }
-
-        session.setAttribute("user", user);
-
-
-        if (user.getRol().equals("ciudadano")){
-            return "redirect:/ciudadano/indice";
-        }
-        // Torna a la pàgina principal
-        return "redirect:/";
+        bindingResult.rejectValue("password", "badpw", "Usuario o contraseña incorrectos");
+        return "login";
     }
 
     @RequestMapping("/logout")
