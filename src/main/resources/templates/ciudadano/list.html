@@ -11,6 +11,7 @@
     <thead>
     <tr>
         <th>Nombre</th>
+        <th>Edad</th>
         <th>DNI</th>
         <th>Telefono</th>
         <th>Cod.Postal</th>
@@ -27,6 +28,7 @@
     <tbody>
     <tr th:each="ciudadano: ${ciudadanos}">
         <td th:text="${ciudadano.nombre}"></td>
+        <td th:text="${ciudadano.edad}"></td>
         <td th:text="${ciudadano.dni}"></td>
         <td th:text="${ciudadano.telefono}"></td>
         <td th:text="${ciudadano.codPostal}"></td>

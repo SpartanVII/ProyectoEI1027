@@ -22,8 +22,8 @@ public class ZonaDao {
 
 
     public void addZona(Zona zona) {
-        jdbcTemplate.update("INSERT INTO Zona VALUES(?,?,?)",
-                zona.getIdentificador(), zona.getCapMaxima(), zona.getNombreEspacio());
+        jdbcTemplate.update("INSERT INTO Zona VALUES(?,?,?,?)",
+                zona.getIdentificador(), zona.getDescripcion() ,zona.getCapMaxima(), zona.getNombreEspacio());
     }
 
 
@@ -37,8 +37,8 @@ public class ZonaDao {
     }
 
     public void updateZona(Zona zona) {
-        jdbcTemplate.update("UPDATE Zona SET capMaxima=?, nombre_espacioPublico=?, where identificador=?",
-                zona.getCapMaxima(), zona.getIdentificador());
+        jdbcTemplate.update("UPDATE Zona SET descripcion=?, capMaxima=?, nombre_espacioPublico=?, where identificador=?",
+                zona.getDescripcion(), zona.getCapMaxima(), zona.getIdentificador());
     }
 
     public Zona getZona(String identificador) {

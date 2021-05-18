@@ -3,6 +3,7 @@ package mvc.model;
 public class Ciudadano {
 
     private String nombre;
+    private int edad;
     private String dni;
     private String telefono;
     private String codPostal;
@@ -11,6 +12,14 @@ public class Ciudadano {
     private String email;
     private String ciudad;
     private String pin;
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
 
     public String getNombre() {
         return nombre;

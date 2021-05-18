@@ -5,8 +5,17 @@ import mvc.dao.EspacioPublicoDao;
 public class Zona {
 
     private String identificador;
+    private String descripcion;
     private int capMaxima;
     private String nombreEspacio;
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     public String getIdentificador() {
         return identificador;

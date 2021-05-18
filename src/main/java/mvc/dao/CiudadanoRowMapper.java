@@ -14,6 +14,7 @@ public final class CiudadanoRowMapper implements
     {
         Ciudadano ciudadano = new Ciudadano();
         ciudadano.setNombre(rs.getString("nombre"));
+        ciudadano.setEdad(rs.getInt("edad"));
         ciudadano.setDni(rs.getString("dni"));
         ciudadano.setTelefono(rs.getString("telefono"));
         ciudadano.setCodPostal(rs.getString("codPostal"));
