@@ -92,12 +92,6 @@ public class LoginController {
 
         session.setAttribute("user", usuario);
 
-        /*
-        if(session.getAttribute("nextUrl")!=null) {
-            String url = session.getAttribute("nextUrl").toString();
-            session.removeAttribute("nextUrl");
-            return "redirect:/" + url;
-        }*/
 
         if (usuario.getClass().equals(Ciudadano.class)){
             return "redirect:/ciudadano/indice";

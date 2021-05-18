@@ -40,7 +40,7 @@ public class EspacioPublicoController {
     @RequestMapping("/listConReserva")
     public String listEspacioPublicoCiudadano(Model model) {
         model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
-        return "espacioPublico/listCiudadano";
+        return "espacioPublico/listConReserva";
     }
 
     @RequestMapping(value="/add")
