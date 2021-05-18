@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseGestorMunicipal}">
 <head>
     <title>Gestionar Espacios Publicos</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
+
 </head>
 <body>
+<div layout:fragment="content">
 <h1>Lista de Espacios Publicos</h1>
 <table class="table table-striped">
     <thead>
@@ -21,6 +23,7 @@
         <th>Tipo Terreno</th>
         <th>Tipo Acceso</th>
         <th>Municipio</th>
+        <th></th>
         <th></th>
 
     </tr>
@@ -41,11 +44,13 @@
         <td th:text="${espacioPublico.nombreMunicipio}"></td>
         <td><a th:href="@{/espacioPublico/update/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-warning" type="button">Edita</a></td>
         <td><a th:href="@{/espacioPublico/delete/{nombre}(nombre=${espacioPublico.nombre})}" class="btn btn-danger" role="button">Borra</a>
+        <!-- <td><a th:href="@{}" class="btn btn-info" role="button">Añadir Servicio</a> -->
         </td>
     </tr>
     </tbody>
 
 </table>
-<a href="add" class="btn btn-success" role="button">Añade Gestor Municipal</a>
+<a href="add" class="btn btn-success" role="button">Añade un Espacio Publico</a>
+</div>
 </body>
 </html>

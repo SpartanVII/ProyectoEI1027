@@ -66,8 +66,8 @@ public class LoginController {
     }
 
     @RequestMapping(value="/login", method=RequestMethod.POST)
-    public String checkLogin(@ModelAttribute("user") UserDetails user,
-                             BindingResult bindingResult, HttpSession session) {
+    public String checkLogin(@ModelAttribute("user") UserDetails user, BindingResult bindingResult, HttpSession session) {
+
         UserValidator userValidator = new UserValidator();
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -78,19 +78,21 @@ public class LoginController {
             user.setRol("gestorMunicipal");
             user.setPassword(""); //Como ya no necesitamos la contraseña, la borramos por motivos de seguridad
             session.setAttribute("user", user);
-            return "redirect:/";
+            return "redirect:/gestorMunicipal/indice";
         }
-        else if(ciudadanoDao.getCiudadano(user.getUsername(), user.getPassword())!=null){
+
+        if(ciudadanoDao.getCiudadano(user.getUsername(), user.getPassword())!=null){
             user.setRol("ciudadano");
             user.setPassword("");
             session.setAttribute("user", user);
             return "redirect:/ciudadano/indice";
         }
-        else if(controladorDao.getControlador(user.getUsername(), user.getPassword())!=null){
+
+        if(controladorDao.getControlador(user.getUsername(), user.getPassword())!=null){
             user.setRol("controlador");
             user.setPassword("");
             session.setAttribute("user", user);
-            return "redirect:/";
+            return "redirect:/controlador/indice";
         }
 
         bindingResult.rejectValue("password", "badpw", "Usuario o contraseña incorrectos");

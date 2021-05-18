@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseGestorMunicipal}">
+<head>
+    <title>Gestionar Ciudadanos</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+
+</head>
+<body>
+<div layout:fragment="content">
+<h1>Gestión de Controladores</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Edad</th>
+        <th>DNI</th>
+        <th>Telefono</th>
+        <th>Cod.Postal</th>
+        <th>Pais</th>
+        <th>Dirección</th>
+        <th>Email</th>
+        <th>Pin</th>
+        <th></th>
+
+    </tr>
+
+    </thead>
+    <tbody>
+    <tr th:each="controlador: ${controladores}">
+        <td th:text="${controlador.nombre}"></td>
+        <td th:text="${controlador.edad}"></td>
+        <td th:text="${controlador.dni}"></td>
+        <td th:text="${controlador.telefono}"></td>
+        <td th:text="${controlador.codPostal}"></td>
+        <td th:text="${controlador.pais}"></td>
+        <td th:text="${controlador.direccion}"></td>
+        <td th:text="${controlador.email}"></td>
+        <td th:text="${controlador.pin}"></td>
+        <td><a th:href="@{/controlador/update/{dni}(dni=${controlador.dni})}"  class="btn btn-warning" type="button">Edita</a></td>
+        <td><a th:href="@{/controlador/delete/{dni}(dni=${controlador.dni})}" class="btn btn-danger" role="button">Borra</a>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+<a href="add" class="btn btn-success" role="button">Añade Controlador</a>
+</div>
+</body>
+</html>

@@ -3,12 +3,14 @@ package mvc.model;
 public class Controlador {
 
     private String nombre;
+    private int edad;
     private String dni;
     private String telefono;
     private String codPostal;
     private String pais;
     private String direccion;
     private String email;
+    private String pin;
 
     public String getNombre() {
         return nombre;
@@ -64,5 +66,21 @@ public class Controlador {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
     }
 }

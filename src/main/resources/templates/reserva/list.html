@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragmentos/base}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseGestorMunicipal}">
+
 <head>
     <title>Reservas</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/css/nuestro.css"
-          th:href="@{/css/nuestro.css}"/>
+
 </head>
 <body>
 <div layout:fragment="content">
@@ -45,7 +43,9 @@
         </tbody>
 
     </table>
+    <!--
     <a href="add" class="btn btn-success" role="button">Crear Reserva</a>
+    ---->
 </div>
 </body>
 </html>
