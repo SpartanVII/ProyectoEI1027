@@ -3,9 +3,7 @@
 <head>
     <title>Gestionar Espacios Publicos</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/css/nuestro.css"
-          th:href="@{/css/nuestro.css}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
 </head>
 <body>
 <h1>Lista de Espacios Publicos</h1>
@@ -41,6 +39,7 @@
         <td th:text="${espacioPublico.tipoTerreno}"></td>
         <td th:text="${espacioPublico.tipoAcceso}"></td>
         <td th:text="${espacioPublico.nombreMunicipio}"></td>
+        </td>
     </tr>
     </tbody>
 
