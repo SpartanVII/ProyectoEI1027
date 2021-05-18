@@ -5,6 +5,7 @@ import mvc.dao.FranjaEspacioDao;
 import mvc.dao.ReservaDao;
 import mvc.dao.ZonaDao;
 import mvc.model.*;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +47,12 @@ public class ReservaController {
     // Operacions: Crear, llistar, actualitzar, esborrar
     // ...
     @RequestMapping("/list")
-    public String listReservas(Model model) {
+    public String listReservas(Model model, HttpSession session) {
+        UserDetails user = (UserDetails) session.getAttribute("user");
+        if(user.getRol().equals("ciudadano")){
+            model.addAttribute("reservas", reservaDao.getReservasParticular(user.getUsername()));
+            return "reserva/particular";
+        }
         model.addAttribute("reservas", reservaDao.getReservas());
         return "reserva/list";
     }
@@ -80,13 +86,6 @@ public class ReservaController {
     public String processDelete(@PathVariable String identificador) {
         reservaDao.deleteReserva(identificador);
         return "redirect:../list";
-    }
-
-    @RequestMapping("/listParticular")
-    public String listReservaDni(Model model, HttpSession session) {
-        UserDetails user = (UserDetails) session.getAttribute("user");
-        model.addAttribute("reservas", reservaDao.getReservasParticular(user.getUsername()));
-        return "reserva/particular";
     }
 
 }
