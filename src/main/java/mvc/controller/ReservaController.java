@@ -5,6 +5,8 @@ import mvc.dao.FranjaEspacioDao;
 import mvc.dao.ReservaDao;
 import mvc.dao.ZonaDao;
 import mvc.model.*;
+import mvc.services.ReservaService;
+import mvc.services.ReservaSvc;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +26,6 @@ public class ReservaController {
 
     private ReservaDao reservaDao;
     private FranjaEspacioDao franjaEspacioDao;
-    private ZonaDao zonaDao;
 
     @Autowired
     public void setReservaDao(ReservaDao reservaDao) {
@@ -34,11 +35,6 @@ public class ReservaController {
     @Autowired
     public void setFranjaEspacioDao(FranjaEspacioDao franjaEspacioDao) {
         this.franjaEspacioDao = franjaEspacioDao;
-    }
-
-    @Autowired
-    public void setZonaDao(ZonaDao zonaDao) {
-        this.zonaDao = zonaDao;
     }
 
     @ModelAttribute("franjas")
@@ -73,25 +69,27 @@ public class ReservaController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("reserva") Reserva reserva,
+    public String processAddSubmit(@ModelAttribute("reserva") ReservaSvc reservaService,
                                    BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "reserva/add";
-        reservaDao.addReserva(reserva);
+        if (bindingResult.hasErrors()){
+            System.out.println(bindingResult);
+            return "reserva/add";}
+        reservaDao.addReserva(reservaService.crearReserva());
         return "redirect:list";
     }
-
 
     @RequestMapping(value="/add/{identificador}")
     public String addReservaEspacio(Model model, @PathVariable String identificador,
                                     HttpSession session) {
         UserDetails user = (UserDetails) session.getAttribute("user");
-        Reserva reserva = new Reserva();
-        reserva.setDniCiudadano(user.getUsername());
-        reserva.setIdentificadorZona(identificador);
-        model.addAttribute("reserva", reserva);
+        ReservaSvc reservaService = new ReservaSvc();
+        reservaService.setDni(user.getUsername());
+        reservaService.setZona(identificador);
+        model.addAttribute("reserva", reservaService);
         return "reserva/add";
     }
+
+
 
     @RequestMapping(value = "/delete/{identificador}")
     public String processDelete(@PathVariable String identificador) {

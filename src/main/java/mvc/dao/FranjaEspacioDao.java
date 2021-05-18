@@ -23,8 +23,8 @@ public class FranjaEspacioDao {
 
 
     public void addFranjaEspacio(FranjaEspacio franjaEspacio) {
-        jdbcTemplate.update("INSERT INTO FranjaEspacio VALUES(?,?)",
-                franjaEspacio.getHoraEntrada(), franjaEspacio.getHoraSalida());
+        jdbcTemplate.update("INSERT INTO FranjaEspacio VALUES(?,?,?)",
+                franjaEspacio.getHoraEntrada(), franjaEspacio.getHoraSalida(), franjaEspacio.getNombreEspacio());
     }
 
 
@@ -53,6 +53,17 @@ public class FranjaEspacioDao {
             return new ArrayList<>();
         }
     }
+
+
+    public List<FranjaEspacio> getFranjaEspacio(String nombreEspacio) {
+        try {
+            return jdbcTemplate.query("SELECT * from FranjaEspacio WHERE nombre_espacioPublico=?",
+                    new FranjaEspacioRowMapper(), nombreEspacio);
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
 
 }
 

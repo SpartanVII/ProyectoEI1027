@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragmentos/base}">
+      layout:decorate="~{fragmentos/baseCiudadano}">
 <head>
     <title>Crear nueva reserva</title>
     <meta charset="UTF-8" />
@@ -14,13 +14,15 @@
     <form action="#" th:action="@{/reserva/add}"
           th:object="${reserva}" method="post">
         <table>
+            <input th:type="hidden" th:field="*{dni}" th:value="${reserva.dni}"/>
+            <input th:type="hidden" th:field="*{zona}" th:value="${reserva.zona}"/>
             <tr>
                 <td><label>Zona</label></td>
-                <td th:text="${zona.identificador}" th:field="*{}"></td>
+                <td th:text="${reserva.zona}" th:field="*{zona}" th:value="reserva.zona"></td>
             </tr>
             <tr>
                 <td><label>DNI</label></td>
-                <td th:text="${dni}"></td>
+                <td th:text="${reserva.dni}" th:field="*{dni}" th:value="reserva.dni"></td>
             </tr>
             <tr>
                 <td><label>Num Personas</label></td>
@@ -32,14 +34,14 @@
             </tr>
             <tr>
                 <td><label>Franja Horaria</label></td>
-                <td><select class="form_control" type="FranjaEspacio" th:field="*{horaEntrada}">
+                <td><select class="form_control" type="FranjaEspacio" th:field="*{franja}">
                 <option th:each="franja : ${franjas}"
-                        th:value="${franja.horaEntrada}"
+                        th:value="${franja}"
                         th:text="${franja}"></option>
                 </select></td>
             </tr>
             <tr>
-                <td colspan="2"><input type="submit" value="Añadir Reserva" /></td>
+                <td colspan="2"><input type="submit" class="btn btn-primary" value="Añadir Reserva" /></td>
             </tr>
         </table>
     </form>

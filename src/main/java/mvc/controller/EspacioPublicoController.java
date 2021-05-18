@@ -31,7 +31,6 @@ public class EspacioPublicoController {
     public String listEspacioPublico(Model model, HttpSession session) {
 
         UserDetails user = (UserDetails) session.getAttribute("user");
-        System.out.println(user.getRol());
         model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
 
         if(user.getRol().equals("gestorMunicipal"))

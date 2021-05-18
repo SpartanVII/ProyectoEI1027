@@ -7,6 +7,7 @@ import mvc.model.Zona;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,20 +18,61 @@ public class ReservaSvc implements ReservaService{
     @Autowired
     ReservaDao reservaDao;
 
-    String dni;
-    String zona;
     String franja;
     int numPersonas;
-    private LocalDate fecha;
+    String  fecha;
+    String dni;
+    String zona;
+
+    public String getFranja() {
+        return franja;
+    }
+
+    public void setFranja(String franja) {
+        this.franja = franja;
+    }
+
+    public int getNumPersonas() {
+        return numPersonas;
+    }
+
+    public void setNumPersonas(int numPersonas) {
+        this.numPersonas = numPersonas;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getZona() {
+        return zona;
+    }
+
+    public void setZona(String zona) {
+        this.zona = zona;
+    }
 
     @Override
-    public Reserva crearReserva(String dni, String zona) {
-        List<Reserva> reservas = new ArrayList<>();
+    public Reserva crearReserva() {
         Reserva res = new Reserva();
-        for(Reserva r: reservaDao.getReservas()){
-            if(r.getDniCiudadano().equals(dni))
-                reservas.add(r);
-        }
+        res.setDniCiudadano(dni);
+        res.setNumPersonas(numPersonas);
+        res.setFecha(LocalDate.parse(fecha));
+        res.setIdentificadorZona(zona);
+        res.setHoraEntrada(LocalTime.parse(franja.substring(0,5)));
+        res.setHoraSalida(LocalTime.parse(franja.substring(8,13)));
         return res;
     }
 

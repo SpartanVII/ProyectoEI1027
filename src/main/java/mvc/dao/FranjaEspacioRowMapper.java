@@ -15,6 +15,7 @@ public final class FranjaEspacioRowMapper implements
         FranjaEspacio franjaEspacio = new  FranjaEspacio();
         franjaEspacio.setHoraEntrada(rs.getObject("horaEntrada", LocalTime.class));
         franjaEspacio.setHoraSalida(rs.getObject("horaSalida", LocalTime.class));
+        franjaEspacio.setNombreEspacio(rs.getString("nombre_espacioPublico"));
         return franjaEspacio;
     }
 }
