@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/base}">
 <head>
     <title>Gestionar Espacios Publicos</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
 </head>
 <body>
+<div layout:fragment="content">
 <h1>Lista de Espacios Publicos</h1>
 <table class="table table-striped">
     <thead>
@@ -44,5 +45,6 @@
     </tbody>
 
 </table>
+</div>
 </body>
 </html>
