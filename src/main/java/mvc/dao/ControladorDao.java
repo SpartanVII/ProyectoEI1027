@@ -23,10 +23,10 @@ public class ControladorDao {
 
 
     public void addControlador(Controlador controlador) {
-        jdbcTemplate.update("INSERT INTO Controlador VALUES(?,?,?,?,?,?,?)",
-                controlador.getNombre(), controlador.getDni(), controlador.getTelefono(),
+        jdbcTemplate.update("INSERT INTO Controlador VALUES(?,?,?,?,?,?,?,?,?)",
+                controlador.getNombre(), controlador.getEdad(), controlador.getDni(), controlador.getTelefono(),
                 controlador.getCodPostal(), controlador.getPais(), controlador.getDireccion(),
-                controlador.getEmail());
+                controlador.getEmail(), controlador.getPin());
     }
 
 
@@ -40,9 +40,9 @@ public class ControladorDao {
     }
 
     public void updateControlador(Controlador controlador) {
-        jdbcTemplate.update("UPDATE Controlador SET nombre=?, telefono=?, codPostal=?, pais=?, direccion=?, email=? where dni=?",
-                controlador.getNombre(), controlador.getTelefono(), controlador.getCodPostal(), controlador.getPais(),
-                controlador.getDireccion(), controlador.getEmail(), controlador.getDni());
+        jdbcTemplate.update("UPDATE Controlador SET nombre=?, edad=?, telefono=?, codPostal=?, pais=?, direccion=?, email=?, pin=? where dni=?",
+                controlador.getNombre(), controlador.getEdad(), controlador.getTelefono(), controlador.getCodPostal(), controlador.getPais(),
+                controlador.getDireccion(), controlador.getEmail(), controlador.getDni(), controlador.getPin());
     }
 
 
@@ -58,14 +58,13 @@ public class ControladorDao {
 
     public Controlador getControlador(String dni, String pin) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * from Controlador WHERE dni=?",
-                    new ControladorRowMapper(), dni);
+            return jdbcTemplate.queryForObject("SELECT * from Controlador WHERE dni=? AND pin=?",
+                    new ControladorRowMapper(), dni, pin);
         }
         catch(EmptyResultDataAccessException e) {
             return null;
         }
     }
-
 
     public List<Controlador> getControladores() {
         try {

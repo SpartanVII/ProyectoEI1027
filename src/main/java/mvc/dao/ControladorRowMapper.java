@@ -15,12 +15,14 @@ public final class ControladorRowMapper implements
     {
         Controlador controlador = new Controlador();
         controlador.setNombre(rs.getString("nombre"));
+        controlador.setEdad(rs.getInt("edad"));
         controlador.setDni(rs.getString("dni"));
         controlador.setTelefono(rs.getString("telefono"));
         controlador.setCodPostal(rs.getString("codPostal"));
         controlador.setPais(rs.getString("pais"));
         controlador.setDireccion(rs.getString("direccion"));
         controlador.setEmail(rs.getString("email"));
+        controlador.setEmail(rs.getString("pin"));
         return controlador;
     }
 }

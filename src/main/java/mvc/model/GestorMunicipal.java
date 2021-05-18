@@ -3,6 +3,7 @@ package mvc.model;
 public class GestorMunicipal {
 
     private String nombre;
+    private int edad;
     private String dni;
     private String telefono;
     private String codPostal;
@@ -84,4 +85,11 @@ public class GestorMunicipal {
         this.nombreMunicipio = nombreMunicipio;
     }
 
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
 }

@@ -27,14 +27,16 @@ public class EspacioPublicoController {
         this.espacioPublicoDao=espacioPublicoDao;
     }
 
-    // Operacions: Crear, llistar, actualitzar, esborrar
-    // ...
     @RequestMapping("/listRegistrado")
     public String listEspacioPublico(Model model, HttpSession session) {
+
         UserDetails user = (UserDetails) session.getAttribute("user");
+        System.out.println(user.getRol());
         model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
+
         if(user.getRol().equals("gestorMunicipal"))
             return "espacioPublico/list";
+
         return "espacioPublico/listConReserva";
     }
 

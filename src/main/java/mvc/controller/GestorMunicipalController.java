@@ -17,6 +17,12 @@ public class GestorMunicipalController {
 
     private GestorMunicipalDao gestorMunicipalDao;
 
+    @RequestMapping("/indice")
+    public String indice() {
+        return "gestorMunicipal/indice";
+    }
+
+
     @Autowired
     public void setGestorMunicipalDao(GestorMunicipalDao gestorMunicipalDao) {
         this.gestorMunicipalDao=gestorMunicipalDao;

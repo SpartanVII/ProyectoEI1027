@@ -74,5 +74,14 @@ public class ReservaDao {
         }
     }
 
+    public List<Reserva> getReservasEnMiEspacio(String dni){
+        try {
+            return jdbcTemplate.query("SELECT * FROM Reserva WHERE espacioPublico = (SELECT nombre_espaciopublico from Controla WHERE dni_controlador=? AND fechafin=NULL)",
+                    new ReservaRowMapper(), dni);
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
 }
 

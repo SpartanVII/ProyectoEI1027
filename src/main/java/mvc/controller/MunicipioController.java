@@ -1,6 +1,5 @@
 package mvc.controller;
 
-import mvc.dao.GestorMunicipalDao;
 import mvc.dao.MunicipioDao;
 import mvc.model.GestorMunicipal;
 import mvc.model.Municipio;

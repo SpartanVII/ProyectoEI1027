@@ -48,12 +48,21 @@ public class ReservaController {
     // ...
     @RequestMapping("/list")
     public String listReservas(Model model, HttpSession session) {
+
         UserDetails user = (UserDetails) session.getAttribute("user");
+
         if(user.getRol().equals("ciudadano")){
             model.addAttribute("reservas", reservaDao.getReservasParticular(user.getUsername()));
             return "reserva/particular";
         }
-        model.addAttribute("reservas", reservaDao.getReservas());
+
+        if(user.getRol().equals("gestorMunicipal")){
+            model.addAttribute("reservas", reservaDao.getReservas());
+            return "reserva/particular";
+        }
+
+        //Controlador
+        model.addAttribute("reservas", reservaDao.getReservasEnMiEspacio(user.getUsername()));
         return "reserva/list";
     }
 

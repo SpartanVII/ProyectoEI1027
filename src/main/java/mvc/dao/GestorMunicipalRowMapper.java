@@ -15,6 +15,7 @@ public final class GestorMunicipalRowMapper implements
     {
         GestorMunicipal gestorMunicipal = new GestorMunicipal();
         gestorMunicipal.setNombre(rs.getString("nombre"));
+        gestorMunicipal.setEdad(rs.getInt("edad"));
         gestorMunicipal.setDni(rs.getString("dni"));
         gestorMunicipal.setTelefono(rs.getString("telefono"));
         gestorMunicipal.setCodPostal(rs.getString("codPostal"));
