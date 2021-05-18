@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.css"/>
+
+    <!-- app css  -->
+    <link type="text/css" th:href="@{/css/nuestro.css}" href="/css/nuestro.css" rel="stylesheet"/>
+
+    <title layout:title-pattern="$CONTENT_TITLE">Titulo</title>
+</head>
+
+<body class="container">
+<header class="page-header">
+</header>
+<div th:replace="fragmentos/navSinRegistrar"></div>
+<div th:replace="fragmentos/logininfo"></div>
+<div layout:fragment="content"></div>
+<footer>
+    <hr>
+    <p class="text-muted">EI1027 - Disseny i Implementació de Sistemes d'Informació</p>
+</footer>
+</body>
+</html>
