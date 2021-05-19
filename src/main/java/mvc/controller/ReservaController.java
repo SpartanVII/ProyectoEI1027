@@ -63,18 +63,28 @@ public class ReservaController {
     }
 
     @RequestMapping(value="/cancela/{identificador}", method = RequestMethod.GET)
-    public String cancelaReserva( HttpSession session,  @PathVariable String identificador) {
+    public String cancelaReserva(Model model, HttpSession session,  @PathVariable String identificador) {
 
         UserDetails user = (UserDetails) session.getAttribute("user");
         String estado = "";
 
-        if(user.getRol().equals("ciudadano")) estado = "CANCELADA_CIUDADANO";
+
+        if(user.getRol().equals("ciudadano")){
+            estado = "CANCELADA_CIUDADANO";
+            reservaDao.cancelaReserva(reservaDao.getReserva(identificador),estado);
+            return "redirect:../list";
+        }
+
         if(user.getRol().equals("gestorMunicipal")) estado = "CANCELADA_GESTOR";
         if(user.getRol().equals("controlador")) estado =  "CANCELADA_CONTROLADOR";
 
         reservaDao.cancelaReserva(reservaDao.getReserva(identificador),estado);
 
-        return "redirect:../list";
+        Notificacion notificacion = new Notificacion();
+        notificacion.setDniCiudadano(reservaDao.getReserva(identificador).getDniCiudadano());
+        notificacion.setMensaje("");
+        model.addAttribute("notificacion",notificacion);
+        return "notificacion/add";
     }
 
 

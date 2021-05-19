@@ -16,8 +16,8 @@
     </thead>
     <tbody>
     <tr th:each="municipio: ${municipios}">
-        <td th:text="${municipio.nombre}"></td>
-        <td><a th:href="@{/municipio/delete/{nombre}(nombre=${municipio.nombre})}"  class="btn btn-danger" role="button">Borra</a>
+        <td th:text="${municipio.dniCiudadano}"></td>
+        <td><a th:href="@{/municipio/delete/{dniCiudadano}(dniCiudadano=${municipio.dniCiudadano})}"  class="btn btn-danger" role="button">Borra</a>
         </td>
     </tr>
     </tbody>

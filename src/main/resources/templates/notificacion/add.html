@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseCiudadano}">
+<head>
+    <title>Crear nuevo ciudadano</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
+
+</head>
+<body>
+<div layout:fragment="content">
+<h1>Crear usuario</h1>
+<form align="center" action="#" th:action="@{/notificacion/add}"
+      th:object="${notificacion}" method="post">
+    <table>
+        <input type="hidden" maxlength="50" th:field="*{dniCiudadano}" readonly="readonly">
+        <tr>
+            <td><label>Mensaje a notificar</label></td>
+            <textarea name="textarea" rows="10" cols="50"  th:field="*{mensaje}" >Escribe lo que dessees notificar</textarea>
+        </tr>
+    </table><br>
+    <td colspan="2"><input type="submit" value="Enviar notificación" required/></td>
+</form>
+</div>
+</body>
+</html>
