@@ -62,6 +62,22 @@ public class ReservaController {
         return "reserva/listControlador";
     }
 
+    @RequestMapping(value="/cancela/{identificador}", method = RequestMethod.GET)
+    public String cancelaReserva( HttpSession session,  @PathVariable String identificador) {
+
+        UserDetails user = (UserDetails) session.getAttribute("user");
+        String estado = "";
+
+        if(user.getRol().equals("ciudadano")) estado = "CANCELADA_CIUDADANO";
+        if(user.getRol().equals("gestorMunicipal")) estado = "CANCELADA_GESTOR";
+        if(user.getRol().equals("controlador")) estado =  "CANCELADA_CONTROLADOR";
+
+        reservaDao.cancelaReserva(reservaDao.getReserva(identificador),estado);
+
+        return "redirect:../list";
+    }
+
+
     @RequestMapping(value = "/add")
     public String addReserva(HttpSession session, Model model) {
         model.addAttribute("reserva", new Reserva());
@@ -69,8 +85,7 @@ public class ReservaController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("reserva") ReservaSvc reservaService,
-                                   BindingResult bindingResult) {
+    public String processAddSubmit(@ModelAttribute("reserva") ReservaSvc reservaService,  BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             System.out.println(bindingResult);
             return "reserva/add";}

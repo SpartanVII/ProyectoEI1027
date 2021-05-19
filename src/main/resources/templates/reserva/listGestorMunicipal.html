@@ -35,9 +35,7 @@
             <td th:text="${reserva.horaEntrada}"></td>
             <td th:text="${reserva.horaSalida}"></td>
             <td th:text="${reserva.identificadorZona}"></td>
-            <td><a th:href="@{/reserva/update/{identificador}(identificador=${reserva.identificador})}"  class="btn btn-warning" type="button">Edita</a>
-            </td>
-            <td><a th:href="@{/reserva/delete/{identificador}(identificador=${reserva.identificador})}" class="btn btn-danger" role="button">Borra</a>
+            <td><a th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}"  class="btn btn-danger" type="button">Cancelar</a></td>
             </td>
         </tr>
         </tbody>

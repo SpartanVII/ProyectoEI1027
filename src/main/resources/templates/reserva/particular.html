@@ -22,17 +22,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="reserva: ${reservas}">
+        <td th:each="reserva: ${reservas}">
             <td th:text="${reserva.identificador}"></td>
             <td th:text="${reserva.numPersonas}"></td>
             <td th:text="${reserva.estado}"></td>
             <td th:text="${reserva.fecha}"></td>
             <td th:text="${reserva.horaEntrada}"></td>
             <td th:text="${reserva.horaSalida}"></td>
-            <td><a th:href="@{/reserva/update/{identificador}(identificador=${reserva.identificador})}"  class="btn btn-warning" type="button">Edita</a>
-            </td>
-            <td><a th:href="@{/reserva/delete/{identificador}(identificador=${reserva.identificador})}" class="btn btn-danger" role="button">Borra</a>
-            </td>
+            <td><a th:href="@{/reserva/update/{identificador}(identificador=${reserva.identificador})}"  class="btn btn-warning" type="button">Edita</a></td>
+            <td><a th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}" class="btn btn-danger" role="button">Cancelar</a></td>
         </tr>
         </tbody>
     </table>

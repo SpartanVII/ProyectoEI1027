@@ -2,6 +2,7 @@ package mvc.dao;
 
 
 import mvc.model.Reserva;
+import mvc.model.enumerations.EstadoReserva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -42,14 +43,23 @@ public class ReservaDao {
     public void updateReserva(Reserva reserva) {
         jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, estado=?, dni_ciudadano=?, horaEntrada=?, horaSalida=?, identificador_zona=? where identificador=?",
                 reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado(), reserva.getDniCiudadano(),
-                reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getIdentificador(), reserva.getIdentificadorZona());
+                reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getIdentificadorZona(), reserva.getIdentificador());
+    }
+
+    public void cancelaReserva(Reserva reserva, String estado) {
+        String[] estadoC = reserva.getEstado().split("_");
+        if(!estadoC[0].equals("CANCELADA") && !estadoC[0].equals("FIN")) {
+            jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, estado=?, dni_ciudadano=?, horaEntrada=?, horaSalida=?, identificador_zona=? where identificador=?",
+                    reserva.getNumPersonas(), reserva.getFecha(), estado, reserva.getDniCiudadano(), reserva.getHoraEntrada(),
+                    reserva.getHoraSalida(), reserva.getIdentificadorZona(), reserva.getIdentificador());
+        }
     }
 
 
-    public Reserva getReserva(String codigo) {
+    public Reserva getReserva(String identificador) {
         try {
             return jdbcTemplate.queryForObject("SELECT * from Reserva WHERE identificador=?",
-                    new ReservaRowMapper(), codigo);
+                    new ReservaRowMapper(), identificador);
         }
         catch(EmptyResultDataAccessException e) {
             return null;
