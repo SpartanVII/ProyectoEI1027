@@ -11,6 +11,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th>Dni ciudadano</th>
             <th>Identificador</th>
             <th>Num Personas</th>
             <th>Estado</th>
@@ -23,6 +24,7 @@
         </thead>
         <tbody>
         <td th:each="reserva: ${reservas}">
+            <td th:text="${reserva.dniCiudadano}"></td>
             <td th:text="${reserva.identificador}"></td>
             <td th:text="${reserva.numPersonas}"></td>
             <td th:text="${reserva.estado}"></td>

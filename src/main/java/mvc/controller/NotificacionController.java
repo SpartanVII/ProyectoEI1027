@@ -42,11 +42,13 @@ public class NotificacionController {
     }
 
     @RequestMapping(value="/add", method= RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("notificacion") Notificacion notificacion,
-                                   BindingResult bindingResult) {
+    public String processAddSubmit(@ModelAttribute("notificacion") Notificacion notificacion, BindingResult bindingResult) {
+
         if (bindingResult.hasErrors())
             return "notificacion/add";
+
         notificacionDao.addNotificacion(notificacion);
+
         return "redirect:/reserva/list";
     }
 

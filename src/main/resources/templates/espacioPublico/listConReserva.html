@@ -29,7 +29,7 @@
     </thead>
     <tbody>
     <tr th:each="espacioPublico: ${espaciosPublicos}">
-        <td th:text="${espacioPublico.dniCiudadano}"></td>
+        <td th:text="${espacioPublico.nombre}"></td>
         <td th:text="${espacioPublico.descripcion}"></td>
         <td th:text="${espacioPublico.localizacionGeografica}"></td>
         <td th:text="${espacioPublico.ocupacion}"></td>
@@ -40,7 +40,7 @@
         <td th:text="${espacioPublico.tipoTerreno}"></td>
         <td th:text="${espacioPublico.tipoAcceso}"></td>
         <td th:text="${espacioPublico.nombreMunicipio}"></td>
-        <td><a th:href="@{/zona/particular/{dniCiudadano}(dniCiudadano=${espacioPublico.dniCiudadano})}"  class="btn btn-warning" type="button">Ver Zonas</a></td>
+        <td><a th:href="@{/zona/particular/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-warning" type="button">Ver Zonas</a></td>
     </tr>
     </tbody>
 </table>

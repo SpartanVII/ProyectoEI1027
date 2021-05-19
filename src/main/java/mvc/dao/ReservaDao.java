@@ -47,12 +47,10 @@ public class ReservaDao {
     }
 
     public void cancelaReserva(Reserva reserva, String estado) {
-        String[] estadoC = reserva.getEstado().split("_");
-        if(!estadoC[0].equals("CANCELADA") && !estadoC[0].equals("FIN")) {
-            jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, estado=?, dni_ciudadano=?, horaEntrada=?, horaSalida=?, identificador_zona=? where identificador=?",
+        jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, estado=?, dni_ciudadano=?, horaEntrada=?, horaSalida=?, identificador_zona=? where identificador=?",
                     reserva.getNumPersonas(), reserva.getFecha(), estado, reserva.getDniCiudadano(), reserva.getHoraEntrada(),
                     reserva.getHoraSalida(), reserva.getIdentificadorZona(), reserva.getIdentificador());
-        }
+
     }
 
 

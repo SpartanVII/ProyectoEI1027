@@ -1,9 +1,6 @@
 package mvc.controller;
 
-import mvc.dao.EspacioPublicoDao;
-import mvc.dao.FranjaEspacioDao;
-import mvc.dao.ReservaDao;
-import mvc.dao.ZonaDao;
+import mvc.dao.*;
 import mvc.model.*;
 import mvc.services.ReservaService;
 import mvc.services.ReservaSvc;
@@ -65,29 +62,47 @@ public class ReservaController {
     @RequestMapping(value="/cancela/{identificador}", method = RequestMethod.GET)
     public String cancelaReserva(Model model, HttpSession session,  @PathVariable String identificador) {
 
+        //AÑADIR VALIDAOR PARA COMPROBAR SI LA RESERVA ESTA PENIENTE DE USO SI NO ES ASI EL BOTON NO HARA NADA
         UserDetails user = (UserDetails) session.getAttribute("user");
-        String estado = "";
+        String estado="";
 
-
-        if(user.getRol().equals("ciudadano")){
-            estado = "CANCELADA_CIUDADANO";
-            reservaDao.cancelaReserva(reservaDao.getReserva(identificador),estado);
-            return "redirect:../list";
-        }
-
+        if(user.getRol().equals("ciudadano")) estado ="CANCELADA_CIUDADANO";
         if(user.getRol().equals("gestorMunicipal")) estado = "CANCELADA_GESTOR";
         if(user.getRol().equals("controlador")) estado =  "CANCELADA_CONTROLADOR";
 
-        reservaDao.cancelaReserva(reservaDao.getReserva(identificador),estado);
 
-        Notificacion notificacion = new Notificacion();
-        notificacion.setDniCiudadano(reservaDao.getReserva(identificador).getDniCiudadano());
-        notificacion.setMensaje("");
-        model.addAttribute("notificacion",notificacion);
-        return "notificacion/add";
+        if(reservaDao.getReserva(identificador).getEstado().equals("PENDIENTE_USO")) {
+            //Cancela reserva
+            reservaDao.cancelaReserva(reservaDao.getReserva(identificador), estado);
+            String mensaje = "Su reserva ha sido cancelada porque ";
+            Notificacion notificacion = new Notificacion(reservaDao.getReserva(identificador).getDniCiudadano(), mensaje);
+            model.addAttribute("notificacion", notificacion);
+
+            return "notificacion/add";
+        }
+
+        return "redirect:/reserva/list";
+    }
+    /*
+    @RequestMapping(value="/cancela", method= RequestMethod.POST)
+    public String processAddSubmit(@ModelAttribute("reserva") Reserva reserva, @ModelAttribute("notificacion") Notificacion notificacion, HttpSession session) {
+        UserDetails user = (UserDetails) session.getAttribute("user");
+        String estado = "";
+
+        if(user.getRol().equals("gestorMunicipal")) estado = "CANCELADA_GESTOR";
+        if(user.getRol().equals("controlador")) estado =  "CANCELADA_CONTROLADOR";
+        NotificacionDao not = new NotificacionDao();
+        not.addNotificacion(notificacion);
+
+        if(reserva.getEstado().equals("PENDIENTE")){
+            reservaDao.cancelaReserva(reserva,estado);
+
+        }
+
+        return "redirect:/reserva/list";
     }
 
-
+    */
     @RequestMapping(value = "/add")
     public String addReserva(HttpSession session, Model model) {
         model.addAttribute("reserva", new Reserva());
