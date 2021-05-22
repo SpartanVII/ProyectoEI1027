@@ -8,7 +8,7 @@ import java.time.LocalTime;
 
 public class Reserva {
 
-    private String identificador;
+    private Integer identificador;
     private int numPersonas;
     private LocalDate fecha;
     private String estado;
@@ -27,11 +27,11 @@ public class Reserva {
         this.identificadorZona = identificadorZona;
     }
 
-    public String getIdentificador() {
+    public Integer getIdentificador() {
         return identificador;
     }
 
-    public void setIdentificador(String identificador) {
+    public void setIdentificador(Integer identificador) {
         this.identificador = identificador;
     }
 

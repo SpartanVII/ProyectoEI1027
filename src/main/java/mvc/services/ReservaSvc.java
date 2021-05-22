@@ -15,14 +15,20 @@ import java.util.Map;
 
 public class ReservaSvc implements ReservaService{
 
-    @Autowired
-    ReservaDao reservaDao;
-
+    Integer identificador;
     String franja;
     int numPersonas;
     String  fecha;
     String dni;
     String zona;
+
+    public Integer getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(Integer identificador) {
+        this.identificador = identificador;
+    }
 
     public String getFranja() {
         return franja;
@@ -67,6 +73,7 @@ public class ReservaSvc implements ReservaService{
     @Override
     public Reserva crearReserva() {
         Reserva res = new Reserva();
+        res.setIdentificador(identificador);
         res.setDniCiudadano(dni);
         res.setNumPersonas(numPersonas);
         res.setFecha(LocalDate.parse(fecha));

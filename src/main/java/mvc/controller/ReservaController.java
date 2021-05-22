@@ -125,6 +125,7 @@ public class ReservaController {
         ReservaSvc reservaService = new ReservaSvc();
         reservaService.setDni(user.getUsername());
         reservaService.setZona(identificador);
+        reservaService.setIdentificador(reservaDao.getSiguienteIdentificadorReserva());
         model.addAttribute("reserva", reservaService);
         return "reserva/add";
     }

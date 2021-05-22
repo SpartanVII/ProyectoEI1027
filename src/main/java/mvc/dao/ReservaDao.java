@@ -24,9 +24,9 @@ public class ReservaDao {
 
 
     public void addReserva(Reserva reserva) {
-        jdbcTemplate.update("INSERT INTO Reserva (numPersonas, fecha, dni_ciudadano, horaEntrada, " +
-                        "horaSalida, identificador_zona) VALUES(?,?,?,?,?,?)",
-                reserva.getNumPersonas(), reserva.getFecha(), reserva.getDniCiudadano(),
+        jdbcTemplate.update("INSERT INTO Reserva (identificador, numPersonas, fecha, dni_ciudadano, horaEntrada, " +
+                        "horaSalida, identificador_zona) VALUES(?,?,?,?,?,?,?)",
+                reserva.getIdentificador(), reserva.getNumPersonas(), reserva.getFecha(), reserva.getDniCiudadano(),
                 reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getIdentificadorZona());
     }
 
@@ -91,6 +91,16 @@ public class ReservaDao {
                     new ReservaRowMapper(), dni);
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
+        }
+    }
+
+    public Integer getSiguienteIdentificadorReserva(){
+        try {
+            Reserva res = jdbcTemplate.queryForObject("SELECT * from Reserva ORDER BY identificador DESC LIMIT 1",
+                    new ReservaRowMapper());
+            return res.getIdentificador()+1;
+        } catch (Exception e) {
+            return null;
         }
     }
 

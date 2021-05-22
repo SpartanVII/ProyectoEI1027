@@ -15,7 +15,7 @@ public final class ReservaRowMapper implements
     public Reserva mapRow(ResultSet rs, int rowNum) throws SQLException
     {
         Reserva reserva = new Reserva();
-        reserva.setIdentificador(rs.getString("identificador"));
+        reserva.setIdentificador(rs.getInt("identificador"));
         reserva.setNumPersonas(rs.getInt("numPersonas"));
         reserva.setFecha(rs.getObject("fecha", LocalDate.class));
         reserva.setEstado(rs.getString("estado"));

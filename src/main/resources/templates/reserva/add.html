@@ -14,6 +14,7 @@
     <form action="#" th:action="@{/reserva/add}"
           th:object="${reserva}" method="post">
         <table>
+            <input th:type="hidden" th:field="*{identificador}" th:value="${reserva.identificador}"/>
             <input th:type="hidden" th:field="*{dni}" th:value="${reserva.dni}"/>
             <input th:type="hidden" th:field="*{zona}" th:value="${reserva.zona}"/>
             <tr>
