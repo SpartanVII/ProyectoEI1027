@@ -83,6 +83,7 @@ public class ReservaController {
 
         return "redirect:/reserva/list";
     }
+
     /*
     @RequestMapping(value="/cancela", method= RequestMethod.POST)
     public String processAddSubmit(@ModelAttribute("reserva") Reserva reserva, @ModelAttribute("notificacion") Notificacion notificacion, HttpSession session) {
@@ -96,15 +97,14 @@ public class ReservaController {
 
         if(reserva.getEstado().equals("PENDIENTE")){
             reservaDao.cancelaReserva(reserva,estado);
-
         }
 
         return "redirect:/reserva/list";
     }
-
     */
+
     @RequestMapping(value = "/add")
-    public String addReserva(HttpSession session, Model model) {
+    public String addReserva(Model model) {
         model.addAttribute("reserva", new Reserva());
         return "reserva/add";
     }
@@ -118,13 +118,13 @@ public class ReservaController {
         return "redirect:list";
     }
 
-    @RequestMapping(value="/add/{identificador}")
-    public String addReservaEspacio(Model model, @PathVariable String identificador,
-                                    HttpSession session) {
+    @RequestMapping(value="/add/{zona}")
+    public String addReservaEspacio(Model model, @PathVariable String zona, HttpSession session) {
+
         UserDetails user = (UserDetails) session.getAttribute("user");
         ReservaSvc reservaService = new ReservaSvc();
         reservaService.setDni(user.getUsername());
-        reservaService.setZona(identificador);
+        reservaService.setZona(zona);
         reservaService.setIdentificador(reservaDao.getSiguienteIdentificadorReserva());
         model.addAttribute("reserva", reservaService);
         return "reserva/add";

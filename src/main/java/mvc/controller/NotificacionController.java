@@ -1,8 +1,6 @@
 package mvc.controller;
 
-import mvc.dao.ControladorDao;
 import mvc.dao.NotificacionDao;
-import mvc.model.Controlador;
 import mvc.model.Notificacion;
 import mvc.model.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +45,8 @@ public class NotificacionController {
         if (bindingResult.hasErrors())
             return "notificacion/add";
 
+        System.out.println(notificacionDao.getSiguienteIdentificadorNotificacion());
+        notificacion.setIdentificador(notificacionDao.getSiguienteIdentificadorNotificacion());
         notificacionDao.addNotificacion(notificacion);
 
         return "redirect:/reserva/list";
@@ -54,8 +54,8 @@ public class NotificacionController {
 
 
     @RequestMapping(value="/delete/{dniCiudadano}")
-    public String processDelete(@PathVariable String dni) {
-        notificacionDao.deleteNotificacion(dni);
+    public String processDelete(@PathVariable Integer identificador) {
+        notificacionDao.deleteNotificacion(identificador);
         return "redirect:../list";
     }
 

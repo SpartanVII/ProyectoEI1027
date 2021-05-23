@@ -1,6 +1,7 @@
 package mvc.dao;
 
 
+import mvc.model.Notificacion;
 import mvc.model.Reserva;
 import mvc.model.enumerations.EstadoReserva;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class ReservaDao {
 
     public List<Reserva> getReservas() {
         try {
-            return jdbcTemplate.query("SELECT * from Reserva",
+            return jdbcTemplate.query("SELECT * from Reserva ORDER BY dni_ciudadano",
                     new ReservaRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
@@ -96,9 +97,12 @@ public class ReservaDao {
 
     public Integer getSiguienteIdentificadorReserva(){
         try {
-            Integer identificador = jdbcTemplate.queryForObject("SELECT * from Reserva ORDER BY identificador DESC LIMIT 1",
-                    Integer.class);
-            return identificador==null?1:identificador+1;
+            Reserva reserva = jdbcTemplate.queryForObject("SELECT * from Reserva ORDER BY identificador DESC LIMIT 1",
+                    new ReservaRowMapper());
+            return reserva.getIdentificador()+1;
+
+        } catch (EmptyResultDataAccessException e) {
+            return 1;
         } catch (Exception e) {
             return null;
         }

@@ -14,6 +14,7 @@ public final class NotificacionRowMapper implements
     public Notificacion mapRow(ResultSet rs, int rowNum) throws SQLException
     {
         Notificacion notificacion = new Notificacion();
+        notificacion.setIdentificador(rs.getInt("identificador"));
         notificacion.setDniCiudadano(rs.getString("dni_ciudadano"));
         notificacion.setMensaje(rs.getString("mensaje"));
 

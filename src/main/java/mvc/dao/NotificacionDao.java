@@ -23,19 +23,19 @@ public class NotificacionDao {
 
 
     public void addNotificacion(Notificacion notificacion) {
-        jdbcTemplate.update("INSERT INTO Notificaciones VALUES(?,?)",
-                notificacion.getDniCiudadano(), notificacion.getMensaje());
+        jdbcTemplate.update("INSERT INTO Notificaciones VALUES(?,?,?)",
+                notificacion.getIdentificador(), notificacion.getDniCiudadano(), notificacion.getMensaje());
     }
 
 
-    public void deleteNotificacion(String dni) {
-        jdbcTemplate.update("DELETE from Notificaciones where dni=?",
-                dni);
+    public void deleteNotificacion(Integer id) {
+        jdbcTemplate.update("DELETE from Notificaciones where identificador=?",
+                id);
     }
 
     public void deleteNotificacion(Notificacion notificacion) {
-        jdbcTemplate.update("DELETE from Notificaciones where dni=?",
-                notificacion.getDniCiudadano());
+        jdbcTemplate.update("DELETE from Notificaciones where identificador=?",
+                notificacion.getIdentificador());
     }
 
 
@@ -45,6 +45,19 @@ public class NotificacionDao {
                     new NotificacionRowMapper(),dni);
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
+        }
+    }
+
+    public Integer getSiguienteIdentificadorNotificacion() {
+        try {
+            Notificacion notificacion = jdbcTemplate.queryForObject("SELECT * from Notificaciones ORDER BY identificador DESC LIMIT 1",
+                    new NotificacionRowMapper());
+            assert notificacion != null;
+            return notificacion.getIdentificador() + 1;
+        } catch (EmptyResultDataAccessException e) {
+            return 1;
+        } catch (Exception e) {
+            return null;
         }
     }
 

@@ -2,6 +2,7 @@ package mvc.model;
 
 public class Notificacion {
 
+    private Integer identificador;
     private String dniCiudadano;
     private String mensaje;
 
@@ -32,5 +33,13 @@ public class Notificacion {
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public Integer getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(Integer identificador) {
+        this.identificador = identificador;
     }
 }

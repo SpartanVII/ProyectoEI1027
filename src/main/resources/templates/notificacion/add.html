@@ -12,6 +12,7 @@
 <form align="center" action="#" th:action="@{/notificacion/add}"
       th:object="${notificacion}" method="post">
     <table>
+        <input type="hidden" maxlength="50" th:field="*{identificador}" readonly="readonly">
         <input type="hidden" maxlength="50" th:field="*{dniCiudadano}" readonly="readonly">
         <tr>
             <td><label>Mensaje a notificar</label></td>

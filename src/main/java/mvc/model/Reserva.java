@@ -1,6 +1,5 @@
 package mvc.model;
 
-import mvc.model.enumerations.EstadoReserva;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
