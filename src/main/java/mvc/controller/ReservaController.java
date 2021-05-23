@@ -2,20 +2,44 @@ package mvc.controller;
 
 import mvc.dao.*;
 import mvc.model.*;
-import mvc.services.ReservaService;
 import mvc.services.ReservaSvc;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpSession;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+
+class ReservaValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> cls) {
+        return Reserva.class.isAssignableFrom(cls);
+    }
+    @Override
+    public void validate(Object obj, Errors errors) {
+        Reserva reserva = (Reserva) obj;
+        if (reserva.getNumPersonas()<1||reserva.getNumPersonas()>16)
+            errors.rejectValue("numPersonas", "obligatorio",
+                    "Mínimo 1 persona, Máximo 16 personas");
+
+        if (reserva.getFecha().compareTo(LocalDate.now())<0)
+            errors.rejectValue("fecha", "obligatorio",
+                    "La fecha de reserva debe ser mayor a la actual");
+
+        if (reserva.getFecha().compareTo(LocalDate.now())==0 && reserva.getHoraEntrada().compareTo(LocalTime.now())<0)
+            errors.rejectValue("franja", "obligatorio",
+                    "La hora de entrada debe ser mayor a la actual");
+    }
+}
 
 @Controller
 @RequestMapping("/reserva")
@@ -116,10 +140,12 @@ public class ReservaController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String processAddSubmit(@ModelAttribute("reserva") ReservaSvc reservaService,  BindingResult bindingResult) {
+        Reserva reserva = reservaService.crearReserva();
+        ReservaValidator reservaValidator = new ReservaValidator();
+        reservaValidator.validate(reserva, bindingResult);
         if (bindingResult.hasErrors()){
-            System.out.println(bindingResult);
             return "reserva/add";}
-        reservaDao.addReserva(reservaService.crearReserva());
+        reservaDao.addReserva(reserva);
         return "redirect:list";
     }
 
@@ -161,6 +187,9 @@ public class ReservaController {
     public String processUpdateSubmit(
             @ModelAttribute("reserva") ReservaSvc reservaService,
             BindingResult bindingResult) {
+        Reserva reserva = reservaService.crearReserva();
+        ReservaValidator reservaValidator = new ReservaValidator();
+        reservaValidator.validate(reserva, bindingResult);
         if (bindingResult.hasErrors())
             return "reserva/update";
         reservaDao.updateReserva(reservaService.crearReserva());

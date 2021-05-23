@@ -28,10 +28,12 @@
             <tr>
                 <td><label>Num Personas</label></td>
                 <td><input type="number" value="1" min="1" max="16" th:field="*{numPersonas}" /></td>
+                <td th:if="${#fields.hasErrors('numPersonas')}" th:errors="*{numPersonas}" class="error"></td>
             </tr>
             <tr>
                 <td><label>Fecha</label></td>
-                <td><input type="date" th:field="*{fecha}"/></td>
+                <td><input type="date" th:field="*{fecha}" required/></td>
+                <td th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}" class="error"></td>
             </tr>
             <tr>
                 <td><label>Franja Horaria</label></td>
@@ -40,6 +42,7 @@
                         th:value="${franja}"
                         th:text="${franja}"></option>
                 </select></td>
+                <td th:if="${#fields.hasErrors('franja')}" th:errors="*{franja}" class="error"></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="submit" class="btn btn-primary" value="Añadir Reserva" /></td>

@@ -4,17 +4,68 @@ import mvc.dao.CiudadanoDao;
 import mvc.dao.GestorMunicipalDao;
 import mvc.model.Ciudadano;
 import mvc.model.GestorMunicipal;
+import mvc.model.Reserva;
 import mvc.model.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+class CiudadanoValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> cls) {
+        return Ciudadano.class.isAssignableFrom(cls);
+    }
+    @Override
+    public void validate(Object obj, Errors errors) {
+        Ciudadano ciudadano = (Ciudadano) obj;
+        if (ciudadano.getNombre().trim().equals(""))
+            errors.rejectValue("nombre", "obligatorio",
+                    "Campo obligatorio");
+
+        if (ciudadano.getEdad()<18)
+            errors.rejectValue("edad", "obligatorio",
+                    "Edad mínima 18 años");
+
+        if (ciudadano.getDni().trim().equals(""))
+            errors.rejectValue("dni", "obligatorio",
+                    "Campo obligatorio");
+
+        if (ciudadano.getTelefono().trim().equals(""))
+            errors.rejectValue("telefono", "obligatorio",
+                    "Campo obligatorio");
+
+        if (ciudadano.getCodPostal().trim().equals(""))
+            errors.rejectValue("codPostal", "obligatorio",
+                    "Campo obligatorio");
+
+        if (ciudadano.getDireccion().trim().equals(""))
+            errors.rejectValue("direccion", "obligatorio",
+                    "Campo obligatorio");
+
+        if (ciudadano.getEmail().trim().equals(""))
+            errors.rejectValue("email", "obligatorio",
+                    "Campo obligatorio");
+
+        if (ciudadano.getCiudad().trim().equals(""))
+            errors.rejectValue("ciudad", "obligatorio",
+                    "Campo obligatorio");
+
+        if (ciudadano.getPin().trim().equals(""))
+            errors.rejectValue("pin", "obligatorio",
+                    "Campo obligatorio");
+    }
+}
 
 @Controller
 @RequestMapping("/ciudadano")
@@ -50,6 +101,8 @@ public class CiudadanoController {
     public String processAddSubmit(@ModelAttribute("ciudadano") Ciudadano ciudadano,
                                    BindingResult bindingResult,
                                    HttpSession session) {
+        CiudadanoValidator ciudadanoValidator = new CiudadanoValidator();
+        ciudadanoValidator.validate(ciudadano, bindingResult);
         if (bindingResult.hasErrors())
             return "ciudadano/add";
         ciudadanoDao.addCiudadano(ciudadano);
