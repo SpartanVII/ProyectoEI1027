@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragmentos/base}">
+      layout:decorate="~{fragmentos/baseCiudadano}">
 <head>
     <title>Crear nueva reserva</title>
     <meta charset="UTF-8" />
@@ -13,31 +13,34 @@
 <div layout:fragment="content">
     <h2>Actualizar Reserva</h2>
     <form action="#" th:action="@{/reserva/update}"
-          th:object="${gestor}" method="post">
+          th:object="${reserva}" method="post">
         <table>
+            <input th:type="hidden" th:field="*{identificador}" th:value="${reserva.identificador}"/>
+            <input th:type="hidden" th:field="*{dni}" th:value="${reserva.dni}"/>
+            <input th:type="hidden" th:field="*{zona}" th:value="${reserva.zona}"/>
+            <tr>
+                <td><label>Zona</label></td>
+                <td th:text="${reserva.zona}" th:field="*{zona}" th:value="reserva.zona"></td>
+            </tr>
             <tr>
                 <td><label>DNI</label></td>
-                <td><input type="text" th:field="*{dni}" /></td>
+                <td th:text="${reserva.dni}" th:field="*{dni}" th:value="reserva.dni"></td>
             </tr>
             <tr>
                 <td><label>Num Personas</label></td>
-                <td><input type=type="number" min="1" max="16" th:field="*{numpersonas}" /></td>
+                <td><input type="number" value="1" min="1" max="16" th:field="*{numPersonas}" /></td>
             </tr>
             <tr>
                 <td><label>Fecha</label></td>
                 <td><input type="date" th:field="*{fecha}"/></td>
             </tr>
             <tr>
-                <td><label>Estado</label></td>
-                <td><input type="text" th:field="*{estado}" /></td>
-            </tr>
-            <tr>
-                <td><label>Hora Entrada</label></td>
-                <td><input type="time" th:field="*{horaentrada}" /></td>
-            </tr>
-            <tr>
-                <td><label>Hora Salida</label></td>
-                <td><input type="time" th:field="*{horasalida}" /></td>
+                <td><label>Franja Horaria</label></td>
+                <td><select class="form_control" type="FranjaEspacio" th:field="*{franja}">
+                    <option th:each="franja : ${franjas}"
+                            th:value="${franja}"
+                            th:text="${franja}"></option>
+                </select></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="submit" value="Actualizar Reserva" /></td>

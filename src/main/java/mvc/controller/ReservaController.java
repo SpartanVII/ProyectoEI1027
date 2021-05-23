@@ -60,7 +60,7 @@ public class ReservaController {
     }
 
     @RequestMapping(value="/cancela/{identificador}", method = RequestMethod.GET)
-    public String cancelaReserva(Model model, HttpSession session,  @PathVariable String identificador) {
+    public String cancelaReserva(Model model, HttpSession session,  @PathVariable Integer identificador) {
 
         //AÑADIR VALIDAOR PARA COMPROBAR SI LA RESERVA ESTA PENIENTE DE USO SI NO ES ASI EL BOTON NO HARA NADA
         UserDetails user = (UserDetails) session.getAttribute("user");
@@ -133,9 +133,32 @@ public class ReservaController {
 
 
     @RequestMapping(value = "/delete/{identificador}")
-    public String processDelete(@PathVariable String identificador) {
+    public String processDelete(@PathVariable Integer identificador) {
         reservaDao.deleteReserva(identificador);
         return "redirect:../list";
     }
 
+
+
+    @RequestMapping(value="/update/{identificador}", method = RequestMethod.GET)
+    public String editReserva(Model model, @PathVariable Integer identificador, HttpSession session) {
+        UserDetails user = (UserDetails) session.getAttribute("user");
+        Reserva actual = reservaDao.getReserva(identificador);
+        ReservaSvc reservaService = new ReservaSvc();
+        reservaService.setDni(user.getUsername());
+        reservaService.setZona(actual.getIdentificadorZona());
+        reservaService.setIdentificador(actual.getIdentificador());
+        model.addAttribute("reserva", reservaService);
+        return "reserva/update";
+    }
+
+    @RequestMapping(value="/update", method = RequestMethod.POST)
+    public String processUpdateSubmit(
+            @ModelAttribute("reserva") ReservaSvc reservaService,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "reserva/update";
+        reservaDao.updateReserva(reservaService.crearReserva());
+        return "redirect:list";
+    }
 }

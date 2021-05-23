@@ -31,7 +31,7 @@ public class ReservaDao {
     }
 
 
-    public void deleteReserva(String identificador) {
+    public void deleteReserva(Integer identificador) {
         jdbcTemplate.update("DELETE from Reserva where identificador=?",
                 identificador);
     }
@@ -41,8 +41,8 @@ public class ReservaDao {
     }
 
     public void updateReserva(Reserva reserva) {
-        jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, estado=?, dni_ciudadano=?, horaEntrada=?, horaSalida=?, identificador_zona=? where identificador=?",
-                reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado(), reserva.getDniCiudadano(),
+        jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, dni_ciudadano=?, horaEntrada=?, horaSalida=?, identificador_zona=? where identificador=?",
+                reserva.getNumPersonas(), reserva.getFecha(), reserva.getDniCiudadano(),
                 reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getIdentificadorZona(), reserva.getIdentificador());
     }
 
@@ -54,7 +54,7 @@ public class ReservaDao {
     }
 
 
-    public Reserva getReserva(String identificador) {
+    public Reserva getReserva(Integer identificador) {
         try {
             return jdbcTemplate.queryForObject("SELECT * from Reserva WHERE identificador=?",
                     new ReservaRowMapper(), identificador);
@@ -96,9 +96,9 @@ public class ReservaDao {
 
     public Integer getSiguienteIdentificadorReserva(){
         try {
-            Reserva res = jdbcTemplate.queryForObject("SELECT * from Reserva ORDER BY identificador DESC LIMIT 1",
-                    new ReservaRowMapper());
-            return res.getIdentificador()+1;
+            Integer identificador = jdbcTemplate.queryForObject("SELECT * from Reserva ORDER BY identificador DESC LIMIT 1",
+                    Integer.class);
+            return identificador==null?1:identificador+1;
         } catch (Exception e) {
             return null;
         }
