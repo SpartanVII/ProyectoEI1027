@@ -53,7 +53,7 @@ public class NotificacionController {
     }
 
 
-    @RequestMapping(value="/delete/{dniCiudadano}")
+    @RequestMapping(value="/delete/{identificador}")
     public String processDelete(@PathVariable Integer identificador) {
         notificacionDao.deleteNotificacion(identificador);
         return "redirect:../list";

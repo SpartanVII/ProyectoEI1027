@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseCiudadano}">
-<head>>
+<head>
     <title>Notificaciones</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.css" />
@@ -19,7 +19,7 @@
     <tbody>
     <tr th:each="notificacion: ${notificaciones}">
         <td th:text="${notificacion.mensaje}"></td>
-        <td><a th:href="@{/notificacion/delete/{dniCiudadano}(dniCiudadano=${notificacion.dniCiudadano})}" class="btn btn-danger" role="button">Borrar</a>
+        <td><a th:href="@{/notificacion/delete/{identificador}(identificador=${notificacion.identificador})}" class="btn btn-danger" role="button">Borrar</a>
         </td>
     </tr>
     </tbody>

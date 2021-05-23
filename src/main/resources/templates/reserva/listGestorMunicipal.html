@@ -14,7 +14,6 @@
         <thead>
         <tr>
             <th>Dni ciudadano</th>
-            <th>Identificador</th>
             <th>Num Personas</th>
             <th>Estado</th>
             <th>Fecha</th>
@@ -28,7 +27,6 @@
         <tbody>
         <tr th:each="reserva: ${reservas}">
             <td th:text="${reserva.dniCiudadano}"></td>
-            <td th:text="${reserva.identificador}"></td>
             <td th:text="${reserva.numPersonas}"></td>
             <td th:text="${reserva.estado}"></td>
             <td th:text="${reserva.fecha}"></td>

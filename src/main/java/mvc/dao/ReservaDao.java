@@ -88,7 +88,8 @@ public class ReservaDao {
         try {
             return jdbcTemplate.query("SELECT * FROM Reserva WHERE identificador_zona " +
                             "IN (SELECT identificador FROM Zona WHERE nombre_espacioPublico " + 
-                            "IN (SELECT nombre_espaciopublico from Controla WHERE dni_controlador=? AND fechafin IS NULL))",
+                            "IN (SELECT nombre_espaciopublico from Controla WHERE dni_controlador=? AND fechafin IS NULL))" +
+                            "ORDER BY dni_ciudadano",
                     new ReservaRowMapper(), dni);
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
