@@ -62,19 +62,24 @@ public class ReservaController {
     @RequestMapping(value="/cancela/{identificador}", method = RequestMethod.GET)
     public String cancelaReserva(Model model, HttpSession session,  @PathVariable Integer identificador) {
 
-        //AÑADIR VALIDAOR PARA COMPROBAR SI LA RESERVA ESTA PENIENTE DE USO SI NO ES ASI EL BOTON NO HARA NADA
         UserDetails user = (UserDetails) session.getAttribute("user");
         String estado="";
 
-        if(user.getRol().equals("ciudadano")) estado ="CANCELADA_CIUDADANO";
+        //Si lo elimina el propio ciudadano la reserva se cancelara automaticamente
+        if(user.getRol().equals("ciudadano")){
+            estado ="CANCELADA_CIUDADANO";
+            reservaDao.cancelaReserva(reservaDao.getReserva(identificador), estado);
+            return "redirect:/reserva/list";
+        }
+
+        //Si la cancelan el gestor o el controlador se le notificara al ciudadano
         if(user.getRol().equals("gestorMunicipal")) estado = "CANCELADA_GESTOR";
         if(user.getRol().equals("controlador")) estado =  "CANCELADA_CONTROLADOR";
-
 
         if(reservaDao.getReserva(identificador).getEstado().equals("PENDIENTE_USO")) {
             //Cancela reserva
             reservaDao.cancelaReserva(reservaDao.getReserva(identificador), estado);
-            String mensaje = "Su reserva ha sido cancelada porque ";
+            String mensaje = "Su reserva con fecha "+reservaDao.getReserva(identificador).getFecha().toString()+" ha sido cancelada porque ";
             Notificacion notificacion = new Notificacion(reservaDao.getReserva(identificador).getDniCiudadano(), mensaje);
             model.addAttribute("notificacion", notificacion);
 

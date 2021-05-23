@@ -45,7 +45,6 @@ public class NotificacionController {
         if (bindingResult.hasErrors())
             return "notificacion/add";
 
-        System.out.println(notificacionDao.getSiguienteIdentificadorNotificacion());
         notificacion.setIdentificador(notificacionDao.getSiguienteIdentificadorNotificacion());
         notificacionDao.addNotificacion(notificacion);
 

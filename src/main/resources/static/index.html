@@ -6,7 +6,18 @@
     <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/css/nuestro.css" th:href="@{/css/nuestro.css}"/>
 </head>
-<body>
+
+<body class="container">
+<header class="page-header"></header>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">SANA</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
 <div layout:fragment="content">
 <h1>Gestión de Espacios Naturales</h1>
 
@@ -15,6 +26,10 @@
     <a href="/ciudadano/add" class="btn btn-primary" type="button">Registrarse</a><br><br>
     <a href="login" class="btn btn-primary" type="button">Iniciar sesión</a><br><br>
     <a href="/espacioPublico/listSinRegistrar" class="btn btn-light" type="button">Entrar como invitado</a><br><br>
+    <footer>
+        <hr>
+        <p class="text-muted">EI1027 - Disseny i Implementació de Sistemes d'Informació</p>
+    </footer>
 </div>
 </body>
 </html>
