@@ -14,9 +14,9 @@ public final class ZonaRowMapper implements
     {
         Zona zona = new Zona();
         zona.setIdentificador(rs.getString("identificador"));
+        zona.setDescripcion(rs.getString("descripcion"));
         zona.setCapMaxima(rs.getInt("capMaxima"));
         zona.setNombreEspacio(rs.getString("nombre_espacioPublico"));
-        zona.setNombreEspacio(rs.getString("descripcion"));
         return zona;
     }
 }

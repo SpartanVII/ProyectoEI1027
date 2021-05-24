@@ -109,5 +109,16 @@ public class ReservaDao {
         }
     }
 
+    public Integer getOcupacionZona(String identificadorZona){
+        try {
+            Integer numero = jdbcTemplate.queryForObject("SELECT SUM(numpersonas) from Reserva WHERE identificador_zona =?",
+                    Integer.class, identificadorZona);
+
+            return numero==null?0:numero;
+        } catch (EmptyResultDataAccessException e) {
+            return 0;
+        }
+    }
+
 }
 

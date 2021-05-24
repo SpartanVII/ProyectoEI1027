@@ -20,6 +20,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 class ReservaValidator implements Validator {
+
     @Override
     public boolean supports(Class<?> cls) {
         return Reserva.class.isAssignableFrom(cls);
@@ -27,9 +28,10 @@ class ReservaValidator implements Validator {
     @Override
     public void validate(Object obj, Errors errors) {
         Reserva reserva = (Reserva) obj;
-        if (reserva.getNumPersonas()<1||reserva.getNumPersonas()>16)
+
+        if(reserva.getNumPersonas()<=0)
             errors.rejectValue("numPersonas", "obligatorio",
-                    "Mínimo 1 persona, Máximo 16 personas");
+                    "En esta zona hay " + reserva.getNumPersonas()*(-1) + " ocupaciones libres");  //Mostramos la ocupación libre con un número positivo
 
         if (reserva.getFecha().compareTo(LocalDate.now())<0)
             errors.rejectValue("fecha", "obligatorio",
@@ -47,6 +49,7 @@ public class ReservaController {
 
     private ReservaDao reservaDao;
     private FranjaEspacioDao franjaEspacioDao;
+    private ZonaDao zonaDao;
 
     @Autowired
     public void setReservaDao(ReservaDao reservaDao) {
@@ -56,6 +59,11 @@ public class ReservaController {
     @Autowired
     public void setFranjaEspacioDao(FranjaEspacioDao franjaEspacioDao) {
         this.franjaEspacioDao = franjaEspacioDao;
+    }
+
+    @Autowired
+    public void setZonaDao(ZonaDao zonaDao) {
+        this.zonaDao = zonaDao;
     }
 
     @ModelAttribute("franjas")
@@ -141,6 +149,14 @@ public class ReservaController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String processAddSubmit(@ModelAttribute("reserva") ReservaSvc reservaService,  BindingResult bindingResult) {
         Reserva reserva = reservaService.crearReserva();
+
+        //Capacidad máxima de la zona se le resta personas que tienen reserva en esa zona
+        Integer ocupacionLibre = zonaDao.getZona(reserva.getIdentificadorZona()).getCapMaxima() - reservaDao.getOcupacionZona(reserva.getIdentificadorZona());
+        Integer ocupacionPosible = ocupacionLibre - reserva.getNumPersonas();
+        if (ocupacionPosible<0)
+            //lo ponemos en negativo para que el validador capte que es un valor no válido
+            reserva.setNumPersonas(-1*ocupacionLibre);
+
         ReservaValidator reservaValidator = new ReservaValidator();
         reservaValidator.validate(reserva, bindingResult);
         if (bindingResult.hasErrors()){
@@ -188,6 +204,16 @@ public class ReservaController {
             @ModelAttribute("reserva") ReservaSvc reservaService,
             BindingResult bindingResult) {
         Reserva reserva = reservaService.crearReserva();
+
+        //Capacidad máxima de la zona se le resta personas que tienen reserva en esa zona y se le suma la cantidad de personas en la reserva que aun no ha sido actualizada
+        Integer ocupacionLibre = zonaDao.getZona(reserva.getIdentificadorZona()).getCapMaxima() - reservaDao.getOcupacionZona(reserva.getIdentificadorZona())
+                + reservaDao.getReserva(reserva.getIdentificador()).getNumPersonas();
+
+        Integer ocupacionPosible = ocupacionLibre - reserva.getNumPersonas();
+        if (ocupacionPosible<0)
+            //lo ponemos en negativo para que el validador capte que es un valor no válido
+            reserva.setNumPersonas(-1*ocupacionLibre);
+
         ReservaValidator reservaValidator = new ReservaValidator();
         reservaValidator.validate(reserva, bindingResult);
         if (bindingResult.hasErrors())
