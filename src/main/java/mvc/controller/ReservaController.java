@@ -31,7 +31,7 @@ class ReservaValidator implements Validator {
 
         if(reserva.getNumPersonas()<=0)
             errors.rejectValue("numPersonas", "obligatorio",
-                    "En esta zona hay " + reserva.getNumPersonas()*(-1) + " ocupaciones libres");  //Mostramos la ocupación libre con un número positivo
+                    "En esta zona hay " + reserva.getNumPersonas()*(-1) + " sitios libres");  //Mostramos la ocupación libre con un número positivo
 
         if (reserva.getFecha().compareTo(LocalDate.now())<0)
             errors.rejectValue("fecha", "obligatorio",
