@@ -29,9 +29,13 @@ class ReservaValidator implements Validator {
     public void validate(Object obj, Errors errors) {
         Reserva reserva = (Reserva) obj;
 
-        if(reserva.getNumPersonas()<=0)
-            errors.rejectValue("numPersonas", "obligatorio",
-                    "En esta zona hay " + reserva.getNumPersonas()*(-1) + " sitios libres");  //Mostramos la ocupación libre con un número positivo
+        if(reserva.getNumPersonas()<=0) {
+            if(reserva.getNumPersonas()==0)
+                errors.rejectValue("numPersonas", "obligatorio", "En esta zona no quedan plazas libres");
+            else
+                //Mostramos la ocupación libre con un número positivo
+                errors.rejectValue("numPersonas", "obligatorio", "En esta zona hay " + reserva.getNumPersonas() * (-1) + " plazas libres");
+        }
 
         if (reserva.getFecha().compareTo(LocalDate.now())<0)
             errors.rejectValue("fecha", "obligatorio",
@@ -151,8 +155,10 @@ public class ReservaController {
         Reserva reserva = reservaService.crearReserva();
 
         //Capacidad máxima de la zona se le resta personas que tienen reserva en esa zona
-        Integer ocupacionLibre = zonaDao.getZona(reserva.getIdentificadorZona()).getCapMaxima() - reservaDao.getOcupacionZona(reserva.getIdentificadorZona());
-        Integer ocupacionPosible = ocupacionLibre - reserva.getNumPersonas();
+        String idZona = reserva.getIdentificadorZona();
+        int ocupacionLibre = zonaDao.getZona(idZona).getCapMaxima() - reservaDao.getOcupacionZona(idZona,reserva.getFecha());
+        int ocupacionPosible = ocupacionLibre - reserva.getNumPersonas();
+
         if (ocupacionPosible<0)
             //lo ponemos en negativo para que el validador capte que es un valor no válido
             reserva.setNumPersonas(-1*ocupacionLibre);
@@ -188,28 +194,26 @@ public class ReservaController {
 
 
     @RequestMapping(value="/update/{identificador}", method = RequestMethod.GET)
-    public String editReserva(Model model, @PathVariable Integer identificador, HttpSession session) {
-        UserDetails user = (UserDetails) session.getAttribute("user");
+    public String editReserva(Model model, @PathVariable Integer identificador){
         Reserva actual = reservaDao.getReserva(identificador);
-        ReservaSvc reservaService = new ReservaSvc();
-        reservaService.setDni(user.getUsername());
-        reservaService.setZona(actual.getIdentificadorZona());
-        reservaService.setIdentificador(actual.getIdentificador());
+
+        ReservaSvc reservaService = new ReservaSvc(actual);
         model.addAttribute("reserva", reservaService);
         return "reserva/update";
     }
 
     @RequestMapping(value="/update", method = RequestMethod.POST)
-    public String processUpdateSubmit(
-            @ModelAttribute("reserva") ReservaSvc reservaService,
-            BindingResult bindingResult) {
+    public String processUpdateSubmit(@ModelAttribute("reserva") ReservaSvc reservaService, BindingResult bindingResult) {
+
         Reserva reserva = reservaService.crearReserva();
 
         //Capacidad máxima de la zona se le resta personas que tienen reserva en esa zona y se le suma la cantidad de personas en la reserva que aun no ha sido actualizada
-        Integer ocupacionLibre = zonaDao.getZona(reserva.getIdentificadorZona()).getCapMaxima() - reservaDao.getOcupacionZona(reserva.getIdentificadorZona())
-                + reservaDao.getReserva(reserva.getIdentificador()).getNumPersonas();
+        String idZona = reserva.getIdentificadorZona();
+        int ocupacionLibre = zonaDao.getZona(idZona).getCapMaxima() - reservaDao.getOcupacionZona(idZona,reserva.getFecha())
+                                + reservaDao.getReserva(reserva.getIdentificador()).getNumPersonas();
 
-        Integer ocupacionPosible = ocupacionLibre - reserva.getNumPersonas();
+        int ocupacionPosible = ocupacionLibre - reserva.getNumPersonas();
+
         if (ocupacionPosible<0)
             //lo ponemos en negativo para que el validador capte que es un valor no válido
             reserva.setNumPersonas(-1*ocupacionLibre);

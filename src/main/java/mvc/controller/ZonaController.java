@@ -42,8 +42,8 @@ public class ZonaController {
     }
 
     @RequestMapping(value="/add", method= RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("zona") Zona zona,
-                                   BindingResult bindingResult) {
+    public String processAddSubmit(@ModelAttribute("zona") Zona zona, BindingResult bindingResult) {
+
         if (bindingResult.hasErrors())
             return "zona/add";
         zonaDao.addZona(zona);
@@ -57,9 +57,8 @@ public class ZonaController {
     }
 
     @RequestMapping(value="/update", method = RequestMethod.POST)
-    public String processUpdateSubmit(
-            @ModelAttribute("zona") Zona zona,
-            BindingResult bindingResult) {
+    public String processUpdateSubmit(@ModelAttribute("zona") Zona zona, BindingResult bindingResult) {
+
         if (bindingResult.hasErrors())
             return "zona/update";
         zonaDao.updateZona(zona);

@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,8 +101,8 @@ public class ReservaDao {
         try {
             Reserva reserva = jdbcTemplate.queryForObject("SELECT * from Reserva ORDER BY identificador DESC LIMIT 1",
                     new ReservaRowMapper());
+            assert reserva != null;
             return reserva.getIdentificador()+1;
-
         } catch (EmptyResultDataAccessException e) {
             return 1;
         } catch (Exception e) {
@@ -109,14 +110,17 @@ public class ReservaDao {
         }
     }
 
-    public Integer getOcupacionZona(String identificadorZona){
+    public Integer getOcupacionZona(String identificadorZona, LocalDate fecha){
         try {
-            Integer numero = jdbcTemplate.queryForObject("SELECT SUM(numpersonas) from Reserva WHERE identificador_zona =?",
-                    Integer.class, identificadorZona);
+            Integer numero = jdbcTemplate.queryForObject("SELECT SUM(numpersonas) from Reserva WHERE identificador_zona=? AND fecha=?",
+                    Integer.class, identificadorZona, fecha);
 
+            //No haria falta ya que nunca puede valer NULL
             return numero==null?0:numero;
         } catch (EmptyResultDataAccessException e) {
             return 0;
+        }catch(Exception e) {
+            return null;
         }
     }
 

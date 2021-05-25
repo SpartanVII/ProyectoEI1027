@@ -22,6 +22,17 @@ public class ReservaSvc implements ReservaService{
     String dni;
     String zona;
 
+    public ReservaSvc(Reserva reserva) {
+        this.identificador = reserva.getIdentificador();
+        this.numPersonas = reserva.getNumPersonas();
+        this.fecha = reserva.getFecha().toString();
+        this.dni = reserva.getDniCiudadano();
+        this.zona = reserva.getIdentificadorZona();
+    }
+
+    public ReservaSvc() {
+    }
+
     public Integer getIdentificador() {
         return identificador;
     }
