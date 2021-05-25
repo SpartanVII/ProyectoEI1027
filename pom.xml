@@ -8,10 +8,10 @@
         <version>2.4.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>es.uji.ei1027</groupId>
-    <artifactId>clubesportiu</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>clubesportiu</name>
+    <groupId>mvc</groupId>
+    <artifactId>ProyectoEI1027</artifactId>
+    <version>0.99-SNAPSHOT</version>
+    <name>ProyectoEI1027</name>
     <description>Projecte base EI1027 20-21</description>
     <properties>
         <java.version>11</java.version>
