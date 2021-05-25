@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class ReservaDao {
 
     public List<Reserva> getReservas() {
         try {
-            return jdbcTemplate.query("SELECT * from Reserva ORDER BY dni_ciudadano",
+            return jdbcTemplate.query("SELECT * from Reserva ORDER BY dni_ciudadano, fecha",
                     new ReservaRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
@@ -78,7 +79,7 @@ public class ReservaDao {
 
     public List<Reserva> getReservasParticular(String dni){
         try {
-            return jdbcTemplate.query("SELECT * from Reserva WHERE dni_ciudadano=?",
+            return jdbcTemplate.query("SELECT * from Reserva WHERE dni_ciudadano=? ORDER BY fecha",
                     new ReservaRowMapper(), dni);
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
@@ -90,7 +91,7 @@ public class ReservaDao {
             return jdbcTemplate.query("SELECT * FROM Reserva WHERE identificador_zona " +
                             "IN (SELECT identificador FROM Zona WHERE nombre_espacioPublico " + 
                             "IN (SELECT nombre_espaciopublico from Controla WHERE dni_controlador=? AND fechafin IS NULL))" +
-                            "ORDER BY dni_ciudadano",
+                            "ORDER BY dni_ciudadano, fecha",
                     new ReservaRowMapper(), dni);
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
@@ -110,10 +111,10 @@ public class ReservaDao {
         }
     }
 
-    public Integer getOcupacionZona(String identificadorZona, LocalDate fecha){
+    public Integer getOcupacionZona(String identificadorZona, LocalDate fecha, LocalTime horaEntrada){
         try {
-            Integer numero = jdbcTemplate.queryForObject("SELECT SUM(numpersonas) from Reserva WHERE identificador_zona=? AND fecha=?",
-                    Integer.class, identificadorZona, fecha);
+            Integer numero = jdbcTemplate.queryForObject("SELECT SUM(numpersonas) from Reserva WHERE identificador_zona=? AND fecha=? AND estado='PENDIENTE_USO' AND horaSalida>?",
+                    Integer.class, identificadorZona, fecha,horaEntrada);
 
             //No haria falta ya que nunca puede valer NULL
             return numero==null?0:numero;

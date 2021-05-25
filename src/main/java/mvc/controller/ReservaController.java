@@ -156,7 +156,7 @@ public class ReservaController {
 
         //Capacidad máxima de la zona se le resta personas que tienen reserva en esa zona
         String idZona = reserva.getIdentificadorZona();
-        int ocupacionLibre = zonaDao.getZona(idZona).getCapMaxima() - reservaDao.getOcupacionZona(idZona,reserva.getFecha());
+        int ocupacionLibre = zonaDao.getZona(idZona).getCapMaxima() - reservaDao.getOcupacionZona(idZona,reserva.getFecha(),reserva.getHoraEntrada());
         int ocupacionPosible = ocupacionLibre - reserva.getNumPersonas();
 
         if (ocupacionPosible<0)
@@ -209,7 +209,7 @@ public class ReservaController {
 
         //Capacidad máxima de la zona se le resta personas que tienen reserva en esa zona y se le suma la cantidad de personas en la reserva que aun no ha sido actualizada
         String idZona = reserva.getIdentificadorZona();
-        int ocupacionLibre = zonaDao.getZona(idZona).getCapMaxima() - reservaDao.getOcupacionZona(idZona,reserva.getFecha())
+        int ocupacionLibre = zonaDao.getZona(idZona).getCapMaxima() - reservaDao.getOcupacionZona(idZona,reserva.getFecha(),reserva.getHoraEntrada())
                                 + reservaDao.getReserva(reserva.getIdentificador()).getNumPersonas();
 
         int ocupacionPosible = ocupacionLibre - reserva.getNumPersonas();
