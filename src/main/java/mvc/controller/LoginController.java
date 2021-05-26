@@ -83,6 +83,7 @@ public class LoginController {
 
         if(gestor!=null){
             user.setNombre(gestor.getNombre());
+            user.setGamil(gestor.getEmail());
             user.setRol("gestorMunicipal");
             session.setAttribute("user", user);
             return "redirect:/gestorMunicipal/indice";
@@ -90,6 +91,7 @@ public class LoginController {
 
         if(ciudadano!=null){
             user.setNombre(ciudadano.getNombre());
+            user.setGamil(ciudadano.getEmail());
             user.setRol("ciudadano");
             session.setAttribute("user", user);
             return "redirect:/ciudadano/indice";
@@ -97,6 +99,7 @@ public class LoginController {
 
         if(controlador!=null){
             user.setNombre(controlador.getNombre());
+            user.setGamil(controlador.getEmail());
             user.setRol("controlador");
             session.setAttribute("user", user);
             return "redirect:/controlador/indice";

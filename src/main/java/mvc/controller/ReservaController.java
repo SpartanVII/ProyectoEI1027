@@ -73,8 +73,7 @@ public class ReservaController {
     @ModelAttribute("franjas")
     public List<FranjaEspacio> franjaList() { return  franjaEspacioDao.getFranjaEspacioList(); }
 
-    // Operacions: Crear, llistar, actualitzar, esborrar
-    // ...
+
     @RequestMapping("/list")
     public String listReservas(Model model, HttpSession session) {
 
@@ -125,33 +124,22 @@ public class ReservaController {
         return "redirect:/reserva/list";
     }
 
-    /*
-    @RequestMapping(value="/cancela", method= RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("reserva") Reserva reserva, @ModelAttribute("notificacion") Notificacion notificacion, HttpSession session) {
+
+    @RequestMapping(value="/add/{zona}")
+    public String addReservaEspacio(Model model, @PathVariable String zona, HttpSession session) {
+
         UserDetails user = (UserDetails) session.getAttribute("user");
-        String estado = "";
-
-        if(user.getRol().equals("gestorMunicipal")) estado = "CANCELADA_GESTOR";
-        if(user.getRol().equals("controlador")) estado =  "CANCELADA_CONTROLADOR";
-        NotificacionDao not = new NotificacionDao();
-        not.addNotificacion(notificacion);
-
-        if(reserva.getEstado().equals("PENDIENTE")){
-            reservaDao.cancelaReserva(reserva,estado);
-        }
-
-        return "redirect:/reserva/list";
-    }
-    */
-
-    @RequestMapping(value = "/add")
-    public String addReserva(Model model) {
-        model.addAttribute("reserva", new Reserva());
+        ReservaSvc reservaService = new ReservaSvc();
+        reservaService.setDni(user.getUsername());
+        reservaService.setZona(zona);
+        reservaService.setIdentificador(reservaDao.getSiguienteIdentificadorReserva());
+        model.addAttribute("reserva", reservaService);
         return "reserva/add";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("reserva") ReservaSvc reservaService,  BindingResult bindingResult) {
+    public String processAddSubmit(@ModelAttribute("reserva") ReservaSvc reservaService, HttpSession session, BindingResult bindingResult) {
+        UserDetails user = (UserDetails) session.getAttribute("user");
         Reserva reserva = reservaService.crearReserva();
 
         //Capacidad máxima de la zona se le resta personas que tienen reserva en esa zona
@@ -167,20 +155,15 @@ public class ReservaController {
         reservaValidator.validate(reserva, bindingResult);
         if (bindingResult.hasErrors()){
             return "reserva/add";}
+
         reservaDao.addReserva(reserva);
+
+        //Correo de confirmacion de la reserva
+        CorreoController.enviaCorre(new Correo(user.getGamil(),"Reserva para el dia "+reserva.getFecha().toString(),
+                "Usted ha realizado una reserva en la zona "+reserva.getIdentificadorZona()+" para "+reserva.getNumPersonas()+" personas.\n" +
+                        "La reserva comienza "+reserva.getHoraEntrada()+" y acaba a las "+reserva.getHoraSalida()+"."));
+
         return "redirect:list";
-    }
-
-    @RequestMapping(value="/add/{zona}")
-    public String addReservaEspacio(Model model, @PathVariable String zona, HttpSession session) {
-
-        UserDetails user = (UserDetails) session.getAttribute("user");
-        ReservaSvc reservaService = new ReservaSvc();
-        reservaService.setDni(user.getUsername());
-        reservaService.setZona(zona);
-        reservaService.setIdentificador(reservaDao.getSiguienteIdentificadorReserva());
-        model.addAttribute("reserva", reservaService);
-        return "reserva/add";
     }
 
 

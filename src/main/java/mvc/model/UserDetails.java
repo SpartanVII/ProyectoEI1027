@@ -5,6 +5,7 @@ public class UserDetails {
     private String password;
     private String nombre;
     private String rol;
+    private String gamil;
 
     public String getUsername() {
         return username;
@@ -36,5 +37,13 @@ public class UserDetails {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getGamil() {
+        return gamil;
+    }
+
+    public void setGamil(String gamil) {
+        this.gamil = gamil;
     }
 }

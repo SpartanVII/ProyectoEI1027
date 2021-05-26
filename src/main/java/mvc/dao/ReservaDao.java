@@ -27,8 +27,7 @@ public class ReservaDao {
 
 
     public void addReserva(Reserva reserva) {
-        jdbcTemplate.update("INSERT INTO Reserva (identificador, numPersonas, fecha, dni_ciudadano, horaEntrada, " +
-                        "horaSalida, identificador_zona) VALUES(?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO Reserva (identificador, numPersonas, fecha, dni_ciudadano, horaEntrada, horaSalida, identificador_zona) VALUES(?,?,?,?,?,?,?)",
                 reserva.getIdentificador(), reserva.getNumPersonas(), reserva.getFecha(), reserva.getDniCiudadano(),
                 reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getIdentificadorZona());
     }
@@ -113,7 +112,7 @@ public class ReservaDao {
 
     public Integer getOcupacionZona(String identificadorZona, LocalDate fecha, LocalTime horaEntrada){
         try {
-            Integer numero = jdbcTemplate.queryForObject("SELECT SUM(numpersonas) from Reserva WHERE identificador_zona=? AND fecha=? AND estado='PENDIENTE_USO' AND horaSalida>?",
+            Integer numero = jdbcTemplate.queryForObject("SELECT SUM(numpersonas) from Reserva WHERE identificador_zona=? AND fecha=? AND (estado='PENDIENTE_USO' OR estado='EN_USO') AND horaSalida>?",
                     Integer.class, identificadorZona, fecha,horaEntrada);
 
             //No haria falta ya que nunca puede valer NULL

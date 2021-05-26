@@ -2,10 +2,7 @@ package mvc.controller;
 
 import mvc.dao.CiudadanoDao;
 import mvc.dao.GestorMunicipalDao;
-import mvc.model.Ciudadano;
-import mvc.model.GestorMunicipal;
-import mvc.model.Reserva;
-import mvc.model.UserDetails;
+import mvc.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,20 +95,27 @@ public class CiudadanoController {
     }
 
     @RequestMapping(value="/add", method= RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("ciudadano") Ciudadano ciudadano,
-                                   BindingResult bindingResult,
-                                   HttpSession session) {
+    public String processAddSubmit(@ModelAttribute("ciudadano") Ciudadano ciudadano, BindingResult bindingResult, HttpSession session){
+
         CiudadanoValidator ciudadanoValidator = new CiudadanoValidator();
         ciudadanoValidator.validate(ciudadano, bindingResult);
         if (bindingResult.hasErrors())
             return "ciudadano/add";
+
         ciudadanoDao.addCiudadano(ciudadano);
 
         //Añadimos el usuario a la sesión
         UserDetails user = new UserDetails();
         user.setRol("ciudadano");
+        user.setNombre(ciudadano.getNombre());
+        user.setGamil(ciudadano.getEmail());
         user.setUsername(ciudadano.getDni());
         session.setAttribute("user", user);
+
+        //Enviamos correo de confirmacion
+        CorreoController.enviaCorre(new Correo(ciudadano.getEmail(),"Registro en el SANA",
+                "Usted se ha registrado en el SANA correctamene.\n\tSu usario es: "+ciudadano.getDni()+"\n\tSu contraseña es: "+ciudadano.getPin()));
+
         return "redirect:indice";
     }
 
