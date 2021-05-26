@@ -10,7 +10,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class CorreoController {
-    public static void enviaCorre(Correo correo){
+    public static void enviaCorreo(Correo correo){
         try{
             Properties properties = new Properties();
             properties.setProperty("mail.smtp.host","smtp.gmail.com");
@@ -32,8 +32,6 @@ public class CorreoController {
             transport.connect(correo.getEnviaCorreo(),correo.getContrasena());
             transport.sendMessage(mail,mail.getAllRecipients());
             transport.close();
-
-
 
         }catch (Exception e){
             System.out.println("\nEl correo no se pudo enviar\n");

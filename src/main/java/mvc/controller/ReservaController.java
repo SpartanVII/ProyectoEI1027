@@ -159,7 +159,7 @@ public class ReservaController {
         reservaDao.addReserva(reserva);
 
         //Correo de confirmacion de la reserva
-        CorreoController.enviaCorre(new Correo(user.getGamil(),"Reserva para el dia "+reserva.getFecha().toString(),
+        CorreoController.enviaCorreo(new Correo(user.getGamil(),"Reserva para el dia "+reserva.getFecha().toString(),
                 "Usted ha realizado una reserva en la zona "+reserva.getIdentificadorZona()+" para "+reserva.getNumPersonas()+" personas.\n" +
                         "La reserva comienza "+reserva.getHoraEntrada()+" y acaba a las "+reserva.getHoraSalida()+"."));
 

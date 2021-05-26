@@ -1,7 +1,5 @@
 package mvc.model;
 
-import org.springframework.core.env.Environment;
-
 public class Correo {
 
     private String enviaCorreo;

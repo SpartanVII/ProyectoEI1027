@@ -1,7 +1,6 @@
 package mvc.controller;
 
 import mvc.dao.CiudadanoDao;
-import mvc.dao.GestorMunicipalDao;
 import mvc.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 class CiudadanoValidator implements Validator {
     @Override
@@ -113,7 +110,7 @@ public class CiudadanoController {
         session.setAttribute("user", user);
 
         //Enviamos correo de confirmacion
-        CorreoController.enviaCorre(new Correo(ciudadano.getEmail(),"Registro en el SANA",
+        CorreoController.enviaCorreo(new Correo(ciudadano.getEmail(),"Registro en el SANA",
                 "Usted se ha registrado en el SANA correctamene.\n\tSu usario es: "+ciudadano.getDni()+"\n\tSu contraseña es: "+ciudadano.getPin()));
 
         return "redirect:indice";
