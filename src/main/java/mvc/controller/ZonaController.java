@@ -73,8 +73,10 @@ public class ZonaController {
 
     @RequestMapping(value="/particular/{nombre}")
     public String listaZonasEspacio(Model model, @PathVariable String nombre) {
-
-        model.addAttribute("zonas",zonaDao.getZonasEspacio(nombre));
+        List<Zona> zonas = zonaDao.getZonasEspacio(nombre);
+        //Si el espacio es publico no hay zonas 
+        if (zonas.isEmpty()) return "espacioPublico/listConReserva";
+        model.addAttribute("zonas", zonas);
         return "zona/list";
     }
 
