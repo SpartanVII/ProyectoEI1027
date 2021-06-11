@@ -68,5 +68,14 @@ public class EspacioPublicoDao {
         }
     }
 
+    public List<EspacioPublico> getEspaciosPublicosNoCerrado() {
+        try {
+            return jdbcTemplate.query("SELECT * from EspacioPublico WHERE tipoAcceso='RESTRINGIDO' OR tipoAcceso='ABIERTO'",
+                    new EspacioPublicoRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
 }
 

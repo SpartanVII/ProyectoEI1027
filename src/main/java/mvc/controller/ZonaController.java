@@ -73,6 +73,7 @@ public class ZonaController {
 
     @RequestMapping(value="/particular/{nombre}")
     public String listaZonasEspacio(Model model, @PathVariable String nombre) {
+
         model.addAttribute("zonas",zonaDao.getZonasEspacio(nombre));
         return "zona/list";
     }

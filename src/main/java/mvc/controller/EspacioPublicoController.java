@@ -31,20 +31,25 @@ public class EspacioPublicoController {
     public String listEspacioPublico(Model model, HttpSession session) {
 
         UserDetails user = (UserDetails) session.getAttribute("user");
-        model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
 
-        if(user.getRol().equals("gestorMunicipal"))
-            return "espacioPublico/list";
+        if(user.getRol().equals("ciudadano")) {
+            model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicosNoCerrado());
+        }
+        else {
+            model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
 
-        if(user.getRol().equals("controlador"))
-            return "espacioPublico/listControlador";
+            if (user.getRol().equals("gestorMunicipal"))
+                return "espacioPublico/listGestor";
 
+            if (user.getRol().equals("controlador"))
+                return "espacioPublico/listControlador";
+        }
         return "espacioPublico/listConReserva";
     }
 
     @RequestMapping("/listSinRegistrar")
     public String listEspacioPublicoSinRegistrar(Model model) {
-        model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
+        model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicosNoCerrado());
         return "espacioPublico/listSinRegistrar";
     }
 

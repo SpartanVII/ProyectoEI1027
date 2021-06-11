@@ -68,7 +68,7 @@ public class ZonaDao {
                     new Object[] {nombreEspacio}, new ZonaRowMapper());
         }
         catch(EmptyResultDataAccessException e) {
-            return new ArrayList<Zona>();
+            return new ArrayList<>();
         }
     }
 
