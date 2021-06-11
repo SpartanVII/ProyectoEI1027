@@ -77,6 +77,7 @@ public class ZonaController {
         //Si el espacio es publico no hay zonas 
         if (zonas.isEmpty()) return "espacioPublico/listConReserva";
         model.addAttribute("zonas", zonas);
+        model.addAttribute("nombreEspacio", zonas.get(0).getNombreEspacio());
         return "zona/list";
     }
 

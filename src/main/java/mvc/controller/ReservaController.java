@@ -97,13 +97,14 @@ public class ReservaController {
     @RequestMapping(value="/cancela/{identificador}", method = RequestMethod.GET)
     public String cancelaReserva(Model model, HttpSession session,  @PathVariable Integer identificador) {
 
+        Reserva reserva = reservaDao.getReserva(identificador);
+
         UserDetails user = (UserDetails) session.getAttribute("user");
         String estado="";
-
         //Si lo elimina el propio ciudadano la reserva se cancelara automaticamente
         if(user.getRol().equals("ciudadano")){
             estado ="CANCELADA_CIUDADANO";
-            reservaDao.cancelaReserva(reservaDao.getReserva(identificador), estado);
+            reservaDao.cancelaReserva(reserva, estado);
             return "redirect:/reserva/list";
         }
 
@@ -111,17 +112,21 @@ public class ReservaController {
         if(user.getRol().equals("gestorMunicipal")) estado = "CANCELADA_GESTOR";
         if(user.getRol().equals("controlador")) estado =  "CANCELADA_CONTROLADOR";
 
-        if(reservaDao.getReserva(identificador).getEstado().equals("PENDIENTE_USO")) {
-            //Cancela reserva
-            reservaDao.cancelaReserva(reservaDao.getReserva(identificador), estado);
-            String mensaje = "Su reserva con fecha "+reservaDao.getReserva(identificador).getFecha().toString()+" ha sido cancelada porque ";
-            Notificacion notificacion = new Notificacion(reservaDao.getReserva(identificador).getDniCiudadano(), mensaje);
-            model.addAttribute("notificacion", notificacion);
 
-            return "notificacion/add";
-        }
+        //Cancela reserva
+        reservaDao.cancelaReserva(reserva, estado);
+        String mensaje = "Su reserva con fecha "+reserva.getFecha().toString()+" ha sido cancelada porque ";
+        Notificacion notificacion = new Notificacion(reserva.getDniCiudadano(), mensaje);
+        model.addAttribute("notificacion", notificacion);
 
-        return "redirect:/reserva/list";
+        //Correo de aviso de la cancelacion
+        CorreoController.enviaCorreo(new Correo(user.getGamil(),"Cancelación de su reserva del dia "+reserva.getFecha().toString(),
+                    "La reserva que tenia lugar en la zona"+reserva.getIdentificadorZona()+" de " +reserva.getHoraEntrada()+
+                            " a "+reserva.getHoraSalida()+" ha sido cancelada.\n"+ "Para consultar los motivos dirijase a la sección de notificaciones de su cuenta\n"
+                            +"En caso de que no se le indicarán en una notificación se los comunicaremos más adelante.\n Muchas gracias y disculpe las molestias"));
+
+
+        return "notificacion/add";
     }
 
 
@@ -160,7 +165,7 @@ public class ReservaController {
 
         //Correo de confirmacion de la reserva
         CorreoController.enviaCorreo(new Correo(user.getGamil(),"Reserva para el dia "+reserva.getFecha().toString(),
-                "Usted ha realizado una reserva en la zona "+reserva.getIdentificadorZona()+" para "+reserva.getNumPersonas()+" personas.\n" +
+                "Usted ha realizado una reserva en la zona "+reserva.getIdentificadorZona()+".\n" +
                         "La reserva comienza "+reserva.getHoraEntrada()+" y acaba a las "+reserva.getHoraSalida()+"."));
 
         return "redirect:list";

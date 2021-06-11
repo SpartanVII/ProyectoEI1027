@@ -21,7 +21,7 @@
 
     </thead>
     <tbody>
-    <tr th:each="espacioPublico: ${espaciosPublicos}">
+    <tr  th:each="espacioPublico: ${espaciosPublicos}" th:unless="${espacioPublico.tipoAcceso}=='CERRADO'">
         <td th:text="${espacioPublico.nombre}"></td>
         <td th:text="${espacioPublico.descripcion}"></td>
         <td th:text="${espacioPublico.tipoTerreno}"></td>
@@ -32,6 +32,7 @@
     </tbody>
 
 </table>
+    <a href="/" th:href="@{/}"><button type="button" class="btn btn-warning">Volver</button></a>
 </div>
 </body>
 </html>

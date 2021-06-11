@@ -65,7 +65,7 @@ public class ZonaDao {
         try {
             return this.jdbcTemplate.query(
                     "SELECT * FROM zona WHERE nombre_espacioPublico=?",
-                    new Object[] {nombreEspacio}, new ZonaRowMapper());
+                     new ZonaRowMapper(), nombreEspacio);
         }
         catch(EmptyResultDataAccessException e) {
             return new ArrayList<>();

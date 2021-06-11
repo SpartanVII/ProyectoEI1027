@@ -10,7 +10,8 @@
 <body>
 <div layout:fragment="content">
     <h1>Lista de Reservas</h1>
-    <table class="table table-striped">
+    <div th:if="${#lists.isEmpty(reservas)}">No tienes reservas</div>
+    <table  th:unless="${#lists.isEmpty(reservas)}" class="table table-striped">
         <thead>
         <tr>
             <th>Dni ciudadano</th>
@@ -34,7 +35,7 @@
             <td th:text="${reserva.horaEntrada}"></td>
             <td th:text="${reserva.horaSalida}"></td>
             <td th:text="${reserva.identificadorZona}"></td>
-            <td><a th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}"  class="btn btn-danger" type="button">Cancelar</a></td>
+            <td><a th:if="${reserva.estado}=='PENDIENTE_USO'" th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}"  class="btn btn-danger" type="button">Cancelar</a></td>
         </tr>
         </tbody>
 

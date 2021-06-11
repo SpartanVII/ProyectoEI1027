@@ -8,7 +8,8 @@
 <body>
 <div layout:fragment="content">
     <h1>Lista de Reservas</h1>
-    <table class="table table-striped">
+    <div th:if="${#lists.isEmpty(reservas)}">No tienes reservas</div>
+    <table  th:unless="${#lists.isEmpty(reservas)}" class="table table-striped">
         <thead>
         <tr>
             <th>Zona</th>
@@ -29,11 +30,11 @@
             <td th:text="${reserva.fecha}"></td>
             <td th:text="${reserva.horaEntrada}"></td>
             <td th:text="${reserva.horaSalida}"></td>
-            <td><a th:href="@{/reserva/update/{identificador}(identificador=${reserva.identificador})}"  class="btn btn-warning" type="button">Edita</a></td>
-            <td><a th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}" class="btn btn-danger" role="button">Cancelar</a></td>
+            <td><a th:if="${reserva.estado}=='PENDIENTE_USO'" th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}" class="btn btn-danger" role="button">Cancelar</a></td>
         </tr>
         </tbody>
     </table>
+    <a href="/ciudadano/indice" th:href="@{/ciudadano/indice}"><button type="button" class="btn btn-warning">Volver</button></a>
 </div>
 </body>
 </html>
