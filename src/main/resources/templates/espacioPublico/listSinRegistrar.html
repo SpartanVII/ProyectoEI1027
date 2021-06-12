@@ -8,30 +8,43 @@
 <body>
 <div layout:fragment="content">
 <h1>Lista de Espacios Publicos</h1>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Tipo Terreno</th>
-        <th>Tipo Acceso</th>
-        <th>Municipio</th>
+    <div th:with="espaciosPublicos=${espaciosPublicosPaged[__${selectedPage}__]}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Tipo Terreno</th>
+                <th>Tipo Acceso</th>
+                <th>Municipio</th>
 
-    </tr>
+            </tr>
 
-    </thead>
-    <tbody>
-    <tr  th:each="espacioPublico: ${espaciosPublicos}" th:unless="${espacioPublico.tipoAcceso}=='CERRADO'">
-        <td th:text="${espacioPublico.nombre}"></td>
-        <td th:text="${espacioPublico.descripcion}"></td>
-        <td th:text="${espacioPublico.tipoTerreno}"></td>
-        <td th:text="${espacioPublico.tipoAcceso}"></td>
-        <td th:text="${espacioPublico.nombreMunicipio}"></td>
-        </td>
-    </tr>
-    </tbody>
+            </thead>
+            <tbody>
+            <tr  th:each="espacioPublico: ${espaciosPublicos}">
+                <td th:text="${espacioPublico.nombre}"></td>
+                <td th:text="${espacioPublico.descripcion}"></td>
+                <td th:text="${espacioPublico.tipoTerreno}"></td>
+                <td th:text="${espacioPublico.tipoAcceso}"></td>
+                <td th:text="${espacioPublico.nombreMunicipio}"></td>
+                </td>
+            </tr>
+            </tbody>
 
-</table>
+        </table>
+        <nav aria-label="Seleccion de pagina">
+            <ul class="pagination justify-content-center">
+                <li th:class="page-item" th:if="${#lists.size(espaciosPublicosPaged) > 0}"
+                    th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==selectedPage+1} ? active">
+                    <a th:href="@{/espacioPublico/listSinRegistrar?page={sele}(sele=${pageNumber-1})}"
+                       th:text=${pageNumber}
+                       th:class="page-link">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
     <a href="/" th:href="@{/}"><button type="button" class="btn btn-warning">Volver</button></a>
 </div>
 </body>

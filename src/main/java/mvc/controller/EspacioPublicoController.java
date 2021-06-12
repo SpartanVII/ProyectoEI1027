@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/espacioPublico")
@@ -27,24 +30,71 @@ public class EspacioPublicoController {
         this.espacioPublicoDao=espacioPublicoDao;
     }
 
+
+    private int pageLength = 6;
+
     @RequestMapping("/listRegistrado")
-    public String listEspacioPublico(Model model, HttpSession session) {
-
+    public String listNadadorsPaged(Model model, @RequestParam("page") Optional<Integer> page,  HttpSession session) {
         UserDetails user = (UserDetails) session.getAttribute("user");
-        model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
 
-        if (user.getRol().equals("gestorMunicipal"))
-            return "espacioPublico/listGestor";
+        //Solo los espacios abiertos y restringidos
+        List<EspacioPublico> espaciosPublicos;
+        if (user.getRol().equals("ciudadano")) espaciosPublicos= espacioPublicoDao.getEspaciosPublicosNoCerrados();
+        else espaciosPublicos = espacioPublicoDao.getEspaciosPublicos();
 
-        if (user.getRol().equals("controlador"))
-            return "espacioPublico/listControlador";
+        ArrayList<ArrayList<EspacioPublico>> espaciosPaginas= new ArrayList<>();
+
+        int inicoA=0;
+        for (int ini = 0, fin=pageLength; fin < espaciosPublicos.size(); ini+=pageLength,fin+=pageLength) {
+            espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(ini, fin)));
+            inicoA=ini;
+        }
+        espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(inicoA+pageLength, espaciosPublicos.size())));
+        model.addAttribute("espaciosPublicosPaged", espaciosPaginas);
+
+        // Paso 2: Crear la lista de numeros de pagina
+        int totalPages = espaciosPaginas.size();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        // Paso 3: selectedPage: usar parametro opcional page, o en su defecto, 1
+        int currentPage = page.orElse(0);
+        model.addAttribute("selectedPage", currentPage);
+
+
+        if (user.getRol().equals("gestorMunicipal")) return "espacioPublico/listGestor";
+
+        if (user.getRol().equals("controlador")) return "espacioPublico/listControlador";
 
         return "espacioPublico/listConReserva";
     }
 
+
+
     @RequestMapping("/listSinRegistrar")
-    public String listEspacioPublicoSinRegistrar(Model model) {
-        model.addAttribute("espaciosPublicos", espacioPublicoDao.getEspaciosPublicos());
+    public String listEspacioPublicoSinRegistrar(Model model, @RequestParam("page") Optional<Integer> page) {
+        List<EspacioPublico> espaciosPublicos = espacioPublicoDao.getEspaciosPublicosNoCerrados();
+        ArrayList<ArrayList<EspacioPublico>> espaciosPaginas= new ArrayList<>();
+
+        int inicoA=0;
+        for (int ini = 0, fin=pageLength; fin < espaciosPublicos.size(); ini+=pageLength,fin+=pageLength) {
+            espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(ini, fin)));
+            inicoA=ini;
+        }
+        espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(inicoA+pageLength, espaciosPublicos.size())));
+        model.addAttribute("espaciosPublicosPaged", espaciosPaginas);
+
+        // Paso 2: Crear la lista de numeros de pagina
+        int totalPages = espaciosPaginas.size();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        // Paso 3: selectedPage: usar parametro opcional page, o en su defecto, 1
+        int currentPage = page.orElse(0);
+        model.addAttribute("selectedPage", currentPage);
+
         return "espacioPublico/listSinRegistrar";
     }
 

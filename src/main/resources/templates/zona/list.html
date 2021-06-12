@@ -8,11 +8,13 @@
 <body>
 <div layout:fragment="content">
 
-<h1>Lista de Zonas</h1>
-    <h2  th:object="${nombreEspacio}" th:field="*{nombreEspacio}"></h2>
+<h1>Zonas de:</h1>
+    <h3  th:object="${nombreEspacio}" th:text="${nombreEspacio}"></h3>
+
 <table class="table table-striped">
     <thead>
     <tr>
+        <th>Nombre</th>
         <th>Descripcion</th>
         <th>Capacidad máxima</th>
         <th></th>
@@ -20,12 +22,14 @@
     </thead>
     <tbody>
     <tr th:each="zona: ${zonas}">
+        <td th:text="${zona.identificador}"></td>
         <td th:text="${zona.descripcion}"></td>
         <td th:text="${zona.capMaxima}"></td>
         <td><a th:href="@{/reserva/add/{identificador}(identificador=${zona.identificador})}"  class="btn btn-success" type="button">Reservar</a></td>
     </tr>
     </tbody>
 </table>
+    <a href="/espacioPublico/listRegistrado"><button type="button" class="btn btn-warning">Volver</button></a>
 </div>
 </body>
 </html>

@@ -30,7 +30,9 @@
             <td th:text="${reserva.fecha}"></td>
             <td th:text="${reserva.horaEntrada}"></td>
             <td th:text="${reserva.horaSalida}"></td>
-            <td><a th:if="${reserva.estado}=='PENDIENTE_USO'" th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}" class="btn btn-danger" role="button">Cancelar</a></td>
+            <td><a th:if="${reserva.estado}=='PENDIENTE_USO'" th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}"
+                   th:onclick="return confirm('Estas seguro de borrar la reserva con  identificador ...');"
+                   class="btn btn-danger" role="button">Cancelar</a></td>
         </tr>
         </tbody>
     </table>

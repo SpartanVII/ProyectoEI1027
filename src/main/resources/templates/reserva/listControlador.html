@@ -10,7 +10,7 @@
 <body>
 <div layout:fragment="content">
     <h1>Lista de Reservas</h1>
-    <div th:if="${#lists.isEmpty(reservas)}">No tienes reservas</div>
+    <div th:if="${#lists.isEmpty(reservas)}">No hay reservas en tu espacio</div>
     <table  th:unless="${#lists.isEmpty(reservas)}" class="table table-striped">
         <thead>
         <tr>
@@ -35,7 +35,9 @@
             <td th:text="${reserva.horaEntrada}"></td>
             <td th:text="${reserva.horaSalida}"></td>
             <td th:text="${reserva.identificadorZona}"></td>
-            <td><a th:if="${reserva.estado}=='PENDIENTE_USO'" th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}"  class="btn btn-danger" type="button">Cancelar</a></td>
+            <td><a th:if="${reserva.estado}=='PENDIENTE_USO'" th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}"
+                   th:onclick="return confirm('Estas seguro de borrar la reserva con  identificador ...');"
+                   class="btn btn-danger" type="button">Cancelar</a></td>
         </tr>
         </tbody>
 
