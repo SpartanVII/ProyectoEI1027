@@ -35,7 +35,7 @@
         </table>
         <nav aria-label="Seleccion de pagina">
             <ul class="pagination justify-content-center">
-                <li th:class="page-item" th:if="${#lists.size(espaciosPublicosPaged) > 0}"
+                <li th:class="page-item" th:if="${#lists.size(espaciosPublicosPaged) > 1}"
                     th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==selectedPage+1} ? active">
                     <a th:href="@{/espacioPublico/listSinRegistrar?page={sele}(sele=${pageNumber-1})}"
                        th:text=${pageNumber}
@@ -45,7 +45,7 @@
             </ul>
         </nav>
     </div>
-    <a href="/" th:href="@{/}"><button type="button" class="btn btn-warning">Volver</button></a>
+    <a  th:href="@{/}"><button type="button" class="btn btn-warning">Volver</button></a>
 </div>
 </body>
 </html>

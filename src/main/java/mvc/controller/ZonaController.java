@@ -2,6 +2,7 @@ package mvc.controller;
 
 import mvc.dao.GestorMunicipalDao;
 import mvc.dao.ZonaDao;
+import mvc.model.EspacioPublico;
 import mvc.model.GestorMunicipal;
 import mvc.model.Zona;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,19 +10,19 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/zona")
 public class ZonaController {
     private ZonaDao zonaDao;
-
+    private int pageLength=6;
     @Autowired
     public void setZonaDao(ZonaDao zonaDao) {
         this.zonaDao=zonaDao;
@@ -72,11 +73,32 @@ public class ZonaController {
     }
 
     @RequestMapping(value="/particular/{nombre}")
-    public String listaZonasEspacio(Model model, @PathVariable String nombre) {
+    public String listaZonasEspacio(Model model, @RequestParam("page") Optional<Integer> page, @PathVariable String nombre) {
+
         List<Zona> zonas = zonaDao.getZonasEspacio(nombre);
-        //Si el espacio es publico no hay zonas 
-        if (zonas.isEmpty()) return "espacioPublico/listConReserva";
-        model.addAttribute("zonas", zonas);
+        System.out.println(nombre);
+        ArrayList<ArrayList<Zona>> zonasPaged= new ArrayList<>();
+
+        int ini=0;
+        int fin=pageLength-1;
+        while (fin<zonas.size()) {
+            zonasPaged.add(new ArrayList<>(zonas.subList(ini, fin)));
+            ini+=pageLength;
+            fin+=pageLength;
+        }
+        zonasPaged.add(new ArrayList<>(zonas.subList(ini, zonas.size())));
+        model.addAttribute("zonasPaged", zonasPaged);
+
+        // Paso 2: Crear la lista de numeros de pagina
+        int totalPages = zonasPaged.size();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        // Paso 3: selectedPage: usar parametro opcional page, o en su defecto, 1
+        int currentPage = page.orElse(0);
+        model.addAttribute("selectedPage", currentPage);
+        model.addAttribute("zonas", zonasPaged);
         model.addAttribute("nombreEspacio", zonas.get(0).getNombreEspacio());
         return "zona/list";
     }

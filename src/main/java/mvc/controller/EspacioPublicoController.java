@@ -24,17 +24,16 @@ import java.util.stream.IntStream;
 public class EspacioPublicoController {
 
     private EspacioPublicoDao espacioPublicoDao;
+    private int pageLength = 6;
 
     @Autowired
     public void setEspacioPublicoDao(EspacioPublicoDao espacioPublicoDao) {
         this.espacioPublicoDao=espacioPublicoDao;
     }
 
-
-    private int pageLength = 6;
-
     @RequestMapping("/listRegistrado")
     public String listNadadorsPaged(Model model, @RequestParam("page") Optional<Integer> page,  HttpSession session) {
+
         UserDetails user = (UserDetails) session.getAttribute("user");
 
         //Solo los espacios abiertos y restringidos
@@ -44,12 +43,14 @@ public class EspacioPublicoController {
 
         ArrayList<ArrayList<EspacioPublico>> espaciosPaginas= new ArrayList<>();
 
-        int inicoA=0;
-        for (int ini = 0, fin=pageLength; fin < espaciosPublicos.size(); ini+=pageLength,fin+=pageLength) {
+        int ini=0;
+        int fin=pageLength-1;
+        while (fin<espaciosPublicos.size()) {
             espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(ini, fin)));
-            inicoA=ini;
+            ini+=pageLength;
+            fin+=pageLength;
         }
-        espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(inicoA+pageLength, espaciosPublicos.size())));
+        espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(ini, espaciosPublicos.size())));
         model.addAttribute("espaciosPublicosPaged", espaciosPaginas);
 
         // Paso 2: Crear la lista de numeros de pagina
@@ -77,12 +78,14 @@ public class EspacioPublicoController {
         List<EspacioPublico> espaciosPublicos = espacioPublicoDao.getEspaciosPublicosNoCerrados();
         ArrayList<ArrayList<EspacioPublico>> espaciosPaginas= new ArrayList<>();
 
-        int inicoA=0;
-        for (int ini = 0, fin=pageLength; fin < espaciosPublicos.size(); ini+=pageLength,fin+=pageLength) {
+        int ini=0;
+        int fin=pageLength-1;
+        while (fin<espaciosPublicos.size()) {
             espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(ini, fin)));
-            inicoA=ini;
+            ini+=pageLength;
+            fin+=pageLength;
         }
-        espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(inicoA+pageLength, espaciosPublicos.size())));
+        espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(ini, espaciosPublicos.size())));
         model.addAttribute("espaciosPublicosPaged", espaciosPaginas);
 
         // Paso 2: Crear la lista de numeros de pagina

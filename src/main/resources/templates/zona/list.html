@@ -6,29 +6,40 @@
     <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
 </head>
 <body>
-<div layout:fragment="content">
-
+<div  layout:fragment="content">
 <h1>Zonas de:</h1>
-    <h3  th:object="${nombreEspacio}" th:text="${nombreEspacio}"></h3>
-
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Nombre</th>
-        <th>Descripcion</th>
-        <th>Capacidad máxima</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="zona: ${zonas}">
-        <td th:text="${zona.identificador}"></td>
-        <td th:text="${zona.descripcion}"></td>
-        <td th:text="${zona.capMaxima}"></td>
-        <td><a th:href="@{/reserva/add/{identificador}(identificador=${zona.identificador})}"  class="btn btn-success" type="button">Reservar</a></td>
-    </tr>
-    </tbody>
-</table>
+    <h3 th:object="${nombreEspacio}" th:text="${nombreEspacio}"></h3>
+    <div th:with="zonas=${zonasPaged[__${selectedPage}__]}" th:object="${nombreEspacio}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Capacidad máxima</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="zona: ${zonas}">
+                <td th:text="${zona.identificador}"></td>
+                <td th:text="${zona.descripcion}"></td>
+                <td th:text="${zona.capMaxima}"></td>
+                <td><a th:href="@{/reserva/add/{identificador}(identificador=${zona.identificador})}"  class="btn btn-success" type="button">Reservar</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <nav aria-label="Seleccion de pagina">
+            <ul class="pagination justify-content-center">
+                <li th:class="page-item" th:if="${#lists.size(zonasPaged) > 1}"
+                    th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==selectedPage+1} ? active">
+                    <a th:href="@{/zona/particular/{nombre}(nombre=${nombreEspacio})?page={sele}(sele=${pageNumber-1})}"
+                       th:text=${pageNumber}
+                       th:class="page-link">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
     <a href="/espacioPublico/listRegistrado"><button type="button" class="btn btn-warning">Volver</button></a>
 </div>
 </body>

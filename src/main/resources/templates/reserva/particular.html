@@ -8,34 +8,47 @@
 <body>
 <div layout:fragment="content">
     <h1>Lista de Reservas</h1>
-    <div th:if="${#lists.isEmpty(reservas)}">No tienes reservas</div>
-    <table  th:unless="${#lists.isEmpty(reservas)}" class="table table-striped">
-        <thead>
-        <tr>
-            <th>Zona</th>
-            <th>Num Personas</th>
-            <th>Estado</th>
-            <th>Fecha</th>
-            <th>Hora Entrada</th>
-            <th>Hora Salida</th>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="reserva: ${reservas}">
-            <td th:text="${reserva.identificadorZona}"></td>
-            <td th:text="${reserva.numPersonas}"></td>
-            <td th:text="${reserva.estado}"></td>
-            <td th:text="${reserva.fecha}"></td>
-            <td th:text="${reserva.horaEntrada}"></td>
-            <td th:text="${reserva.horaSalida}"></td>
-            <td><a th:if="${reserva.estado}=='PENDIENTE_USO'" th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}"
-                   th:onclick="return confirm('Estas seguro de borrar la reserva con  identificador ...');"
-                   class="btn btn-danger" role="button">Cancelar</a></td>
-        </tr>
-        </tbody>
-    </table>
+    <div th:with="reservas=${reservasPaged[__${selectedPage}__]}">
+        <div th:if="${#lists.isEmpty(reservasPaged)}">No tienes reservas</div>
+        <table  th:unless="${#lists.isEmpty(reservasPaged)}" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Zona</th>
+                <th>Num Personas</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Hora Entrada</th>
+                <th>Hora Salida</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="reserva: ${reservas}">
+                <td th:text="${reserva.identificadorZona}"></td>
+                <td th:text="${reserva.numPersonas}"></td>
+                <td th:text="${reserva.estado}"></td>
+                <td th:text="${reserva.fecha}"></td>
+                <td th:text="${reserva.horaEntrada}"></td>
+                <td th:text="${reserva.horaSalida}"></td>
+                <td><a th:if="${reserva.estado}=='PENDIENTE_USO'" th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}"
+                       th:onclick="return confirm('Estas seguro de borrar la reserva con  identificador ...');"
+                       class="btn btn-danger" role="button">Cancelar</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <nav aria-label="Seleccion de pagina"  th:unless="${#lists.isEmpty(reservas)}">
+            <ul class="pagination justify-content-center">
+                <li th:class="page-item" th:if="${#lists.size(reservasPaged) > 1}"
+                    th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==selectedPage+1} ? active">
+                    <a th:href="@{/reserva/list?page={sele}(sele=${pageNumber-1})}"
+                       th:text=${pageNumber}
+                       th:class="page-link">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
     <a href="/ciudadano/indice" th:href="@{/ciudadano/indice}"><button type="button" class="btn btn-warning">Volver</button></a>
 </div>
 </body>

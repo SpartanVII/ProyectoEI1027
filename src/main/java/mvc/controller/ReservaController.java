@@ -9,15 +9,17 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpSession;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 class ReservaValidator implements Validator {
 
@@ -54,6 +56,7 @@ public class ReservaController {
     private ReservaDao reservaDao;
     private FranjaEspacioDao franjaEspacioDao;
     private ZonaDao zonaDao;
+    private int pageLength = 8;
 
     @Autowired
     public void setReservaDao(ReservaDao reservaDao) {
@@ -75,22 +78,42 @@ public class ReservaController {
 
 
     @RequestMapping("/list")
-    public String listReservas(Model model, HttpSession session) {
+    public String listReservas(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session) {
 
         UserDetails user = (UserDetails) session.getAttribute("user");
+        List<Reserva> reservas;
+        if (user.getRol().equals("ciudadano")) reservas= reservaDao.getReservasParticular(user.getUsername());
+        else if (user.getRol().equals("gestorMunicipal")) reservas = reservaDao.getReservas();
+        else reservas = reservaDao.getReservasEnMiEspacio(user.getUsername());
 
-        if(user.getRol().equals("ciudadano")){
-            model.addAttribute("reservas", reservaDao.getReservasParticular(user.getUsername()));
-            return "reserva/particular";
-        }
+        ArrayList<ArrayList<Reserva>> reservasPage= new ArrayList<>();
 
-        if(user.getRol().equals("gestorMunicipal")){
-            model.addAttribute("reservas", reservaDao.getReservas());
-            return "reserva/listGestorMunicipal";
+
+        int ini=0;
+        int fin=pageLength-1;
+        while (fin<reservas.size()) {
+            reservasPage.add(new ArrayList<>(reservas.subList(ini, fin)));
+            ini+=pageLength;
+            fin+=pageLength;
         }
+        reservasPage.add(new ArrayList<>(reservas.subList(ini, reservas.size())));
+
+        model.addAttribute("reservasPaged", reservasPage);
+
+        // Paso 2: Crear la lista de numeros de pagina
+        int totalPages = reservasPage.size();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        // Paso 3: selectedPage: usar parametro opcional page, o en su defecto, 1
+        int currentPage = page.orElse(0);
+        model.addAttribute("selectedPage", currentPage);
+
+        if(user.getRol().equals("ciudadano")) return "reserva/particular";
+        if(user.getRol().equals("gestorMunicipal")) return "reserva/listGestorMunicipal";
 
         //Controlador
-        model.addAttribute("reservas", reservaDao.getReservasEnMiEspacio(user.getUsername()));
         return "reserva/listControlador";
     }
 
