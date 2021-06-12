@@ -27,9 +27,9 @@ public class ReservaDao {
 
 
     public void addReserva(Reserva reserva) {
-        jdbcTemplate.update("INSERT INTO Reserva (identificador, numPersonas, fecha, dni_ciudadano, horaEntrada, horaSalida, identificador_zona) VALUES(?,?,?,?,?,?,?)",
-                reserva.getIdentificador(), reserva.getNumPersonas(), reserva.getFecha(), reserva.getDniCiudadano(),
-                reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getIdentificadorZona());
+        jdbcTemplate.update("INSERT INTO Reserva  VALUES(?,?,?,?,?,?,?,?,?)",
+                reserva.getIdentificador(), reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado(), reserva.getDniCiudadano(),
+                reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getNombreEspacio(), reserva.getIdentificadorZona());
     }
 
 
@@ -43,15 +43,14 @@ public class ReservaDao {
     }
 
     public void updateReserva(Reserva reserva) {
-        jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, dni_ciudadano=?, horaEntrada=?, horaSalida=?, identificador_zona=? where identificador=?",
-                reserva.getNumPersonas(), reserva.getFecha(), reserva.getDniCiudadano(),
-                reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getIdentificadorZona(), reserva.getIdentificador());
+        jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, dni_ciudadano=?, horaEntrada=?, horaSalida=?, identificador_zona=?, nombreEspacio=? where identificador=?",
+                reserva.getNumPersonas(), reserva.getFecha(), reserva.getDniCiudadano(), reserva.getHoraEntrada(), reserva.getHoraSalida(),
+                reserva.getIdentificadorZona(), reserva.getNombreEspacio(), reserva.getIdentificador());
     }
 
     public void cancelaReserva(Reserva reserva, String estado) {
-        jdbcTemplate.update("UPDATE Reserva SET numPersonas=?, fecha=?, estado=?, dni_ciudadano=?, horaEntrada=?, horaSalida=?, identificador_zona=? where identificador=?",
-                    reserva.getNumPersonas(), reserva.getFecha(), estado, reserva.getDniCiudadano(), reserva.getHoraEntrada(),
-                    reserva.getHoraSalida(), reserva.getIdentificadorZona(), reserva.getIdentificador());
+        jdbcTemplate.update("UPDATE Reserva SET  estado=? where identificador=?",
+                     estado, reserva.getIdentificador());
 
     }
 
@@ -78,7 +77,7 @@ public class ReservaDao {
 
     public List<Reserva> getReservasParticular(String dni){
         try {
-            return jdbcTemplate.query("SELECT * from Reserva WHERE dni_ciudadano=? ORDER BY fecha",
+            return jdbcTemplate.query("SELECT * from Reserva WHERE dni_ciudadano=? ORDER BY estado DESC, fecha",
                     new ReservaRowMapper(), dni);
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
@@ -87,9 +86,8 @@ public class ReservaDao {
 
     public List<Reserva> getReservasEnMiEspacio(String dni){
         try {
-            return jdbcTemplate.query("SELECT * FROM Reserva WHERE identificador_zona " +
-                            "IN (SELECT identificador FROM Zona WHERE nombre_espacioPublico " + 
-                            "IN (SELECT nombre_espaciopublico from Controla WHERE dni_controlador=? AND fechafin IS NULL))" +
+            return jdbcTemplate.query("SELECT * FROM Reserva WHERE nombreEspacio " +
+                            "IN (SELECT nombre_espacioPublico from Controla WHERE dni_controlador=? AND fechafin IS NULL)" +
                             "ORDER BY dni_ciudadano, fecha",
                     new ReservaRowMapper(), dni);
         } catch (EmptyResultDataAccessException e) {
@@ -110,19 +108,20 @@ public class ReservaDao {
         }
     }
 
-    public Integer getOcupacionZona(String identificadorZona, LocalDate fecha, LocalTime horaEntrada){
+    public boolean resersvaDisponible(Reserva otraReserva){
         try {
-            Integer numero = jdbcTemplate.queryForObject("SELECT SUM(numpersonas) from Reserva WHERE identificador_zona=? AND fecha=? AND (estado='PENDIENTE_USO' OR estado='EN_USO') AND horaSalida>?",
-                    Integer.class, identificadorZona, fecha,horaEntrada);
+            List<Reserva> reservas = jdbcTemplate.query("SELECT * from Reserva WHERE identificador_zona=? AND fecha=? AND horaEntrada=? AND horaSalida=?",
+                    new ReservaRowMapper(),otraReserva.getIdentificadorZona(), otraReserva.getFecha(), otraReserva.getHoraEntrada(), otraReserva.getHoraSalida());
 
-            //No haria falta ya que nunca puede valer NULL
-            return numero==null?0:numero;
+            return reservas.isEmpty();
         } catch (EmptyResultDataAccessException e) {
-            return 0;
-        }catch(Exception e) {
-            return null;
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
+
+
 
 }
 

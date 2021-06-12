@@ -32,7 +32,7 @@
             <ul class="pagination justify-content-center">
                 <li th:class="page-item" th:if="${#lists.size(zonasPaged) > 1}"
                     th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==selectedPage+1} ? active">
-                    <a th:href="@{/zona/particular/{nombre}(nombre=${nombreEspacio})?page={sele}(sele=${pageNumber-1})}"
+                    <a th:href="@{/zona/particular/{nombre}?page={sele}(sele=${pageNumber-1},nombre=${nombreEspacio})}"
                        th:text=${pageNumber}
                        th:class="page-link">
                     </a>

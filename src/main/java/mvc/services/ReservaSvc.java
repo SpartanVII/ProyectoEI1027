@@ -1,26 +1,20 @@
 package mvc.services;
 
-import mvc.dao.EspacioPublicoDao;
-import mvc.dao.ReservaDao;
-import mvc.model.Reserva;
-import mvc.model.Zona;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import mvc.model.Reserva;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ReservaSvc implements ReservaService{
 
-    Integer identificador;
-    String franja;
-    int numPersonas;
-    String  fecha;
-    String dni;
-    String zona;
+    private Integer identificador;
+    private String franja;
+    private int numPersonas;
+    private String estado;
+    private String  fecha;
+    private String dni;
+    private String zona;
+    private String nombreEspacio;
 
     public ReservaSvc(Reserva reserva) {
         this.identificador = reserva.getIdentificador();
@@ -81,6 +75,14 @@ public class ReservaSvc implements ReservaService{
         this.zona = zona;
     }
 
+    public String getNombreEspacio() {
+        return nombreEspacio;
+    }
+
+    public void setNombreEspacio(String nombreEspacio) {
+        this.nombreEspacio = nombreEspacio;
+    }
+
     @Override
     public Reserva crearReserva() {
         Reserva res = new Reserva();
@@ -91,6 +93,8 @@ public class ReservaSvc implements ReservaService{
         res.setIdentificadorZona(zona);
         res.setHoraEntrada(LocalTime.parse(franja.substring(0,5)));
         res.setHoraSalida(LocalTime.parse(franja.substring(8,13)));
+        res.setNombreEspacio(nombreEspacio);
+        res.setEstado("PENDIENTE_USO");
         return res;
     }
 

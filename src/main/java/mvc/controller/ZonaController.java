@@ -76,7 +76,6 @@ public class ZonaController {
     public String listaZonasEspacio(Model model, @RequestParam("page") Optional<Integer> page, @PathVariable String nombre) {
 
         List<Zona> zonas = zonaDao.getZonasEspacio(nombre);
-        System.out.println(nombre);
         ArrayList<ArrayList<Zona>> zonasPaged= new ArrayList<>();
 
         int ini=0;

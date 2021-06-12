@@ -33,17 +33,7 @@ public class FranjaEspacioDao {
                 franjaEspacio.getHoraEntrada(), franjaEspacio.getHoraSalida());
     }
 
-    /*No es util
-    public ServicioPerma getPeriodosServiciosEstacionales(String nombre) {
-        try {
-            return jdbcTemplate.queryForObject("SELECT * from ServicioPerma WHERE nombre=?",
-                    new ServicioPermaRowMapper(), nombre);
-        }
-        catch(EmptyResultDataAccessException e) {
-            return null;
-        }
-    }
-    */
+
 
     public List<FranjaEspacio> getFranjaEspacioList() {
         try {
@@ -55,7 +45,7 @@ public class FranjaEspacioDao {
     }
 
 
-    public List<FranjaEspacio> getFranjaEspacio(String nombreEspacio) {
+    public List<FranjaEspacio> getFranjasEspacio(String nombreEspacio) {
         try {
             return jdbcTemplate.query("SELECT * from FranjaEspacio WHERE nombre_espacioPublico=?",
                     new FranjaEspacioRowMapper(), nombreEspacio);

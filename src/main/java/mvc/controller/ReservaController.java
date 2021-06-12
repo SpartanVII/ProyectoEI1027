@@ -29,14 +29,19 @@ class ReservaValidator implements Validator {
     }
     @Override
     public void validate(Object obj, Errors errors) {
+
         Reserva reserva = (Reserva) obj;
 
-        if(reserva.getNumPersonas()<=0) {
-            if(reserva.getNumPersonas()==0)
-                errors.rejectValue("numPersonas", "obligatorio", "En esta zona no quedan plazas libres");
-            else
-                //Mostramos la ocupación libre con un número positivo
-                errors.rejectValue("numPersonas", "obligatorio", "En esta zona hay " + reserva.getNumPersonas() * (-1) + " plazas libres");
+        if(reserva.getNumPersonas()<0) {
+            //Error asociado a que la zona ya esta reservada el dia y hora
+            if(reserva.getNumPersonas()==-111111111){
+                errors.rejectValue("fecha", "obligatorio", "Zona ocupada en la hora y fecha seleccionadas");
+            }else {
+                //Volvemos a poner las personas en positivo
+                errors.rejectValue("numPersonas", "obligatorio", "Max."+-1*reserva.getNumPersonas() +" personas. \n" +
+                        "Reserve esta y las zonas adyacentes necesarias");
+
+            }
         }
 
         if (reserva.getFecha().compareTo(LocalDate.now())<0)
@@ -72,9 +77,6 @@ public class ReservaController {
     public void setZonaDao(ZonaDao zonaDao) {
         this.zonaDao = zonaDao;
     }
-
-    @ModelAttribute("franjas")
-    public List<FranjaEspacio> franjaList() { return  franjaEspacioDao.getFranjaEspacioList(); }
 
 
     @RequestMapping("/list")
@@ -154,36 +156,40 @@ public class ReservaController {
 
 
     @RequestMapping(value="/add/{zona}")
-    public String addReservaEspacio(Model model, @PathVariable String zona, HttpSession session) {
-
+    public String addReservaEspacio(Model model,  @PathVariable String zona, HttpSession session) {
         UserDetails user = (UserDetails) session.getAttribute("user");
+
         ReservaSvc reservaService = new ReservaSvc();
         reservaService.setDni(user.getUsername());
         reservaService.setZona(zona);
         reservaService.setIdentificador(reservaDao.getSiguienteIdentificadorReserva());
+        reservaService.setNombreEspacio(zonaDao.getZona(zona).getNombreEspacio());
+
+        model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(zonaDao.getZona(zona).getNombreEspacio()));
         model.addAttribute("reserva", reservaService);
         return "reserva/add";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("reserva") ReservaSvc reservaService, HttpSession session, BindingResult bindingResult) {
+    public String processAddSubmit(Model model, @ModelAttribute("reserva") ReservaSvc reservaService, HttpSession session, BindingResult bindingResult) {
+
         UserDetails user = (UserDetails) session.getAttribute("user");
         Reserva reserva = reservaService.crearReserva();
+        int numPersonas = reserva.getNumPersonas();
+        int personasMaxZona=zonaDao.getZona(reserva.getIdentificadorZona()).getCapMaxima();
 
-        //Capacidad máxima de la zona se le resta personas que tienen reserva en esa zona
-        String idZona = reserva.getIdentificadorZona();
-        int ocupacionLibre = zonaDao.getZona(idZona).getCapMaxima() - reservaDao.getOcupacionZona(idZona,reserva.getFecha(),reserva.getHoraEntrada());
-        int ocupacionPosible = ocupacionLibre - reserva.getNumPersonas();
+        //Ponemos las personas ennegativo para que lo detecte el validador que no caben todas
+        if(personasMaxZona-numPersonas<0) numPersonas=-1*personasMaxZona;
+        //Error asociado a que la zona ya esta reservada el dia y hora
+        else if(!reservaDao.resersvaDisponible(reserva)) numPersonas=-111111111;
 
-        if (ocupacionPosible<0)
-            //lo ponemos en negativo para que el validador capte que es un valor no válido
-            reserva.setNumPersonas(-1*ocupacionLibre);
-
+        reserva.setNumPersonas(numPersonas);
         ReservaValidator reservaValidator = new ReservaValidator();
         reservaValidator.validate(reserva, bindingResult);
-        if (bindingResult.hasErrors()){
-            return "reserva/add";}
-
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(reserva.getNombreEspacio()));
+            return "/reserva/add";
+        }
         reservaDao.addReserva(reserva);
 
         //Correo de confirmacion de la reserva
@@ -203,7 +209,7 @@ public class ReservaController {
     }
 
 
-
+    /*
     @RequestMapping(value="/update/{identificador}", method = RequestMethod.GET)
     public String editReserva(Model model, @PathVariable Integer identificador){
         Reserva actual = reservaDao.getReserva(identificador);
@@ -220,14 +226,9 @@ public class ReservaController {
 
         //Capacidad máxima de la zona se le resta personas que tienen reserva en esa zona y se le suma la cantidad de personas en la reserva que aun no ha sido actualizada
         String idZona = reserva.getIdentificadorZona();
-        int ocupacionLibre = zonaDao.getZona(idZona).getCapMaxima() - reservaDao.getOcupacionZona(idZona,reserva.getFecha(),reserva.getHoraEntrada())
-                                + reservaDao.getReserva(reserva.getIdentificador()).getNumPersonas();
 
-        int ocupacionPosible = ocupacionLibre - reserva.getNumPersonas();
 
-        if (ocupacionPosible<0)
-            //lo ponemos en negativo para que el validador capte que es un valor no válido
-            reserva.setNumPersonas(-1*ocupacionLibre);
+
 
         ReservaValidator reservaValidator = new ReservaValidator();
         reservaValidator.validate(reserva, bindingResult);
@@ -235,5 +236,5 @@ public class ReservaController {
             return "reserva/update";
         reservaDao.updateReserva(reservaService.crearReserva());
         return "redirect:list";
-    }
+    }*/
 }

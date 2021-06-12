@@ -15,13 +15,10 @@
             <input th:type="hidden" th:field="*{identificador}" th:value="${reserva.identificador}"/>
             <input th:type="hidden" th:field="*{dni}" th:value="${reserva.dni}"/>
             <input th:type="hidden" th:field="*{zona}" th:value="${reserva.zona}"/>
+            <input th:type="hidden" th:field="*{nombreEspacio}" th:value="${reserva.nombreEspacio}"/>
             <tr>
                 <td><label>Zona</label></td>
                 <td th:text="${reserva.zona}" th:field="*{zona}" th:value="reserva.zona"></td>
-            </tr>
-            <tr>
-                <td><label>DNI</label></td>
-                <td th:text="${reserva.dni}" th:field="*{dni}" th:value="reserva.dni"></td>
             </tr>
             <tr>
                 <td><label>Num Personas</label></td>
@@ -46,6 +43,7 @@
                 <td colspan="2"><input type="submit" class="btn btn-primary" value="Añadir Reserva" /></td>
             </tr>
         </table>
+        <a  th:href="@{/zona/particular/{nombre}(nombre=${reserva.nombreEspacio})}"><button type="button" class="btn btn-warning">Volver</button></a>
     </form>
 </div>
 </body>
