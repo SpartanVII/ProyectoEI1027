@@ -1,74 +1,76 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseGestorMunicipal}">
 <head>
-    <title>Crear nuevo ciudadano</title>
+    <title>Crear nuevo espacio publico</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
 
 </head>
 <body>
 <div layout:fragment="content">
-<h2>Nuevo Ciudadanol</h2>
-<form action="#" th:action="@{/espacioPublico/add}"
-      th:object="${espacioPublico}" method="post">
+<h2>Nuevo Espacio Público</h2>
+<form action="#" th:action="@{/espacioPublico/add}" th:object="${espacioPublico}" method="post">
     <table>
+
+        <tbody>
         <tr>
             <td><label>Nombre</label></td>
-            <td><input type="text" th:field="*{dniCiudadano}" /></td>
-        </tr>
-        <tr>
-            <td><label>Descripción</label></td>
-            <td> <textarea rows="10" cols="50"  th:field="*{descripcion}"></textarea></td>
+            <td><input type="text" th:field="*{nombre}" /></td>
         </tr>
         <tr>
             <td><label>Localización Geogrfica</label></td>
             <td><input type="text"  th:field="*{localizacionGeografica}" /></td>
-        </tr>
-        <tr>
+
             <td><label>Ocupación</label></td>
             <td><input type="number" th:field="*{ocupacion}" /></td>
         </tr>
         <tr>
             <td><label>Longitud</label></td>
             <td><input type="number" th:field="*{longitud}" /></td>
-        </tr>
-        <tr>
+
             <td><label>Amplitud</label></td>
             <td><input type="number" th:field="*{amplitud}" /></td>
         </tr>
         <tr>
+            <td><label>Descripción</label></td>
+            <td> <textarea rows="4" cols="50"  th:field="*{descripcion}"></textarea></td>
+
+            <td><label>Comentario</label></td>
+            <td> <textarea rows="4" cols="50"  th:field="*{comentario}"></textarea></td>
+        </tr>
+
+
+        <tr>
+            <td><label>Municipio</label></td>
+            <td><input type="text" th:field="*{nombreMunicipio}" /></td>
+
             <td><label>Orientación</label></td>
             <td><input type="text" th:field="*{orientacion}" /></td>
         </tr>
+
         <tr>
-            <td><label>Comentario</label></td>
-            <td> <textarea rows="10" cols="50"  th:field="*{comentario}"></textarea></td>
-        </tr>
-        <tr>
-            <td><label>Tipo Terreno</label></td>
+            <td><label>Terreno</label></td>
+            <td>
             <select name="my_html_select_box" th:field="*{tipoTerreno}">
                 <option value="ARENA">Arena</option>
                 <option value="TIERRA">Tierra</option>
                 <option value="PIEDRA">Piedra</option>
                 <option value="ROCOSO">Rocoso</option>
-            </select>
-        </tr>
-        <tr>
-            <td><label>Tipo Accceso</label></td>
+            </select></td>
+
+            <td><label>Accceso</label></td>
+            <td>
             <select name="my_html_select_box" th:field="*{tipoAcceso}">
                 <option value="RESTRINGIDO">Restringido</option>
                 <option value="ABIERTO">Abierto</option>
                 <option value="CERRADO">Cerrado</option>
-            </select>
+            </select></td>
         </tr>
-        <tr>
-            <td><label>Municipio</label></td>
-            <td><input type="text" th:field="*{nombreMunicipio}" /></td>
-        </tr>
-        <tr>
-            <td colspan="2"><input type="submit" value="Añadir Espacio Publico" /></td>
-        </tr>
+        </tbody>
     </table>
+    <input type="submit" th:onclick="return confirm('¿Estas seguro de añadir el Espacio Público?');"
+           class="btn btn-success" value="Añadir" />
+    <a  th:href="@{/espacioPublico/listRegistrado}"><button type="button" class="btn btn-warning">Volver</button></a>
 </form>
 </div>
 </body>

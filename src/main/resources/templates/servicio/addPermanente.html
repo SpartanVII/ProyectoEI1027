@@ -8,7 +8,7 @@
 </head>
 <body>
 <div layout:fragment="content" th:object="${espacio}">
-    <h1>Lista de Servicios</h1>
+    <h1>Servicios Permanentes Disponibles</h1>
     <h3 th:text="${espacio}"></h3>
     <table class="table table-striped">
         <thead>
@@ -22,7 +22,9 @@
         <tr th:each="servicioPerma: ${serviciosPerma}">
             <td th:text="${servicioPerma.nombre}"></td>
             <td th:text="${servicioPerma.tipoServicio}"></td>
-            <td><a th:href="@{/servicio/addPermanente/{nombreEspacio}/{nombreServicio}(nombreEspacio=${espacio},nombreServicio=${servicioPerma.nombre})}" class="btn btn-info" role="button">Añadir</a></td>
+            <td><a th:href="@{/servicio/addPermanente/{nombreEspacio}/{nombreServicio}(nombreEspacio=${espacio},nombreServicio=${servicioPerma.nombre})}"
+                   th:onclick="return confirm('¿Estas seguro de añadir el Servicio \'' +[[${servicioPerma.nombre}]]+'\'?');"
+                   class="btn btn-info" role="button">Añadir</a></td>
         </tr>
         </tbody>
     </table>

@@ -5,6 +5,7 @@ import mvc.model.Ciudadano;
 import mvc.model.EspacioPublico;
 import mvc.model.UserDetails;
 import org.apache.catalina.User;
+import org.jasypt.contrib.org.apache.commons.codec_1_3.BinaryDecoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +33,7 @@ public class EspacioPublicoController {
     }
 
     @RequestMapping("/listRegistrado")
-    public String listNadadorsPaged(Model model, @RequestParam("page") Optional<Integer> page,  HttpSession session) {
+    public String listRegistradoPaged(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("nuevo") Optional<String> nuevo,  HttpSession session) {
 
         UserDetails user = (UserDetails) session.getAttribute("user");
 
@@ -40,11 +41,10 @@ public class EspacioPublicoController {
         List<EspacioPublico> espaciosPublicos;
         if (user.getRol().equals("ciudadano")) espaciosPublicos= espacioPublicoDao.getEspaciosPublicosNoCerrados();
         else espaciosPublicos = espacioPublicoDao.getEspaciosPublicos();
-
         ArrayList<ArrayList<EspacioPublico>> espaciosPaginas= new ArrayList<>();
 
         int ini=0;
-        int fin=pageLength-1;
+        int fin=pageLength;
         while (fin<espaciosPublicos.size()) {
             espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(ini, fin)));
             ini+=pageLength;
@@ -62,10 +62,9 @@ public class EspacioPublicoController {
         // Paso 3: selectedPage: usar parametro opcional page, o en su defecto, 1
         int currentPage = page.orElse(0);
         model.addAttribute("selectedPage", currentPage);
-
+        model.addAttribute("nuevo", nuevo.orElse("None"));
 
         if (user.getRol().equals("gestorMunicipal")) return "espacioPublico/listGestor";
-
         if (user.getRol().equals("controlador")) return "espacioPublico/listControlador";
 
         return "espacioPublico/listConReserva";
@@ -79,7 +78,7 @@ public class EspacioPublicoController {
         ArrayList<ArrayList<EspacioPublico>> espaciosPaginas= new ArrayList<>();
 
         int ini=0;
-        int fin=pageLength-1;
+        int fin=pageLength;
         while (fin<espaciosPublicos.size()) {
             espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(ini, fin)));
             ini+=pageLength;
@@ -98,6 +97,7 @@ public class EspacioPublicoController {
         int currentPage = page.orElse(0);
         model.addAttribute("selectedPage", currentPage);
 
+
         return "espacioPublico/listSinRegistrar";
     }
 
@@ -108,12 +108,13 @@ public class EspacioPublicoController {
     }
 
     @RequestMapping(value="/add", method= RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("espacioPublico") EspacioPublico espacioPublico,
-                                   BindingResult bindingResult) {
+    public String processAddSubmit(@ModelAttribute("espacioPublico") EspacioPublico espacioPublico,  BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "espacioPublico/add";
         espacioPublicoDao.addEspacioPublico(espacioPublico);
-        return "redirect:list";
+
+
+        return "redirect:/espacioPublico/listRegistrado?nuevo="+espacioPublico.getNombre();
     }
 
     @RequestMapping(value="/update/{nombre}", method = RequestMethod.GET)
@@ -135,7 +136,7 @@ public class EspacioPublicoController {
     @RequestMapping(value="/delete/{nombre}")
     public String processDelete(@PathVariable String nombre) {
         espacioPublicoDao.deleteEspacioPublico(nombre);
-        return "redirect:../list";
+        return "redirect:/espacioPublico/listRegistrado";
     }
 
     @RequestMapping(value="/updateGestor/{nombre}", method = RequestMethod.GET)

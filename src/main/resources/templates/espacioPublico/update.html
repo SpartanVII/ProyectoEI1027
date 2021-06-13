@@ -8,67 +8,66 @@
 </head>
 <body>
 <div layout:fragment="content">
-<h2>Actualizar Espacio Publico</h2>
-<form action="#" th:action="@{/espacioPublico/update}"
-      th:object="${espacioPublico}" method="post">
-    <table>
+<h2>Actualizar Espacio Público</h2>
+<form action="#" th:action="@{/espacioPublico/update}" th:object="${espacioPublico}" method="post">
+    <table >
+        <input th:type="hidden" th:field="*{nombre}" th:value="${espacioPublico.nombre}"/>
         <tr>
             <td><label>Nombre</label></td>
-            <td><input type="text" th:field="*{nombre}" /></td>
+            <td th:text="${espacioPublico.nombre}" th:field="*{nombre}" th:value="espacioPublico.nombre"></td>
         </tr>
-        <tr>
-            <td><label>Descripción</label></td>
-            <td> <textarea rows="10" cols="50"  th:field="*{descripcion}"></textarea></td>
-        </tr>
+
         <tr>
             <td><label>Localización Geogrfica</label></td>
             <td><input type="text"  th:field="*{localizacionGeografica}" /></td>
-        </tr>
-        <tr>
+
             <td><label>Ócupación</label></td>
             <td><input type="number" th:field="*{ocupacion}" /></td>
         </tr>
         <tr>
             <td><label>Longitud</label></td>
             <td><input type="number" th:field="*{longitud}" /></td>
-        </tr>
-        <tr>
+
             <td><label>Amplitud</label></td>
             <td><input type="number" th:field="*{amplitud}" /></td>
         </tr>
+
         <tr>
-            <td><label>Orientación</label></td>
-            <td><input type="text" th:field="*{orientacion}" /></td>
-        </tr>
-        <tr>
+            <td><label>Descripción</label></td>
+            <td> <textarea rows="10" cols="50"  th:field="*{descripcion}"></textarea></td>
+
             <td><label>Comentario</label></td>
             <td> <textarea rows="10" cols="50"  th:field="*{comentario}"></textarea></td>
         </tr>
         <tr>
-            <td><label>Tipo Terreno</label></td>
+            <td><label>Terreno</label></td>
+            <td>
             <select name="my_html_select_box" th:field="*{tipoTerreno}">
                 <option value="ARENA">Arena</option>
                 <option value="TIERRA">Tierra</option>
                 <option value="PIEDRA">Piedra</option>
                 <option value="ROCOSO">Rocoso</option>
-            </select>
-        </tr>
-        <tr>
-            <td><label>Tipo Accceso</label></td>
+            </select></td>
+
+            <td><label>Accceso</label></td>
+            <td>
             <select name="my_html_select_box" th:field="*{tipoAcceso}">
                 <option value="RESTRINGIDO">Restringido</option>
                 <option value="ABIERTO">Abierto</option>
                 <option value="CERRADO">Cerrado</option>
-            </select>
+            </select></td>
         </tr>
         <tr>
             <td><label>Municipio</label></td>
             <td><input type="text" th:field="*{nombreMunicipio}" /></td>
-        </tr>
-        <tr>
-            <td colspan="2"><input type="submit" value="Actualizar Espacio Publico" /></td>
+
+            <td><label>Orientación</label></td>
+            <td><input type="text" th:field="*{orientacion}" /></td>
         </tr>
     </table>
+    <input type="submit" th:onclick="return confirm('¿Estas seguro de actualizar el Espacio Público?');"
+           class="btn btn-success" value="Actualizar" />
+    <a  th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${espacioPublico.nombre})}"><button type="button" class="btn btn-warning">Volver</button></a>
 </form>
 </div>
 </body>

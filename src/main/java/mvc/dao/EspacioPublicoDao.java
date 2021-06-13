@@ -1,6 +1,7 @@
 package mvc.dao;
 
 
+import mvc.model.Controlador;
 import mvc.model.EspacioPublico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -8,6 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.ClientInfoStatus;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +34,25 @@ public class EspacioPublicoDao {
 
 
     public void deleteEspacioPublico(String nombre) {
+        //Habría que hacer algun metodo alternativo para que no se perdiera tanta información
+        jdbcTemplate.update("DELETE from SeFijaEnEspacio where nombre_espacioPublico=?",
+                nombre);
+        jdbcTemplate.update("DELETE from PeriodosServiciosEstacionalesEnEspacio where nombre_espacioPublico=?",
+                nombre);
+        jdbcTemplate.update("DELETE from PeriodosServiciosEstacionalesEnEspacio where nombre_espacioPublico=?",
+                nombre);
+        jdbcTemplate.update("DELETE from Controla where nombre_espacioPublico=?",
+                nombre);
+        jdbcTemplate.update("DELETE from Reserva where nombreEspacio=?",
+                nombre);
+        jdbcTemplate.update("DELETE from FranjaEspacio where nombre_espacioPublico=?",
+                nombre);
+        jdbcTemplate.update("DELETE from Zona where nombre_espacioPublico=?",
+                nombre);
         jdbcTemplate.update("DELETE from EspacioPublico where nombre=?",
                 nombre);
     }
+
     public void deleteEspacioPublico(EspacioPublico espacioPublico) {
         jdbcTemplate.update("DELETE from EspacioPublico where nombre=?",
                 espacioPublico.getNombre());

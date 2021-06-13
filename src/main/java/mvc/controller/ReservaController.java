@@ -80,7 +80,7 @@ public class ReservaController {
 
 
     @RequestMapping("/list")
-    public String listReservas(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session) {
+    public String listReservas(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("nueva") Optional<String> nueva, HttpSession session) {
 
         UserDetails user = (UserDetails) session.getAttribute("user");
         List<Reserva> reservas;
@@ -92,7 +92,7 @@ public class ReservaController {
 
 
         int ini=0;
-        int fin=pageLength-1;
+        int fin=pageLength;
         while (fin<reservas.size()) {
             reservasPage.add(new ArrayList<>(reservas.subList(ini, fin)));
             ini+=pageLength;
@@ -111,6 +111,7 @@ public class ReservaController {
         // Paso 3: selectedPage: usar parametro opcional page, o en su defecto, 1
         int currentPage = page.orElse(0);
         model.addAttribute("selectedPage", currentPage);
+        model.addAttribute("nueva", nueva.orElse("None"));
 
         if(user.getRol().equals("ciudadano")) return "reserva/particular";
         if(user.getRol().equals("gestorMunicipal")) return "reserva/listGestorMunicipal";
@@ -197,7 +198,7 @@ public class ReservaController {
                 "Usted ha realizado una reserva en la zona "+reserva.getIdentificadorZona()+".\n" +
                         "La reserva comienza "+reserva.getHoraEntrada()+" y acaba a las "+reserva.getHoraSalida()+"."));
 
-        return "redirect:list";
+        return "redirect:list?nueva="+reserva.getIdentificador();
     }
 
 

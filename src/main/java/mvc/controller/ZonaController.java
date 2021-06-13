@@ -79,7 +79,7 @@ public class ZonaController {
         ArrayList<ArrayList<Zona>> zonasPaged= new ArrayList<>();
 
         int ini=0;
-        int fin=pageLength-1;
+        int fin=pageLength;
         while (fin<zonas.size()) {
             zonasPaged.add(new ArrayList<>(zonas.subList(ini, fin)));
             ini+=pageLength;

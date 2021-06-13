@@ -68,7 +68,7 @@ public class ReservaDao {
 
     public List<Reserva> getReservas() {
         try {
-            return jdbcTemplate.query("SELECT * from Reserva ORDER BY dni_ciudadano, fecha",
+            return jdbcTemplate.query("SELECT * from Reserva ORDER BY estado DESC, dni_ciudadano, fecha",
                     new ReservaRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
@@ -110,7 +110,7 @@ public class ReservaDao {
 
     public boolean resersvaDisponible(Reserva otraReserva){
         try {
-            List<Reserva> reservas = jdbcTemplate.query("SELECT * from Reserva WHERE identificador_zona=? AND fecha=? AND horaEntrada=? AND horaSalida=?",
+            List<Reserva> reservas = jdbcTemplate.query("SELECT * from Reserva WHERE identificador_zona=? AND fecha=? AND horaEntrada=? AND horaSalida=? AND estado='PENDIENTE_USO'",
                     new ReservaRowMapper(),otraReserva.getIdentificadorZona(), otraReserva.getFecha(), otraReserva.getHoraEntrada(), otraReserva.getHoraSalida());
 
             return reservas.isEmpty();

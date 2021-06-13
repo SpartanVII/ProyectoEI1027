@@ -40,7 +40,7 @@
                 <td th:if="${#fields.hasErrors('franja')}" th:errors="*{franja}" class="error"></td>
             </tr>
             <tr>
-                <td colspan="2"><input type="submit" class="btn btn-primary" value="Añadir Reserva" /></td>
+                <td colspan="2"><input type="submit" class="btn btn-primary"   th:onclick="return confirm('¿Confirmas la reserva?');" value="Añadir Reserva" /></td>
             </tr>
         </table>
         <a  th:href="@{/zona/particular/{nombre}(nombre=${reserva.nombreEspacio})}"><button type="button" class="btn btn-warning">Volver</button></a>

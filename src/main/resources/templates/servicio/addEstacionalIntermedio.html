@@ -32,10 +32,9 @@
                 <td><input type="date" th:field="*{fechaFin}" required/></td>
                 <td th:if="${#fields.hasErrors('fechaFin')}" th:errors="*{fechaFin}" class="error"></td>
             </tr>
-            <tr>
-                <td colspan="2"><input type="submit" class="btn btn-primary" value="Añadir" /></td>
-            </tr>
         </table>
+        <input   th:onclick="return confirm('¿Estas seguro de añadir el Servicio \'' +[[${periodo.nombreServicioEstacional}]]+'\'?');"
+                 type="submit" class="btn btn-primary"  value="Añadir" />
     </form>
 </div>
 </body>

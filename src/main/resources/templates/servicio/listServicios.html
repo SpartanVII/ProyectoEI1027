@@ -25,13 +25,17 @@
             <td th:text="${servicioPerma.nombre}"></td>
             <td th:text="${servicioPerma.tipoServicio}"></td>
             <td>Permanente</td>
-            <td><a th:href="@{/servicio/deleteDeEspacio/{nombreEspacio}/{nombreServicio}(nombreEspacio=${espacio.nombre},nombreServicio=${servicioPerma.nombre})}" class="btn btn-danger" role="button">Borra</a></td>
+            <td><a th:href="@{/servicio/deleteDeEspacio/{nombreEspacio}/{nombreServicio}(nombreEspacio=${espacio.nombre},nombreServicio=${servicioPerma.nombre})}"
+                   th:onclick="return confirm('¿Estas seguro de eliminar el Servicio \'' +[[${servicioPerma.nombre}]]+'\'?');"
+                   class="btn btn-danger" role="button">Borra</a></td>
         </tr>
         <tr th:each="servicioEstacional: ${serviciosEstacionales}">
             <td th:text="${servicioEstacional.nombre}"></td>
             <td th:text="${servicioEstacional.tipoServicio}"></td>
             <td>Estacional</td>
-            <td><a th:href="@{/servicio/deleteDeEspacio/{nombreEspacio}/{nombreServicio}(nombreEspacio=${espacio.nombre},nombreServicio=${servicioEstacional.nombre})}" class="btn btn-danger" role="button">Borra</a></td>
+            <td><a th:href="@{/servicio/deleteDeEspacio/{nombreEspacio}/{nombreServicio}(nombreEspacio=${espacio.nombre},nombreServicio=${servicioEstacional.nombre})}"
+                   th:onclick="return confirm('¿Estas seguro de eliminar el Servicio \'' +[[${servicioEstacional.nombre}]]+'\'?');"
+                   class="btn btn-danger" role="button">Borra</a></td>
         </tr>
         </tbody>
     </table>

@@ -15,6 +15,7 @@
         <table  th:unless="${#lists.isEmpty(reservasPaged)}" class="table table-striped">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Dni ciudadano</th>
                 <th>Num Personas</th>
                 <th>Estado</th>
@@ -28,6 +29,7 @@
             </thead>
             <tbody>
             <tr th:each="reserva: ${reservas}">
+                <td th:text="${reserva.identificador}"></td>
                 <td th:text="${reserva.dniCiudadano}"></td>
                 <td th:text="${reserva.numPersonas}"></td>
                 <td th:text="${reserva.estado}"></td>
@@ -36,7 +38,7 @@
                 <td th:text="${reserva.horaSalida}"></td>
                 <td th:text="${reserva.identificadorZona}"></td>
                 <td><a th:if="${reserva.estado}=='PENDIENTE_USO'" th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}"
-                       th:onclick="return confirm('Estas seguro de borrar la reserva con  identificador ...');"
+                       th:onclick="return confirm('¿Estas seguro de borrar la reserva con  Identificador \'' +[[${reserva.identificador}]]+'\'?');"
                        class="btn btn-danger" type="button">Cancelar</a></td>
                 </td>
             </tr>

@@ -29,7 +29,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="espacioPublico: ${espaciosPublicos}">
+            <tr th:each="espacioPublico: ${espaciosPublicos}"
+                th:class="${#strings.equals(nuevo,espacioPublico.nombre)}?'bg-info text-white'">
                 <td th:text="${espacioPublico.nombre}"></td>
                 <td th:text="${espacioPublico.descripcion}"></td>
                 <td th:text="${espacioPublico.localizacionGeografica}"></td>
@@ -42,7 +43,9 @@
                 <td th:text="${espacioPublico.tipoAcceso}"></td>
                 <td th:text="${espacioPublico.nombreMunicipio}"></td>
                 <td><a th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-warning" type="button">Edita</a></td>
-                <td><a th:href="@{/espacioPublico/delete/{nombre}(nombre=${espacioPublico.nombre})}" class="btn btn-danger" role="button">Borra</a>
+                <td><a th:href="@{/espacioPublico/delete/{nombre}(nombre=${espacioPublico.nombre})}"
+                       th:onclick="return confirm('¿Estas seguro de borrar es Espacio Público con nombre \'' +[[${espacioPublico.nombre}]]+'\'?');"
+                       class="btn btn-danger" role="button">Borra</a>
                 </td>
             </tr>
             </tbody>
