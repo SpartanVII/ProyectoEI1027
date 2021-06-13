@@ -18,7 +18,7 @@ public class ControladorController {
     private ControladorDao controladorDao;
 
     @Autowired
-    public void setMunicipioDao(ControladorDao controladorDao) {
+    public void setControladorDao(ControladorDao controladorDao) {
         this.controladorDao=controladorDao;
     }
 

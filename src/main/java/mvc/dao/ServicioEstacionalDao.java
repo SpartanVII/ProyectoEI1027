@@ -2,6 +2,7 @@ package mvc.dao;
 
 
 import mvc.model.ServicioEstacional;
+import mvc.model.ServicioPerma;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -54,13 +55,45 @@ public class ServicioEstacionalDao {
     }
 
 
-    public List<ServicioEstacional> getGestores() {
+    public List<ServicioEstacional> getServiciosEstacionales() {
         try {
             return jdbcTemplate.query("SELECT * from ServicioEstacional",
                     new ServicioEstacionalRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
         }
+    }
+
+    public List<ServicioEstacional> getServiciosEstacionalesEspacio(String nombreEspacio) {
+        try {
+            return jdbcTemplate.query("SELECT * from ServicioEstacional WHERE nombre IN (SELECT nombre_servicioestacional " +
+                            "FROM periodosserviciosestacionalesenespacio WHERE nombre_espaciopublico=? )",
+                    new ServicioEstacionalRowMapper(), nombreEspacio);
+
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<ServicioEstacional> getServiciosEstacionalesDisponiblesParaEspacio(String nombreEspacio) {
+        try {
+            return jdbcTemplate.query("SELECT * from ServicioEstacional WHERE nombre NOT IN (SELECT nombre_servicioestacional " +
+                            "FROM periodosserviciosestacionalesenespacio WHERE nombre_espaciopublico=? )",
+                    new ServicioEstacionalRowMapper(), nombreEspacio);
+
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public void addServicioEstacionalEnEspacio(String nombreServicioEstacional, String nombreEspacio) {
+        jdbcTemplate.update("INSERT INTO SeFijaEnEspacio VALUES(?,?)",
+                nombreServicioEstacional, nombreEspacio);
+    }
+
+    public void deleteServicioEstacionalDeEspacio(String nombreServicioEstacional, String nombreEspacioPublico) {
+        jdbcTemplate.update("DELETE from periodosserviciosestacionalesenespacio where nombre_servicioestacional=? AND nombre_espaciopublico=?",
+                nombreServicioEstacional, nombreEspacioPublico);
     }
 
 }

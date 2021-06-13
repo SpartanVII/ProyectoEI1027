@@ -129,7 +129,7 @@ public class EspacioPublicoController {
         if (bindingResult.hasErrors())
             return "espacioPublico/update";
         espacioPublicoDao.updateEspacioPublico(espacioPublico);
-        return "redirect:list";
+        return "redirect:listRegistrado";
     }
 
     @RequestMapping(value="/delete/{nombre}")
@@ -138,4 +138,9 @@ public class EspacioPublicoController {
         return "redirect:../list";
     }
 
+    @RequestMapping(value="/updateGestor/{nombre}", method = RequestMethod.GET)
+    public String elegirOpcionEditar(Model model, @PathVariable String nombre) {
+        model.addAttribute("espacio", espacioPublicoDao.getEspacioPublico(nombre));
+        return "gestorMunicipal/indiceEditar";
+    }
 }

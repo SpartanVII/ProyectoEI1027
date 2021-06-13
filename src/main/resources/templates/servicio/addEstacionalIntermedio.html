@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseGestorMunicipal}">
+<head>
+    <title>Añadir Servicio Estacional</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href=href="https://bootswatch.com/5/minty/bootstrap.css"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Añadir Servicio Estacional</h1>
+    <form action="#" th:action="@{/servicio/add}"
+          th:object="${periodo}" method="post">
+        <table>
+            <input th:type="hidden" th:field="*{nombreEspacioPublico}" th:value="${periodo.nombreEspacioPublico}"/>
+            <input th:type="hidden" th:field="*{nombreServicioEstacional}" th:value="periodo.nombreServicioEstacional"/>
+            <tr>
+                <td><label>Espacio</label></td>
+                <td th:text="${periodo.nombreEspacioPublico}" th:field="*{nombreEspacioPublico}" th:value="periodo.nombreEspacioPublico"></td>
+            </tr>
+            <tr>
+                <td><label>Servicio</label></td>
+                <td th:text="${periodo.nombreServicioEstacional}" th:field="*{nombreServicioEstacional}" th:value="periodo.nombreServicioEstacional"></td>
+            </tr>
+            <tr>
+                <td><label>Fecha Inicio</label></td>
+                <td><input type="date" th:field="*{fechaInicio}" required/></td>
+                <td th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}" class="error"></td>
+            </tr>
+            <tr>
+                <td><label>Fecha Fin</label></td>
+                <td><input type="date" th:field="*{fechaFin}" required/></td>
+                <td th:if="${#fields.hasErrors('fechaFin')}" th:errors="*{fechaFin}" class="error"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" class="btn btn-primary" value="Añadir" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

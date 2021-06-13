@@ -46,7 +46,7 @@ class ReservaValidator implements Validator {
 
         if (reserva.getFecha().compareTo(LocalDate.now())<0)
             errors.rejectValue("fecha", "obligatorio",
-                    "La fecha de reserva debe ser mayor a la actual");
+                    "La fecha de reserva debe ser mayor o igual a la actual");
 
         if (reserva.getFecha().compareTo(LocalDate.now())==0 && reserva.getHoraEntrada().compareTo(LocalTime.now())<0)
             errors.rejectValue("franja", "obligatorio",

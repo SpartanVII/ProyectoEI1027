@@ -54,13 +54,41 @@ public class ServicioPermaDao {
     }
 
 
-    public List<ServicioPerma> getGestores() {
+    public List<ServicioPerma> getServicios() {
         try {
             return jdbcTemplate.query("SELECT * from ServicioPerma",
                     new ServicioPermaRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
         }
+    }
+
+    public List<ServicioPerma> getServiciosEspacio(String nombreEspacio) {
+        try {
+            return jdbcTemplate.query("SELECT * from ServicioPerma WHERE nombre IN (SELECT nombre_servicioperma FROM SeFijaEnEspacio WHERE nombre_espaciopublico=?)",
+                    new ServicioPermaRowMapper(),nombreEspacio);
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<ServicioPerma> getServiciosDisponiblesParaEspacio(String nombreEspacio) {
+        try {
+            return jdbcTemplate.query("SELECT * from ServicioPerma WHERE nombre NOT IN (SELECT nombre_servicioperma FROM SeFijaEnEspacio WHERE nombre_espaciopublico=?)",
+                    new ServicioPermaRowMapper(),nombreEspacio);
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public void addServicioPermaEnEspacio(String nombreServicio, String nombreEspacio) {
+        jdbcTemplate.update("INSERT INTO SeFijaEnEspacio VALUES(?,?)",
+                nombreServicio, nombreEspacio);
+    }
+
+    public void deleteServicioPermaDeEspacio(String nombreServicioPerma, String nombreEspacioPublico) {
+        jdbcTemplate.update("DELETE from SeFijaEnEspacio where nombre_servicioperma=? AND nombre_espaciopublico=?",
+                nombreServicioPerma, nombreEspacioPublico);
     }
 
 }

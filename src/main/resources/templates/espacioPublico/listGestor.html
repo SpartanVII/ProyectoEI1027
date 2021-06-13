@@ -41,9 +41,8 @@
                 <td th:text="${espacioPublico.tipoTerreno}"></td>
                 <td th:text="${espacioPublico.tipoAcceso}"></td>
                 <td th:text="${espacioPublico.nombreMunicipio}"></td>
-                <td><a th:href="@{/espacioPublico/update/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-warning" type="button">Edita</a></td>
+                <td><a th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-warning" type="button">Edita</a></td>
                 <td><a th:href="@{/espacioPublico/delete/{nombre}(nombre=${espacioPublico.nombre})}" class="btn btn-danger" role="button">Borra</a>
-                <!-- <td><a th:href="@{}" class="btn btn-info" role="button">Añadir Servicio</a> -->
                 </td>
             </tr>
             </tbody>

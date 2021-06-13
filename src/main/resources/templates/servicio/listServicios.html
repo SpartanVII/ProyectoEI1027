@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseGestorMunicipal}">
+<head>
+    <title>Gestionar Espacios Publicos</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
+
+</head>
+<body>
+<div layout:fragment="content" th:object="${espacio}">
+    <h1>Lista de Servicios</h1>
+    <h3 th:text="${espacio.nombre}"></h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Duración</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="servicioPerma: ${serviciosPerma}">
+            <td th:text="${servicioPerma.nombre}"></td>
+            <td th:text="${servicioPerma.tipoServicio}"></td>
+            <td>Permanente</td>
+            <td><a th:href="@{/servicio/deleteDeEspacio/{nombreEspacio}/{nombreServicio}(nombreEspacio=${espacio.nombre},nombreServicio=${servicioPerma.nombre})}" class="btn btn-danger" role="button">Borra</a></td>
+        </tr>
+        <tr th:each="servicioEstacional: ${serviciosEstacionales}">
+            <td th:text="${servicioEstacional.nombre}"></td>
+            <td th:text="${servicioEstacional.tipoServicio}"></td>
+            <td>Estacional</td>
+            <td><a th:href="@{/servicio/deleteDeEspacio/{nombreEspacio}/{nombreServicio}(nombreEspacio=${espacio.nombre},nombreServicio=${servicioEstacional.nombre})}" class="btn btn-danger" role="button">Borra</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/servicio/addPermanente/{nombreEspacio}(nombreEspacio=${espacio.nombre})}" class="btn btn-success" role="button">Añade Servicio Permanente</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a th:href="@{/servicio/addEstacional/{nombreEspacio}(nombreEspacio=${espacio.nombre})}" class="btn btn-success" role="button">Añade Servicio Estacional</a><br><br>
+    <a th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${espacio.nombre})}" class="btn btn-warning" type="button">Volver</a>
+</div>
+</body>
+</html>

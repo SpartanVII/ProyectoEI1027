@@ -3,30 +3,31 @@ package mvc.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class PeriodosServiciosEstacionalesEnEspacio {
 
     @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
-    private Date fechaInicio;
+    private LocalDate fechaInicio;
     @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
-    private Date fechaFin;
+    private LocalDate fechaFin;
     private String nombreEspacioPublico;
     private String nombreServicioEstacional;
 
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 

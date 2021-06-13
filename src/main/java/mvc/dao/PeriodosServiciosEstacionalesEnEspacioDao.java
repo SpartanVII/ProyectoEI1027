@@ -2,6 +2,7 @@ package mvc.dao;
 
 
 import mvc.model.PeriodosServiciosEstacionalesEnEspacio;
+import mvc.model.ServicioPerma;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,7 +24,7 @@ public class PeriodosServiciosEstacionalesEnEspacioDao {
 
 
     public void addPeriodosServiciosEstacionales(PeriodosServiciosEstacionalesEnEspacio periodosServiciosEstacionalesEnEspacio) {
-        jdbcTemplate.update("INSERT INTO ServicioPerma VALUES(?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO PeriodosServiciosEstacionalesEnEspacio VALUES(?,?,?,?)",
                 periodosServiciosEstacionalesEnEspacio.getFechaInicio(), periodosServiciosEstacionalesEnEspacio.getFechaFin(),
                 periodosServiciosEstacionalesEnEspacio.getNombreEspacioPublico(), periodosServiciosEstacionalesEnEspacio.getNombreServicioEstacional());
     }

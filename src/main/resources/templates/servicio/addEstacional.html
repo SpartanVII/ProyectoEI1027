@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseGestorMunicipal}">
+<head>
+    <title>Gestionar Espacios Publicos</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
+
+</head>
+<body>
+<div layout:fragment="content" th:object="${espacio}">
+    <h1>Lista de Servicios</h1>
+    <h3 th:text="${espacio}"></h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="servicioEstacional: ${serviciosEstacionales}">
+            <td th:text="${servicioEstacional.nombre}"></td>
+            <td th:text="${servicioEstacional.tipoServicio}"></td>
+            <td><a th:href="@{/servicio/addEstacional/{nombreEspacio}/{nombreServicio}(nombreEspacio=${espacio},nombreServicio=${servicioEstacional.nombre})}" class="btn btn-info" role="button">Añadir</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/servicio/listEnEspacio/{nombreEspacio}(nombreEspacio=${espacio})}" class="btn btn-warning" type="button">Volver</a><br><br>
+</div>
+</body>
+</html>
