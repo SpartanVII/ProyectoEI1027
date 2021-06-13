@@ -61,11 +61,17 @@ public class ReservaController {
     private ReservaDao reservaDao;
     private FranjaEspacioDao franjaEspacioDao;
     private ZonaDao zonaDao;
+    private NotificacionDao notificacionDao;
     private int pageLength = 8;
 
     @Autowired
     public void setReservaDao(ReservaDao reservaDao) {
         this.reservaDao = reservaDao;
+    }
+
+    @Autowired
+    public void setNotificacionDao(NotificacionDao notificacionDao) {
+        this.notificacionDao = notificacionDao;
     }
 
     @Autowired
@@ -192,6 +198,14 @@ public class ReservaController {
             return "/reserva/add";
         }
         reservaDao.addReserva(reserva);
+        
+        //Añadimos una notificaion
+        Notificacion notificacion = new Notificacion();
+        notificacion.setIdentificador(notificacionDao.getSiguienteIdentificadorNotificacion());
+        notificacion.setDniCiudadano(reserva.getDniCiudadano());
+        notificacion.setMensaje("Usted ha realizado una reserva en la zona "+reserva.getIdentificadorZona()+".\n" +
+                "La reserva comienza "+reserva.getHoraEntrada()+" y acaba a las "+reserva.getHoraSalida()+".");
+        notificacionDao.addNotificacion(notificacion);
 
         //Correo de confirmacion de la reserva
         CorreoController.enviaCorreo(new Correo(user.getGamil(),"Reserva para el dia "+reserva.getFecha().toString(),

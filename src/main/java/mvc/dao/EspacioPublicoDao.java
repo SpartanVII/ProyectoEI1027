@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ClientInfoStatus;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,12 @@ public class EspacioPublicoDao {
                         "Sin descripcion", 5,espacioPublico.getNombre());
                 j++;
             }
+            jdbcTemplate.update("INSERT INTO FranjaEspacio VALUES(?,?,?)", LocalTime.parse("10:00"),LocalTime.parse("11:00"), espacioPublico.getNombre());
+            jdbcTemplate.update("INSERT INTO FranjaEspacio VALUES(?,?,?)", LocalTime.parse("11:00"),LocalTime.parse("12:00"), espacioPublico.getNombre());
+            jdbcTemplate.update("INSERT INTO FranjaEspacio VALUES(?,?,?)", LocalTime.parse("14:00"),LocalTime.parse("16:00"), espacioPublico.getNombre());
+
         }
+
     }
 
 
