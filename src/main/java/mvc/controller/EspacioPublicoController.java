@@ -1,11 +1,9 @@
 package mvc.controller;
 
 import mvc.dao.EspacioPublicoDao;
-import mvc.model.Ciudadano;
+import mvc.dao.ZonaDao;
 import mvc.model.EspacioPublico;
 import mvc.model.UserDetails;
-import org.apache.catalina.User;
-import org.jasypt.contrib.org.apache.commons.codec_1_3.BinaryDecoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,11 +23,17 @@ import java.util.stream.IntStream;
 public class EspacioPublicoController {
 
     private EspacioPublicoDao espacioPublicoDao;
+    private ZonaDao zonaDao;
     private int pageLength = 6;
 
     @Autowired
     public void setEspacioPublicoDao(EspacioPublicoDao espacioPublicoDao) {
         this.espacioPublicoDao=espacioPublicoDao;
+    }
+
+    @Autowired
+    public void setZonaDao(ZonaDao zonaDao) {
+        this.zonaDao=zonaDao;
     }
 
     @RequestMapping("/listRegistrado")
@@ -111,8 +115,8 @@ public class EspacioPublicoController {
     public String processAddSubmit(@ModelAttribute("espacioPublico") EspacioPublico espacioPublico,  BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "espacioPublico/add";
-        espacioPublicoDao.addEspacioPublico(espacioPublico);
 
+        espacioPublicoDao.addEspacioPublico(espacioPublico);
 
         return "redirect:/espacioPublico/listRegistrado?nuevo="+espacioPublico.getNombre();
     }

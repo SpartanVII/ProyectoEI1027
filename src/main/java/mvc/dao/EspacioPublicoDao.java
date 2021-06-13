@@ -30,7 +30,18 @@ public class EspacioPublicoDao {
                 espacioPublico.getNombre(), espacioPublico.getDescripcion(), espacioPublico.getLocalizacionGeografica(),
                 espacioPublico.getOcupacion(), espacioPublico.getLongitud(), espacioPublico.getAmplitud(), espacioPublico.getOrientacion(),
                 espacioPublico.getComentario(), espacioPublico.getTipoTerreno(), espacioPublico.getTipoAcceso(), espacioPublico.getNombreMunicipio());
+
+        if(espacioPublico.getTipoAcceso().equals("RESTRINGIDO")){
+            int j=1;
+            for (int i = 0; i < espacioPublico.getOcupacion(); i+=5) {
+                jdbcTemplate.update("INSERT INTO Zona VALUES(?,?,?,?)",j+"-"+espacioPublico.getNombre(),
+                        "Sin descripcion", 5,espacioPublico.getNombre());
+                j++;
+            }
+        }
     }
+
+
 
 
     public void deleteEspacioPublico(String nombre) {

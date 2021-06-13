@@ -10,7 +10,8 @@
 <div layout:fragment="content" th:object="${espacio}">
     <h1>Lista de Servicios</h1>
     <h3 th:text="${espacio.nombre}"></h3>
-    <table class="table table-striped">
+    <div th:if="${#lists.isEmpty(serviciosPerma) && #lists.isEmpty(serviciosEstacionales)}">Este espacio no tiene servicios</div>
+    <table  th:unless="${#lists.isEmpty(serviciosPerma) && #lists.isEmpty(serviciosEstacionales)}" class="table table-striped">
         <thead>
         <tr>
             <th>Nombre</th>

@@ -9,8 +9,8 @@
 <div layout:fragment="content">
     <h1>Lista de Reservas</h1>
     <div th:with="reservas=${reservasPaged[__${selectedPage}__]}">
-        <div th:if="${#lists.isEmpty(reservasPaged)}">No tienes reservas</div>
-        <table  th:unless="${#lists.isEmpty(reservasPaged)}" class="table table-striped">
+        <div th:if="${#lists.isEmpty(reservas)}">No tienes reservas</div>
+        <table  th:unless="${#lists.isEmpty(reservas)}" class="table table-striped">
             <thead>
             <tr>
                 <th>ID</th>

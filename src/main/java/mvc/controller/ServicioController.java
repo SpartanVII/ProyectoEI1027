@@ -85,7 +85,6 @@ public class ServicioController {
 
     @RequestMapping(value="/deleteDeEspacio/{nombreEspacio}/{nombreServicio}")
     public String processDelete(Model model, @PathVariable String nombreEspacio, @PathVariable String nombreServicio) {
-        System.out.println(servicioEstacionalDao.getServicioEstacional(nombreServicio));
         if (servicioEstacionalDao.getServicioEstacional(nombreServicio)!=null)
             servicioEstacionalDao.deleteServicioEstacionalDeEspacio(nombreServicio,nombreEspacio);
 
