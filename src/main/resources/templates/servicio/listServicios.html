@@ -18,7 +18,6 @@
             <th>Tipo</th>
             <th>Duración</th>
             <th></th>
-            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -39,7 +38,7 @@
                    class="btn btn-danger" role="button">Borra</a></td>
         </tr>
         </tbody>
-    </table>
+    </table><br>
     <a th:href="@{/servicio/addPermanente/{nombreEspacio}(nombreEspacio=${espacio.nombre})}" class="btn btn-success" role="button">Añade Servicio Permanente</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a th:href="@{/servicio/addEstacional/{nombreEspacio}(nombreEspacio=${espacio.nombre})}" class="btn btn-success" role="button">Añade Servicio Estacional</a><br><br>
     <a th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${espacio.nombre})}" class="btn btn-warning" type="button">Volver</a>

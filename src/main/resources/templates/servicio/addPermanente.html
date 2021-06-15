@@ -10,7 +10,8 @@
 <div layout:fragment="content" th:object="${espacio}">
     <h1>Servicios Permanentes Disponibles</h1>
     <h3 th:text="${espacio}"></h3>
-    <table class="table table-striped">
+    <div th:if="${#lists.isEmpty(serviciosPerma)}">No hay más servicios permanentes disponibles</div>
+    <table  th:unless="${#lists.isEmpty(serviciosPerma)}" class="table table-striped">
         <thead>
         <tr>
             <th>Nombre</th>
@@ -27,7 +28,7 @@
                    class="btn btn-info" role="button">Añadir</a></td>
         </tr>
         </tbody>
-    </table>
+    </table><br>
     <a th:href="@{/servicio/listEnEspacio/{nombreEspacio}(nombreEspacio=${espacio})}" class="btn btn-warning" type="button">Volver</a><br><br>
 </div>
 </body>

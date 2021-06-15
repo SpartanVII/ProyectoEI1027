@@ -10,7 +10,8 @@
 <div layout:fragment="content" th:object="${espacio}">
     <h1>Servicios Estacionales Disponibles</h1>
     <h3 th:text="${espacio}"></h3>
-    <table class="table table-striped">
+    <div th:if="${#lists.isEmpty(serviciosEstacionales)}">No hay más servicios estacionales disponibles</div>
+    <table th:unless="${#lists.isEmpty(serviciosEstacionales)}" class="table table-striped">
         <thead>
         <tr>
             <th>Nombre</th>
@@ -25,7 +26,7 @@
             <td><a th:href="@{/servicio/addEstacional/{nombreEspacio}/{nombreServicio}(nombreEspacio=${espacio},nombreServicio=${servicioEstacional.nombre})}" class="btn btn-info" role="button">Añadir</a></td>
         </tr>
         </tbody>
-    </table>
+    </table><br>
     <a th:href="@{/servicio/listEnEspacio/{nombreEspacio}(nombreEspacio=${espacio})}" class="btn btn-warning" type="button">Volver</a><br><br>
 </div>
 </body>

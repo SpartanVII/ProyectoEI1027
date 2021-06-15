@@ -42,7 +42,7 @@
             <tr>
                 <td colspan="2"><input type="submit" class="btn btn-primary"   th:onclick="return confirm('¿Confirmas la reserva?');" value="Añadir Reserva" /></td>
             </tr>
-        </table>
+        </table><br>
         <a  th:href="@{/zona/particular/{nombre}(nombre=${reserva.nombreEspacio})}"><button type="button" class="btn btn-warning">Volver</button></a>
     </form>
 </div>
