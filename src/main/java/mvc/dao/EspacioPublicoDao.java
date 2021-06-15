@@ -1,7 +1,5 @@
 package mvc.dao;
 
-
-import mvc.model.Controlador;
 import mvc.model.EspacioPublico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -9,8 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.ClientInfoStatus;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +15,7 @@ import java.util.List;
 public class EspacioPublicoDao {
 
     private JdbcTemplate jdbcTemplate;
+    private int tamZona= 5;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -33,16 +30,14 @@ public class EspacioPublicoDao {
                 espacioPublico.getComentario(), espacioPublico.getTipoTerreno(), espacioPublico.getTipoAcceso(), espacioPublico.getNombreMunicipio());
 
         if(espacioPublico.getTipoAcceso().equals("RESTRINGIDO")){
-            int j=1;
-            for (int i = 0; i < espacioPublico.getOcupacion(); i+=5) {
-                jdbcTemplate.update("INSERT INTO Zona VALUES(?,?,?,?)",j+"-"+espacioPublico.getNombre(),
+
+            for (int i = 1; i <= espacioPublico.getOcupacion()/tamZona; i++) {
+                jdbcTemplate.update("INSERT INTO Zona VALUES(?,?,?,?)",i+"-"+espacioPublico.getNombre(),
                         "Sin descripcion", 5,espacioPublico.getNombre());
-                j++;
             }
             jdbcTemplate.update("INSERT INTO FranjaEspacio VALUES(?,?,?)", LocalTime.parse("10:00"),LocalTime.parse("11:00"), espacioPublico.getNombre());
             jdbcTemplate.update("INSERT INTO FranjaEspacio VALUES(?,?,?)", LocalTime.parse("11:00"),LocalTime.parse("12:00"), espacioPublico.getNombre());
             jdbcTemplate.update("INSERT INTO FranjaEspacio VALUES(?,?,?)", LocalTime.parse("14:00"),LocalTime.parse("16:00"), espacioPublico.getNombre());
-
         }
 
     }
@@ -70,12 +65,15 @@ public class EspacioPublicoDao {
                 nombre);
     }
 
-    public void deleteEspacioPublico(EspacioPublico espacioPublico) {
-        jdbcTemplate.update("DELETE from EspacioPublico where nombre=?",
-                espacioPublico.getNombre());
-    }
-
     public void updateEspacioPublico(EspacioPublico espacioPublico) {
+
+        if(espacioPublico.getTipoAcceso().equals("RESTRINGIDO")){
+
+        }
+
+
+
+
         jdbcTemplate.update("UPDATE EspacioPublico SET descripcion=?, localizacionGeografica=?, ocupacion=?, longitud=?, " +
                         "amplitud=?, orientacion=?, comentario=?, tipoTerreno=?, tipoAcceso=?, nombre_municipio=? where nombre=?",
                 espacioPublico.getDescripcion(), espacioPublico.getLocalizacionGeografica(), espacioPublico.getOcupacion(), espacioPublico.getLongitud(),
@@ -110,6 +108,13 @@ public class EspacioPublicoDao {
                     new EspacioPublicoRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
+        }
+    }
+
+    public void creaZonas(String nombreEspacio, int num){
+        for (int i = 0; i < num; i++) {
+            jdbcTemplate.update("INSERT INTO Zona VALUES(?,?,?,?)",i+"-"+nombreEspacio,
+                    "Sin descripcion", 5,nombreEspacio);
         }
     }
 

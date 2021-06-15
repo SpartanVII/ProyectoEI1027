@@ -15,11 +15,12 @@
         <input type="hidden" maxlength="50" th:field="*{identificador}" readonly="readonly">
         <input type="hidden" maxlength="50" th:field="*{dniCiudadano}" readonly="readonly">
         <tr>
-            <td><label>Añada los motivos de la cancelació</label></td>
+            <td><label>Añada los motivos de la cancelación</label></td>
             <textarea name="textarea" rows="10" cols="50"  th:field="*{mensaje}" >Escribe lo que dessees notificar</textarea>
         </tr>
     </table><br>
-    <td colspan="2"><input type="submit" value="Enviar notificación" required/></td>
+    <input class="btn btn-success" type="submit" value="Enviar notificación" />
+
 </form>
 </div>
 </body>

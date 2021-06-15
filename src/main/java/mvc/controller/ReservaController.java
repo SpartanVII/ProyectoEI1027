@@ -204,7 +204,7 @@ public class ReservaController {
         notificacion.setIdentificador(notificacionDao.getSiguienteIdentificadorNotificacion());
         notificacion.setDniCiudadano(reserva.getDniCiudadano());
         notificacion.setMensaje("Usted ha realizado una reserva en la zona "+reserva.getIdentificadorZona()+".\n" +
-                "La reserva comienza "+reserva.getHoraEntrada()+" y acaba a las "+reserva.getHoraSalida()+".");
+                "La reserva es el dia "+reserva.getFecha()+" ,comienza a las "+reserva.getHoraEntrada()+" y acaba a las "+reserva.getHoraSalida()+".");
         notificacionDao.addNotificacion(notificacion);
 
         //Correo de confirmacion de la reserva
