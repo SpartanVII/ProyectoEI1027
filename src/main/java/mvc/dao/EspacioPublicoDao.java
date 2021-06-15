@@ -67,13 +67,6 @@ public class EspacioPublicoDao {
 
     public void updateEspacioPublico(EspacioPublico espacioPublico) {
 
-        if(espacioPublico.getTipoAcceso().equals("RESTRINGIDO")){
-
-        }
-
-
-
-
         jdbcTemplate.update("UPDATE EspacioPublico SET descripcion=?, localizacionGeografica=?, ocupacion=?, longitud=?, " +
                         "amplitud=?, orientacion=?, comentario=?, tipoTerreno=?, tipoAcceso=?, nombre_municipio=? where nombre=?",
                 espacioPublico.getDescripcion(), espacioPublico.getLocalizacionGeografica(), espacioPublico.getOcupacion(), espacioPublico.getLongitud(),
