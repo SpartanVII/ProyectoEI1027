@@ -121,7 +121,7 @@ public class LoginController {
         CorreoController.enviaCorreo(new Correo(user.getGmail(),"Recordatorio de creedenciales",
                 "\tSu usario es: "+ciudadano.getDni()+"\n\tSu contraseña es: "+ciudadano.getPin()));
 
-        return "/";
+        return "redirect:/";
 
     }
 

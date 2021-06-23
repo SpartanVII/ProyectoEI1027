@@ -103,13 +103,18 @@ public class CiudadanoController {
     public String processAddSubmit(@ModelAttribute("ciudadano") Ciudadano ciudadano, BindingResult bindingResult, HttpSession session){
 
         //Si el dni ya esta en la base de datos excepcion
+        String dniOri = ciudadano.getDni();
+        String emailOri= ciudadano.getEmail();
         if(ciudadanoDao.getCiudadano(ciudadano.getDni())!=null) ciudadano.setDni("USADO");
         if(ciudadanoDao.getCiudadanoEmail(ciudadano.getEmail())!=null) ciudadano.setEmail("USADO");
 
         CiudadanoValidator ciudadanoValidator = new CiudadanoValidator();
         ciudadanoValidator.validate(ciudadano, bindingResult);
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
+            ciudadano.setEmail(emailOri);
+            ciudadano.setDni(dniOri);
             return "ciudadano/add";
+        }
 
         ciudadanoDao.addCiudadano(ciudadano);
 
