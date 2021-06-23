@@ -31,6 +31,10 @@ class CiudadanoValidator implements Validator {
             errors.rejectValue("edad", "obligatorio",
                     "Edad mínima 18 años");
 
+        if (ciudadano.getDni().trim().equals("USADO"))
+            errors.rejectValue("dni", "obligatorio",
+                    "Ya existe un usuario registrado con este dni");
+
         if (ciudadano.getDni().trim().equals(""))
             errors.rejectValue("dni", "obligatorio",
                     "Campo obligatorio");
@@ -93,6 +97,9 @@ public class CiudadanoController {
 
     @RequestMapping(value="/add", method= RequestMethod.POST)
     public String processAddSubmit(@ModelAttribute("ciudadano") Ciudadano ciudadano, BindingResult bindingResult, HttpSession session){
+
+        //Si el dni ya esta en la base de datos excepcion
+        if(ciudadanoDao.getCiudadano(ciudadano.getDni())!=null) ciudadano.setDni("USADO");
 
         CiudadanoValidator ciudadanoValidator = new CiudadanoValidator();
         ciudadanoValidator.validate(ciudadano, bindingResult);

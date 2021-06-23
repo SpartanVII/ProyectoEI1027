@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +32,7 @@ public class EspacioPublicoDao {
 
         if(espacioPublico.getTipoAcceso().equals("RESTRINGIDO")){
 
-            for (int i = 1; i <= espacioPublico.getOcupacion()/tamZona; i++) {
-                jdbcTemplate.update("INSERT INTO Zona VALUES(?,?,?,?)",i+"-"+espacioPublico.getNombre(),
-                        "Sin descripcion", 5,espacioPublico.getNombre());
-            }
+            creaZonas(espacioPublico.getNombre(),espacioPublico.getOcupacion()/tamZona,0);
             jdbcTemplate.update("INSERT INTO FranjaEspacio VALUES(?,?,?)", LocalTime.parse("10:00"),LocalTime.parse("11:00"), espacioPublico.getNombre());
             jdbcTemplate.update("INSERT INTO FranjaEspacio VALUES(?,?,?)", LocalTime.parse("11:00"),LocalTime.parse("12:00"), espacioPublico.getNombre());
             jdbcTemplate.update("INSERT INTO FranjaEspacio VALUES(?,?,?)", LocalTime.parse("14:00"),LocalTime.parse("16:00"), espacioPublico.getNombre());
@@ -66,6 +64,19 @@ public class EspacioPublicoDao {
     }
 
     public void updateEspacioPublico(EspacioPublico espacioPublico) {
+        EspacioPublico espacioViejo= jdbcTemplate.queryForObject("SELECT * from EspacioPublico WHERE nombre=?",
+                new EspacioPublicoRowMapper(), espacioPublico.getNombre());
+
+        assert espacioViejo != null;
+        if(espacioPublico.getTipoAcceso().equals("RESTRINGIDO")){
+            int ocupacionVieja = espacioViejo.getOcupacion() / tamZona;
+            int ocupacionNueva = espacioPublico.getOcupacion() / tamZona;
+            if(espacioViejo.getTipoAcceso().equals("RESTRINGIDO")) {
+                creaZonas(espacioPublico.getNombre(), ocupacionNueva, ocupacionVieja + 1);
+            }else if(espacioViejo.getTipoAcceso().equals("ABIERTO")){
+                creaZonas(espacioPublico.getNombre(), ocupacionNueva, 0);
+            }
+        }
 
         jdbcTemplate.update("UPDATE EspacioPublico SET descripcion=?, localizacionGeografica=?, ocupacion=?, longitud=?, " +
                         "amplitud=?, orientacion=?, comentario=?, tipoTerreno=?, tipoAcceso=?, nombre_municipio=? where nombre=?",
@@ -104,11 +115,20 @@ public class EspacioPublicoDao {
         }
     }
 
-    public void creaZonas(String nombreEspacio, int num){
-        for (int i = 0; i < num; i++) {
+    public void creaZonas(String nombreEspacio, int num, int ini){
+        for (int i = ini; i < num; i++) {
             jdbcTemplate.update("INSERT INTO Zona VALUES(?,?,?,?)",i+"-"+nombreEspacio,
                     "Sin descripcion", 5,nombreEspacio);
         }
+    }
+
+    public int getOcupacionActual(String nombreEspacio){
+        try {
+            Integer ocpuacion =  jdbcTemplate.queryForObject("SELECT SUM(numPersonas) from Reservas WHERE fecha=? AND horaEntrada<=? AND horaSalida>=?",
+                    Integer.class, nombreEspacio, LocalDate.now(), LocalTime.now(), LocalTime.now());
+            return ocpuacion==null?0:ocpuacion;
+        }
+        catch (Exception e){ return 0;}
     }
 
 }

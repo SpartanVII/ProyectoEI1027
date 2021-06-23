@@ -3,6 +3,7 @@ package mvc.dao;
 
 import mvc.model.Notificacion;
 import mvc.model.Reserva;
+import mvc.model.Zona;
 import mvc.model.enumerations.EstadoReserva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -84,6 +85,18 @@ public class ReservaDao {
         }
     }
 
+    public List<Reserva> getReservasEnMiMunicipio(String dni){
+        try {
+            return jdbcTemplate.query("SELECT * FROM Reserva WHERE nombreEspacio " +
+                            "IN (SELECT nombre from EspacioPublico WHERE nombre_municipio IN (" +
+                            "SELECT nombre_municipio from GestorMunicipal WHERE dni=?))" +
+                            "ORDER BY dni_ciudadano, fecha",
+                    new ReservaRowMapper(), dni);
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
     public List<Reserva> getReservasEnMiEspacio(String dni){
         try {
             return jdbcTemplate.query("SELECT * FROM Reserva WHERE nombreEspacio " +
@@ -108,16 +121,14 @@ public class ReservaDao {
         }
     }
 
-    public boolean resersvaDisponible(Reserva otraReserva){
+    public List<Zona> getZonasDisponibles(Reserva otraReserva){
         try {
-            List<Reserva> reservas = jdbcTemplate.query("SELECT * from Reserva WHERE identificador_zona=? AND fecha=? AND horaEntrada=? AND horaSalida=? AND estado='PENDIENTE_USO'",
-                    new ReservaRowMapper(),otraReserva.getIdentificadorZona(), otraReserva.getFecha(), otraReserva.getHoraEntrada(), otraReserva.getHoraSalida());
+            return jdbcTemplate.query("SELECT * from Zona WHERE nombre_espacioPublico=? AND identificador NOT IN (SELECT identificador_zona FROM ocupa WHERE identificador_reserva IN " +
+                            "(SELECT identificador From Reserva WHERE nombreEspacio=? AND fecha=? AND horaEntrada=? AND horaSalida=? AND estado='PENDIENTE_USO'))",
+                    new ZonaRowMapper(),otraReserva.getNombreEspacio(), otraReserva.getNombreEspacio(), otraReserva.getFecha(), otraReserva.getHoraEntrada(), otraReserva.getHoraSalida());
 
-            return reservas.isEmpty();
-        } catch (EmptyResultDataAccessException e) {
-            return true;
         } catch (Exception e) {
-            return false;
+            return new ArrayList<>();
         }
     }
 

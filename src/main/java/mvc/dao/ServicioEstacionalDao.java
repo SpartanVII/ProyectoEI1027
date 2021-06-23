@@ -1,8 +1,10 @@
 package mvc.dao;
 
 
+import mvc.model.PeriodosServiciosEstacionalesEnEspacio;
 import mvc.model.ServicioEstacional;
 import mvc.model.ServicioPerma;
+import mvc.services.ServicioEstacionalCompleto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -64,11 +66,22 @@ public class ServicioEstacionalDao {
         }
     }
 
-    public List<ServicioEstacional> getServiciosEstacionalesEspacio(String nombreEspacio) {
+    public List<ServicioEstacionalCompleto> getServiciosEstacionalesEspacio(String nombreEspacio) {
         try {
-            return jdbcTemplate.query("SELECT * from ServicioEstacional WHERE nombre IN (SELECT nombre_servicioestacional " +
-                            "FROM periodosserviciosestacionalesenespacio WHERE nombre_espaciopublico=? )",
-                    new ServicioEstacionalRowMapper(), nombreEspacio);
+            List<ServicioEstacional> servicioEstacionals= jdbcTemplate.query("SELECT * from ServicioEstacional WHERE nombre IN (SELECT nombre_servicioestacional " +
+                            "FROM periodosserviciosestacionalesenespacio WHERE nombre_espaciopublico=? )", new ServicioEstacionalRowMapper(), nombreEspacio);
+            List<ServicioEstacionalCompleto> listaDefinitiva= new ArrayList<>();
+
+            //Creamos la clase auxiliar para almacenar las fechas
+            for (ServicioEstacional servicioEstacional: servicioEstacionals){
+                 PeriodosServiciosEstacionalesEnEspacio ser=
+                         jdbcTemplate.queryForObject("SELECT * from PeriodosServiciosEstacionalesEnEspacio WHERE nombre_espacioPublico=? AND nombre_servicioEstacional=?",
+                         new PeriodosServiciosEstacionalesEnEspacioRowMapper(), nombreEspacio, servicioEstacional.getNombre());
+                assert ser != null;
+                listaDefinitiva.add(new ServicioEstacionalCompleto(servicioEstacional,ser));
+            }
+
+            return listaDefinitiva;
 
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();

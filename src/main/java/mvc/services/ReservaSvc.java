@@ -13,7 +13,10 @@ public class ReservaSvc implements ReservaService{
     private String estado;
     private String  fecha;
     private String dni;
-    private String zona;
+    private String zona1;
+    private String zona2;
+    private String zona3;
+    private String zona4;
     private String nombreEspacio;
 
     public ReservaSvc(Reserva reserva) {
@@ -21,7 +24,6 @@ public class ReservaSvc implements ReservaService{
         this.numPersonas = reserva.getNumPersonas();
         this.fecha = reserva.getFecha().toString();
         this.dni = reserva.getDniCiudadano();
-        this.zona = reserva.getIdentificadorZona();
     }
 
     public ReservaSvc() {
@@ -67,12 +69,46 @@ public class ReservaSvc implements ReservaService{
         this.dni = dni;
     }
 
-    public String getZona() {
-        return zona;
+    public String getZonas() {
+        StringBuilder x = new StringBuilder();
+        if(zona1!=null) x.append(zona1);
+        x.append(",");
+        if(zona2!=null) x.append(zona2);
+        x.append(",");
+        if(zona3!=null) x.append(zona3);
+        x.append(",");
+        if(zona4!=null) x.append(zona4);
+        x.append(",");
+        return x.toString();
     }
 
-    public void setZona(String zona) {
-        this.zona = zona;
+    public String getZona1() {
+        return zona1;
+    }
+
+    public String getZona2() {
+        return zona2;
+    }
+
+    public String getZona3() {
+        return zona3;
+    }
+
+    public String getZona4() {
+        return zona4;
+    }
+
+    public void setZona1(String zona) {
+        this.zona1 = zona;
+    }
+    public void setZona2(String zona) {
+        this.zona2 = zona;
+    }
+    public void setZona3(String zona) {
+        this.zona3 = zona;
+    }
+    public void setZona4(String zona) {
+        this.zona4 = zona;
     }
 
     public String getNombreEspacio() {
@@ -90,7 +126,6 @@ public class ReservaSvc implements ReservaService{
         res.setDniCiudadano(dni);
         res.setNumPersonas(numPersonas);
         res.setFecha(LocalDate.parse(fecha));
-        res.setIdentificadorZona(zona);
         res.setHoraEntrada(LocalTime.parse(franja.substring(0,5)));
         res.setHoraSalida(LocalTime.parse(franja.substring(8,13)));
         res.setNombreEspacio(nombreEspacio);

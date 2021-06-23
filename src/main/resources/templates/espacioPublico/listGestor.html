@@ -15,16 +15,9 @@
             <tr>
                 <th>Nombre</th>
                 <th>Descripción</th>
-                <th>Localización Geografica</th>
-                <th>Ocupación</th>
-                <th>Longitud</th>
-                <th>Amplitud</th>
-                <th>Orientación</th>
-                <th>Comentario</th>
                 <th>Tipo Terreno</th>
                 <th>Tipo Acceso</th>
                 <th>Municipio</th>
-                <th></th>
                 <th></th>
             </tr>
             </thead>
@@ -33,19 +26,10 @@
                 th:class="${#strings.equals(nuevo,espacioPublico.nombre)}?'bg-info text-white'">
                 <td th:text="${espacioPublico.nombre}"></td>
                 <td th:text="${espacioPublico.descripcion}"></td>
-                <td th:text="${espacioPublico.localizacionGeografica}"></td>
-                <td th:text="${espacioPublico.ocupacion}"></td>
-                <td th:text="${espacioPublico.longitud}"></td>
-                <td th:text="${espacioPublico.amplitud}"></td>
-                <td th:text="${espacioPublico.orientacion}"></td>
-                <td th:text="${espacioPublico.comentario}"></td>
                 <td th:text="${espacioPublico.tipoTerreno}"></td>
                 <td th:text="${espacioPublico.tipoAcceso}"></td>
                 <td th:text="${espacioPublico.nombreMunicipio}"></td>
-                <td><a th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-warning" type="button">Edita</a></td>
-                <td><a th:href="@{/espacioPublico/delete/{nombre}(nombre=${espacioPublico.nombre})}"
-                       th:onclick="return confirm('¿Estas seguro de borrar es Espacio Público con nombre \'' +[[${espacioPublico.nombre}]]+'\'?');"
-                       class="btn btn-danger" role="button">Borra</a>
+                <td><a th:href="@{/espacioPublico/info/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-info" type="button">Info</a></td>
                 </td>
             </tr>
             </tbody>

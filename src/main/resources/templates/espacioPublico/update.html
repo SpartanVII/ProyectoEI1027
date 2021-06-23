@@ -21,48 +21,53 @@
             <td><label>Localización Geogrfica</label></td>
             <td><input type="text"  th:field="*{localizacionGeografica}" /></td>
 
-            <td><label>Ócupación</label></td>
-            <td><input type="number" th:field="*{ocupacion}" /></td>
+            <td><label>Cap.Máx.</label></td>
+            <td><input type="number" th:field="*{ocupacion}" th:min="${espacioPublico.ocupacion}" step="10"/></td>
         </tr>
         <tr>
             <td><label>Longitud</label></td>
-            <td><input type="number" th:field="*{longitud}" /></td>
+            <td><input type="number" th:field="*{longitud}" min="10" step="10"/></td>
 
             <td><label>Amplitud</label></td>
-            <td><input type="number" th:field="*{amplitud}" /></td>
+            <td><input type="number" th:field="*{amplitud}" min="10" step="10"/></td>
         </tr>
 
         <tr>
             <td><label>Descripción</label></td>
-            <td> <textarea rows="10" cols="50"  th:field="*{descripcion}"></textarea></td>
+            <td> <textarea rows="4" cols="25"  th:field="*{descripcion}"></textarea></td>
 
             <td><label>Comentario</label></td>
-            <td> <textarea rows="10" cols="50"  th:field="*{comentario}"></textarea></td>
+            <td> <textarea rows="4" cols="25"  th:field="*{comentario}"></textarea></td>
+        </tr>
+
+        <tr>
+            <td><label>Municipio</label></td>
+            <td><select class="form_control"  th:field="*{nombreMunicipio}">
+                <option th:each="municipio : ${municipios}"
+                        th:value="${municipio.nombre}"
+                        th:text="${municipio.nombre}"></option>
+            </select></td>
+
+            <td><label>Orientación</label></td>
+            <td><input type="text" th:field="*{orientacion}" required/></td>
         </tr>
         <tr>
             <td><label>Terreno</label></td>
             <td>
-            <select name="my_html_select_box" th:field="*{tipoTerreno}">
-                <option value="ARENA">Arena</option>
-                <option value="TIERRA">Tierra</option>
-                <option value="PIEDRA">Piedra</option>
-                <option value="ROCOSO">Rocoso</option>
-            </select></td>
+                <select name="my_html_select_box" th:field="*{tipoTerreno}">
+                    <option value="ARENA">Arena</option>
+                    <option value="TIERRA">Tierra</option>
+                    <option value="PIEDRA">Piedra</option>
+                    <option value="ROCOSO">Rocoso</option>
+                </select></td>
 
             <td><label>Accceso</label></td>
             <td>
-            <select name="my_html_select_box" th:field="*{tipoAcceso}">
-                <option value="RESTRINGIDO">Restringido</option>
-                <option value="ABIERTO">Abierto</option>
-                <option value="CERRADO">Cerrado</option>
-            </select></td>
-        </tr>
-        <tr>
-            <td><label>Municipio</label></td>
-            <td><input type="text" th:field="*{nombreMunicipio}" /></td>
-
-            <td><label>Orientación</label></td>
-            <td><input type="text" th:field="*{orientacion}" /></td>
+                <select name="my_html_select_box" th:field="*{tipoAcceso}">
+                    <option value="RESTRINGIDO">Restringido</option>
+                    <option value="ABIERTO">Abierto</option>
+                    <option value="CERRADO">Cerrado</option>
+                </select></td>
         </tr>
     </table><br>
     <input type="submit" th:onclick="return confirm('¿Estas seguro de actualizar el Espacio Público?');"

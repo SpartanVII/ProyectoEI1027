@@ -14,36 +14,53 @@
         <table>
             <input th:type="hidden" th:field="*{identificador}" th:value="${reserva.identificador}"/>
             <input th:type="hidden" th:field="*{dni}" th:value="${reserva.dni}"/>
-            <input th:type="hidden" th:field="*{zona}" th:value="${reserva.zona}"/>
             <input th:type="hidden" th:field="*{nombreEspacio}" th:value="${reserva.nombreEspacio}"/>
             <tr>
-                <td><label>Zona</label></td>
-                <td th:text="${reserva.zona}" th:field="*{zona}" th:value="reserva.zona"></td>
-            </tr>
-            <tr>
-                <td><label>Num Personas</label></td>
-                <td><input type="number" placeholder="1" value="1" min="1" max="16"  th:field="*{numPersonas}" /></td>
+                <td><label>Nombre Espacio: </label></td>
+                <td th:text="${reserva.nombreEspacio}"  th:field="*{nombreEspacio}" th:value="reserva.nombreEspacio">></td>
                 <td th:if="${#fields.hasErrors('numPersonas')}" th:errors="*{numPersonas}" class="error"></td>
             </tr>
             <tr>
-                <td><label>Fecha</label></td>
-                <td><input type="date" th:field="*{fecha}" required/></td>
-                <td th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}" class="error"></td>
+                <td><label>Num Personas</label></td>
+                <td><input type="number" placeholder="1" value="1" min="1" max="20"  th:field="*{numPersonas}" /></td>
+                <td th:if="${#fields.hasErrors('numPersonas')}" th:errors="*{numPersonas}" class="error"></td>
             </tr>
             <tr>
-                <td><label>Franja Horaria</label></td>
-                <td><select class="form_control" type="FranjaEspacio" th:field="*{franja}">
-                <option th:each="franja : ${franjas}"
-                        th:value="${franja}"
-                        th:text="${franja}"></option>
+                <td><label>Zonas 1</label></td>
+                <td><select class="form_control"  th:field="*{zona1}">
+                    <option th:each="zona : ${zonas}"
+                            th:value="${zona.identificador}"
+                            th:text="${zona.identificador}"></option>
                 </select></td>
-                <td th:if="${#fields.hasErrors('franja')}" th:errors="*{franja}" class="error"></td>
             </tr>
             <tr>
-                <td colspan="2"><input type="submit" class="btn btn-primary"   th:onclick="return confirm('¿Confirmas la reserva?');" value="Añadir Reserva" /></td>
+                <td><label>Zonas 2</label></td>
+                <td><select class="form_control"  th:field="*{zona2}">
+                    <option th:each="zona : ${zonas}"
+                            th:value="${zona.identificador}"
+                            th:text="${zona.identificador}"></option>
+                </select></td>
+            </tr>
+            <tr>
+                <td><label>Zonas 3</label></td>
+                <td><select class="form_control"  th:field="*{zona3}">
+                    <option th:each="zona : ${zonas}"
+                            th:value="${zona.identificador}"
+                            th:text="${zona.identificador}"></option>
+                </select></td>
+            </tr>
+            <tr>
+                <td><label>Zonas 4</label></td>
+                <td><select class="form_control"  th:field="*{zona4}">
+                    <option th:each="zona : ${zonas}"
+                            th:value="${zona.identificador}"
+                            th:text="${zona.identificador}"></option>
+                </select></td>
             </tr>
         </table><br>
-        <a  th:href="@{/zona/particular/{nombre}(nombre=${reserva.nombreEspacio})}"><button type="button" class="btn btn-warning">Volver</button></a>
+        <p>
+            <input type="submit" class="btn btn-primary"   th:onclick="return confirm('¿Confirmas la reserva?');" value="Añadir Reserva" /></p>
+        <a  th:href="@{/espacioPublico/info/{nombre}(nombre=${reserva.nombreEspacio})}"><button type="button" class="btn btn-secondary">Volver</button></a>
     </form>
 </div>
 </body>

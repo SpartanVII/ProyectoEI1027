@@ -9,22 +9,22 @@
 <body>
 <div layout:fragment="content">
 <h1>Crear usuario</h1>
-<form align="center" action="#" th:action="@{/ciudadano/add}"
+<form  action="#" th:action="@{/ciudadano/add}"
       th:object="${ciudadano}" method="post">
     <table>
         <tr>
             <td><label>Nombre</label></td>
-            <td><input type="text" maxlength="50" th:field="*{nombre}"/></td>
+            <td><input type="text" maxlength="40" th:field="*{nombre}" required/></td>
             <td th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="error"></td>
         </tr>
         <tr>
             <td><label>Edad</label></td>
-            <td><input type="number" maxlength="3" th:field="*{edad}"/></td>
+            <td><input type="number" maxlength="3" min="18" th:field="*{edad}"/></td>
             <td th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}" class="error"></td>
         </tr>
         <tr>
             <td><label>DNI</label></td>
-            <td><input type="text" maxlength="9" th:field="*{dni}"/></td>
+            <td><input type="text" maxlength="9" th:field="*{dni}" required/></td>
             <td th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="error"></td>
         </tr>
         <tr>
@@ -281,28 +281,29 @@
         </tr>
         <tr>
             <td><label>Dirección</label></td>
-            <td><input type="text" maxlength="200" th:field="*{direccion}" /></td>
+            <td><input type="text" maxlength="200" th:field="*{direccion}" required/></td>
             <td th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}" class="error"></td>
         </tr>
         <tr>
             <td><label>Email</label></td>
-            <td><input type="text" maxlength="50" th:field="*{email}" /></td>
+            <td><input type="email" maxlength="50" th:field="*{email}" required/></td>
             <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></td>
         </tr>
         <tr>
             <td><label>Ciudad</label></td>
-            <td><input type="text" maxlength="40" th:field="*{ciudad}" /></td>
+            <td><input type="text" maxlength="40" th:field="*{ciudad}" required/></td>
             <td th:if="${#fields.hasErrors('ciudad')}" th:errors="*{ciudad}" class="error"></td>
         </tr>
         <tr>
             <td><label>Pin</label></td>
-            <td><input type="text" maxlength="4" th:field="*{pin}" /></td>
+            <td><input type="text" maxlength="4"   pattern="[0-9]{4}" title="El pin debe tener 4 dígitos"  th:field="*{pin}" /></td>
             <td th:if="${#fields.hasErrors('pin')}" th:errors="*{pin}" class="error"></td>
         </tr>
     </table><br>
+    </form>
     <input class="btn btn-success" type="submit" value="Crear cuenta" /><br>
 
-</form>
+
 </div>
 </body>
 </html>

@@ -1,9 +1,11 @@
 package mvc.controller;
 
-import mvc.dao.EspacioPublicoDao;
-import mvc.dao.ZonaDao;
+import mvc.dao.*;
 import mvc.model.EspacioPublico;
+import mvc.model.FranjaEspacio;
+import mvc.model.GestorMunicipal;
 import mvc.model.UserDetails;
+import mvc.services.ReservaSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,9 @@ import java.util.stream.IntStream;
 public class EspacioPublicoController {
 
     private EspacioPublicoDao espacioPublicoDao;
-    private ZonaDao zonaDao;
+    private GestorMunicipalDao gestorMunicipalDao;
+    private FranjaEspacioDao franjaEspacioDao;
+    private MunicipioDao municipioDao;
     private int pageLength = 6;
 
     @Autowired
@@ -32,9 +36,13 @@ public class EspacioPublicoController {
     }
 
     @Autowired
-    public void setZonaDao(ZonaDao zonaDao) {
-        this.zonaDao=zonaDao;
-    }
+    public void setGestorMunicipalDao(GestorMunicipalDao gestorMunicipalDao){ this.gestorMunicipalDao=gestorMunicipalDao;}
+
+    @Autowired
+    public void setFranjaEspacioDao(FranjaEspacioDao franjaEspacioDao){this.franjaEspacioDao=franjaEspacioDao;}
+
+    @Autowired
+    public void setMunicipioDao(MunicipioDao municipioDao){this.municipioDao=municipioDao;}
 
     @RequestMapping("/listRegistrado")
     public String listRegistradoPaged(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("nuevo") Optional<String> nuevo,  HttpSession session) {
@@ -105,9 +113,36 @@ public class EspacioPublicoController {
         return "espacioPublico/listSinRegistrar";
     }
 
+    @RequestMapping(value="/info/{nombre}")
+    public String addEspacioPublico(Model model, HttpSession session, @PathVariable String nombre ) {
+
+        UserDetails user = (UserDetails) session.getAttribute("user");
+        EspacioPublico espacioPublico = espacioPublicoDao.getEspacioPublico(nombre);
+        model.addAttribute("ocupacion", espacioPublicoDao.getOcupacionActual(nombre));
+        model.addAttribute("espacioPublico", espacioPublico);
+
+        if (user.getRol().equals("ciudadano")){
+            ReservaSvc reservaService = new ReservaSvc();
+            reservaService.setDni(user.getUsername());
+            reservaService.setNombreEspacio(nombre);
+            model.addAttribute("reserva", reservaService);
+            model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(nombre));
+            return "espacioPublico/infoConReserva";
+        }
+        if(user.getRol().equals("Controlador")) return "espacioPublico/infoRegistrado";
+        GestorMunicipal gestorMunicipal= gestorMunicipalDao.getGestorMunicipal(user.getUsername());
+
+        if(gestorMunicipal.getNombreMunicipio().equals(espacioPublico.getNombreMunicipio())) model.addAttribute("esMio","si");
+        else model.addAttribute("esMio","no");
+
+        return  "espacioPublico/infoGestor";
+    }
+
     @RequestMapping(value="/add")
     public String addEspacioPublico(Model model) {
+
         model.addAttribute("espacioPublico", new EspacioPublico());
+        model.addAttribute("municipios", municipioDao.getMunicipios());
         return "espacioPublico/add";
     }
 
@@ -124,6 +159,7 @@ public class EspacioPublicoController {
     @RequestMapping(value="/update/{nombre}", method = RequestMethod.GET)
     public String editEspacioPublico(Model model, @PathVariable String nombre) {
         model.addAttribute("espacioPublico", espacioPublicoDao.getEspacioPublico(nombre));
+        model.addAttribute("municipios", municipioDao.getMunicipios());
         return "espacioPublico/update";
     }
 

@@ -32,7 +32,7 @@
         <tr th:each="servicioEstacional: ${serviciosEstacionales}">
             <td th:text="${servicioEstacional.nombre}"></td>
             <td th:text="${servicioEstacional.tipoServicio}"></td>
-            <td>Estacional</td>
+            <td th:text="${servicioEstacional.duracion}"></td>
             <td><a th:href="@{/servicio/deleteDeEspacio/{nombreEspacio}/{nombreServicio}(nombreEspacio=${espacio.nombre},nombreServicio=${servicioEstacional.nombre})}"
                    th:onclick="return confirm('¿Estas seguro de eliminar el Servicio \'' +[[${servicioEstacional.nombre}]]+'\'?');"
                    class="btn btn-danger" role="button">Borra</a></td>
@@ -41,7 +41,7 @@
     </table><br>
     <a th:href="@{/servicio/addPermanente/{nombreEspacio}(nombreEspacio=${espacio.nombre})}" class="btn btn-success" role="button">Añade Servicio Permanente</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a th:href="@{/servicio/addEstacional/{nombreEspacio}(nombreEspacio=${espacio.nombre})}" class="btn btn-success" role="button">Añade Servicio Estacional</a><br><br>
-    <a th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${espacio.nombre})}" class="btn btn-warning" type="button">Volver</a>
+    <a th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${espacio.nombre})}" class="btn btn-secondary" type="button">Volver</a>
 </div>
 </body>
 </html>

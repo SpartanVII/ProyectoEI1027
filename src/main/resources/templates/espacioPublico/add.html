@@ -15,37 +15,42 @@
         <tbody>
         <tr>
             <td><label>Nombre</label></td>
-            <td><input type="text" th:field="*{nombre}" /></td>
+            <td><input type="text" th:field="*{nombre}"  required /></td>
         </tr>
         <tr>
             <td><label>Localización Geogrfica</label></td>
-            <td><input type="text"  th:field="*{localizacionGeografica}" /></td>
+            <td><input type="text"  th:field="*{localizacionGeografica}" required /></td>
 
             <td><label>Ocupación</label></td>
-            <td><input type="number" th:field="*{ocupacion}" /></td>
+            <td><input type="number" th:field="*{ocupacion}" min="10" max="4000" step="10"/></td>
         </tr>
         <tr>
             <td><label>Longitud</label></td>
-            <td><input type="number" th:field="*{longitud}" /></td>
+            <td><input type="number" th:field="*{longitud}" min="10" step="10" required/></td>
 
             <td><label>Amplitud</label></td>
-            <td><input type="number" th:field="*{amplitud}" /></td>
+            <td><input type="number" th:field="*{amplitud}" min="10" step="10" required/></td>
         </tr>
         <tr>
             <td><label>Descripción</label></td>
-            <td> <textarea rows="4" cols="50"  th:field="*{descripcion}"></textarea></td>
+            <td> <textarea rows="4" cols="25"  th:field="*{descripcion}" required></textarea></td>
 
             <td><label>Comentario</label></td>
-            <td> <textarea rows="4" cols="50"  th:field="*{comentario}"></textarea></td>
+            <td> <textarea rows="4" cols="25"  th:field="*{comentario}" required></textarea></td>
         </tr>
 
 
         <tr>
             <td><label>Municipio</label></td>
-            <td><input type="text" th:field="*{nombreMunicipio}" /></td>
+            <td><select class="form_control"  th:field="*{nombreMunicipio}">
+                <option th:each="municipio : ${municipios}"
+                        th:value="${municipio.nombre}"
+                        th:text="${municipio.nombre}"></option>
+            </select></td>
+
 
             <td><label>Orientación</label></td>
-            <td><input type="text" th:field="*{orientacion}" /></td>
+            <td><input type="text" th:field="*{orientacion}" required/></td>
         </tr>
 
         <tr>

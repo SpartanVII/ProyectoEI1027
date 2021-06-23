@@ -29,7 +29,7 @@
                 <td th:text="${espacioPublico.tipoTerreno}"></td>
                 <td th:text="${espacioPublico.tipoAcceso}"></td>
                 <td th:text="${espacioPublico.nombreMunicipio}"></td>
-                <td><a th:if="${espacioPublico.tipoAcceso}=='RESTRINGIDO'" th:href="@{/zona/particular/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-info" type="button">Ver Zonas</a></td>
+                <td><a th:href="@{/espacioPublico/info/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-info" type="button">Info</a></td>
             </tr>
             </tbody>
         </table>

@@ -13,7 +13,7 @@
     <h3 th:text="${espacio.nombre}"></h3>
     <a th:href="@{/espacioPublico/update/{nombre}(nombre=${espacio.nombre})}" class="btn btn-primary" type="button">Modificar datos</a><br><br>
     <a th:href="@{/servicio/listEnEspacio/{nombreEspacio}(nombreEspacio=${espacio.nombre})}" class="btn btn-primary" type="button">Editar servicios</a><br><br>
-    <a href="/espacioPublico/listRegistrado" class="btn btn-warning" type="button">Volver</a><br><br>
+    <a th:href="@{/espacioPublico/info/{nombre}(nombre=${espacio.nombre})}" class="btn btn-secondary" type="button">Volver</a><br><br>
 </div>
 </body>
 </html>

@@ -91,7 +91,7 @@ public class ReservaController {
         UserDetails user = (UserDetails) session.getAttribute("user");
         List<Reserva> reservas;
         if (user.getRol().equals("ciudadano")) reservas= reservaDao.getReservasParticular(user.getUsername());
-        else if (user.getRol().equals("gestorMunicipal")) reservas = reservaDao.getReservas();
+        else if (user.getRol().equals("gestorMunicipal")) reservas = reservaDao.getReservasEnMiMunicipio(user.getUsername());
         else reservas = reservaDao.getReservasEnMiEspacio(user.getUsername());
 
         ArrayList<ArrayList<Reserva>> reservasPage= new ArrayList<>();
@@ -162,33 +162,27 @@ public class ReservaController {
     }
 
 
-    @RequestMapping(value="/add/{zona}")
-    public String addReservaEspacio(Model model,  @PathVariable String zona, HttpSession session) {
-        UserDetails user = (UserDetails) session.getAttribute("user");
+    @RequestMapping(value="/add/{nombreEspacio}")
+    public String addReservaEspacio(Model model,  @PathVariable String nombreEspacio, @ModelAttribute("reserva") ReservaSvc reservaService) {
 
-        ReservaSvc reservaService = new ReservaSvc();
-        reservaService.setDni(user.getUsername());
-        reservaService.setZona(zona);
         reservaService.setIdentificador(reservaDao.getSiguienteIdentificadorReserva());
-        reservaService.setNombreEspacio(zonaDao.getZona(zona).getNombreEspacio());
-
-        model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(zonaDao.getZona(zona).getNombreEspacio()));
         model.addAttribute("reserva", reservaService);
+        model.addAttribute("zonas", reservaDao.getZonasDisponibles(reservaService.crearReserva()));
         return "reserva/add";
     }
+
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String processAddSubmit(Model model, @ModelAttribute("reserva") ReservaSvc reservaService, HttpSession session, BindingResult bindingResult) {
 
         UserDetails user = (UserDetails) session.getAttribute("user");
+        reservaService.setIdentificador(reservaDao.getSiguienteIdentificadorReserva());
         Reserva reserva = reservaService.crearReserva();
         int numPersonas = reserva.getNumPersonas();
         int personasMaxZona=zonaDao.getZona(reserva.getIdentificadorZona()).getCapMaxima();
 
         //Ponemos las personas ennegativo para que lo detecte el validador que no caben todas
         if(personasMaxZona-numPersonas<0) numPersonas=-1*personasMaxZona;
-        //Error asociado a que la zona ya esta reservada el dia y hora
-        else if(!reservaDao.resersvaDisponible(reserva)) numPersonas=-111111111;
 
         reserva.setNumPersonas(numPersonas);
         ReservaValidator reservaValidator = new ReservaValidator();
