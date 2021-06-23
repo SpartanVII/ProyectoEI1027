@@ -55,6 +55,16 @@ public class CiudadanoDao {
         }
     }
 
+    public Ciudadano getCiudadanoEmail(String email) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT * from Ciudadano WHERE email=?",
+                    new CiudadanoRowMapper(), email);
+        }
+        catch(EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
     public Ciudadano getCiudadano(String dni, String pin) {
         try {
             return jdbcTemplate.queryForObject("SELECT * from Ciudadano WHERE dni=? AND pin=?",

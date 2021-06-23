@@ -5,10 +5,7 @@ import javax.servlet.http.HttpSession;
 import mvc.dao.CiudadanoDao;
 import mvc.dao.ControladorDao;
 import mvc.dao.GestorMunicipalDao;
-import mvc.model.Ciudadano;
-import mvc.model.Controlador;
-import mvc.model.GestorMunicipal;
-import mvc.model.UserDetails;
+import mvc.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,6 +64,8 @@ public class LoginController {
         return "login";
     }
 
+
+
     @RequestMapping(value="/login", method=RequestMethod.POST)
     public String checkLogin(@ModelAttribute("user") UserDetails user, BindingResult bindingResult, HttpSession session) {
 
@@ -83,7 +82,7 @@ public class LoginController {
 
         if(gestor!=null){
             user.setNombre(gestor.getNombre());
-            user.setGamil(gestor.getEmail());
+            user.setGmail(gestor.getEmail());
             user.setRol("gestorMunicipal");
             session.setAttribute("user", user);
             return "redirect:/gestorMunicipal/indice";
@@ -91,7 +90,7 @@ public class LoginController {
 
         if(ciudadano!=null){
             user.setNombre(ciudadano.getNombre());
-            user.setGamil(ciudadano.getEmail());
+            user.setGmail(ciudadano.getEmail());
             user.setRol("ciudadano");
             session.setAttribute("user", user);
             return "redirect:/ciudadano/indice";
@@ -99,7 +98,7 @@ public class LoginController {
 
         if(controlador!=null){
             user.setNombre(controlador.getNombre());
-            user.setGamil(controlador.getEmail());
+            user.setGmail(controlador.getEmail());
             user.setRol("controlador");
             session.setAttribute("user", user);
             return "redirect:/controlador/indice";
@@ -107,6 +106,23 @@ public class LoginController {
 
         bindingResult.rejectValue("password", "badpw", "Usuario o contraseña incorrectos");
         return "login";
+    }
+
+    @RequestMapping("/olvido")
+    public String olvido(Model model) {
+        model.addAttribute("user", new UserDetails());
+        return "olvido";
+    }
+
+    @RequestMapping(value="/olvido", method=RequestMethod.POST)
+    public String olvidoContra(@ModelAttribute("user") UserDetails user) {
+
+        Ciudadano ciudadano= ciudadanoDao.getCiudadanoEmail(user.getGmail());
+        CorreoController.enviaCorreo(new Correo(user.getGmail(),"Recordatorio de creedenciales",
+                "\tSu usario es: "+ciudadano.getDni()+"\n\tSu contraseña es: "+ciudadano.getPin()));
+
+        return "/";
+
     }
 
     @RequestMapping("/logout")

@@ -5,7 +5,7 @@ public class UserDetails {
     private String password;
     private String nombre;
     private String rol;
-    private String gamil;
+    private String gmail;
 
     public String getUsername() {
         return username;
@@ -39,11 +39,11 @@ public class UserDetails {
         this.nombre = nombre;
     }
 
-    public String getGamil() {
-        return gamil;
+    public String getGmail() {
+        return gmail;
     }
 
-    public void setGamil(String gamil) {
-        this.gamil = gamil;
+    public void setGmail(String gmail) {
+        this.gmail = gmail;
     }
 }

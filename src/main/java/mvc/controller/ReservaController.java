@@ -140,7 +140,7 @@ public class ReservaController {
         model.addAttribute("notificacion", notificacion);
 
         //Correo de aviso de la cancelacion
-        CorreoController.enviaCorreo(new Correo(user.getGamil(),"Cancelación de su reserva del dia "+reserva.getFecha().toString(),
+        CorreoController.enviaCorreo(new Correo(user.getGmail(),"Cancelación de su reserva del dia "+reserva.getFecha().toString(),
                     "La reserva que tenia lugar en la zona"+reserva.getIdentificadorZona()+" de " +reserva.getHoraEntrada()+
                             " a "+reserva.getHoraSalida()+" ha sido cancelada.\n"+ "Para consultar los motivos dirijase a la sección de notificaciones de su cuenta\n"
                             +"En caso de que no se le indicarán en una notificación se los comunicaremos más adelante.\n Muchas gracias y disculpe las molestias"));
@@ -200,7 +200,7 @@ public class ReservaController {
         notificacionDao.addNotificacion(notificacion);
 
         //Correo de confirmacion de la reserva
-        CorreoController.enviaCorreo(new Correo(user.getGamil(),"Nueva reserva el día "+reserva.getFecha(),
+        CorreoController.enviaCorreo(new Correo(user.getGmail(),"Nueva reserva el día "+reserva.getFecha(),
                 "Usted ha realizado una reserva en la zona "+reserva.getIdentificadorZona()+".\n" +
                         "La reserva es el dia "+reserva.getFecha()+" ,comienza a las "+reserva.getHoraEntrada()+" y acaba a las "+reserva.getHoraSalida()+"."));
 

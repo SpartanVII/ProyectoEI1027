@@ -51,6 +51,10 @@ class CiudadanoValidator implements Validator {
             errors.rejectValue("direccion", "obligatorio",
                     "Campo obligatorio");
 
+        if (ciudadano.getEmail().trim().equals("USADO"))
+            errors.rejectValue("email", "obligatorio",
+                    "Ya existe un usuario registrado con este email");
+
         if (ciudadano.getEmail().trim().equals(""))
             errors.rejectValue("email", "obligatorio",
                     "Campo obligatorio");
@@ -100,6 +104,7 @@ public class CiudadanoController {
 
         //Si el dni ya esta en la base de datos excepcion
         if(ciudadanoDao.getCiudadano(ciudadano.getDni())!=null) ciudadano.setDni("USADO");
+        if(ciudadanoDao.getCiudadanoEmail(ciudadano.getEmail())!=null) ciudadano.setEmail("USADO");
 
         CiudadanoValidator ciudadanoValidator = new CiudadanoValidator();
         ciudadanoValidator.validate(ciudadano, bindingResult);
@@ -112,7 +117,7 @@ public class CiudadanoController {
         UserDetails user = new UserDetails();
         user.setRol("ciudadano");
         user.setNombre(ciudadano.getNombre());
-        user.setGamil(ciudadano.getEmail());
+        user.setGmail(ciudadano.getEmail());
         user.setUsername(ciudadano.getDni());
         session.setAttribute("user", user);
 

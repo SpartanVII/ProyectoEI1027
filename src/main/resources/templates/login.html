@@ -21,6 +21,7 @@
                 <div class="col-sm-6"><input type="password" maxlength="4" class="form-control"  id="inputDefault" th:field="*{password}"></div>
                 <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
+        <a href="olvido">¿Has olvidado la contraseña?</a>
 
         <br>
         <input type="submit"  class="btn btn-success" value="Acceder" />

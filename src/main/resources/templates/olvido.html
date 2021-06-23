@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseSinRegistrar}">
+<head>
+    <title>Recuperación de creedenciales</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
+</head>
+<body>
+<div layout:fragment="content">
+    <h2>Recuperación de creedenciales</h2>
+    <form action="#" th:action="@{/olvido}" th:object="${user}" method="post">
+
+            <div class="form-group row" style="margin: 40 auto;">
+                <label>Escriba su e-mail y le mandaremos su contraseña </label>
+                <div ><input type="email" class="form-control"   th:field="*{gmail}"></div>
+            </div>
+
+        <br>
+        <input type="submit"  class="btn btn-success" value="Enviar" />
+        <a  th:href="@{/login}"><button type="button" class="btn btn-secondary">Volver</button></a>
+    </form>
+</div>
+</body>
+</html>
