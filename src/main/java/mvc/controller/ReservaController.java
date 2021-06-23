@@ -32,23 +32,11 @@ class ReservaValidator implements Validator {
 
         Reserva reserva = (Reserva) obj;
 
-        if(reserva.getNumPersonas()<0) {
-            //Error asociado a que la zona ya esta reservada el dia y hora
-            if(reserva.getNumPersonas()==-111111111){
-                errors.rejectValue("fecha", "obligatorio", "Zona ocupada en la hora y fecha seleccionadas");
-            }else {
-                //Volvemos a poner las personas en positivo
-                errors.rejectValue("numPersonas", "obligatorio", "Max."+-1*reserva.getNumPersonas() +" personas. \n" +
-                        "Reserve esta y las zonas adyacentes necesarias");
-
-            }
-        }
-
         if (reserva.getFecha().compareTo(LocalDate.now())<0)
             errors.rejectValue("fecha", "obligatorio",
                     "La fecha de reserva debe ser mayor o igual a la actual");
 
-        if (reserva.getFecha().compareTo(LocalDate.now())==0 && reserva.getHoraEntrada().compareTo(LocalTime.now())<0)
+        if (reserva.getHoraEntrada().compareTo(LocalTime.now())<0)
             errors.rejectValue("franja", "obligatorio",
                     "La hora de entrada debe ser mayor a la actual");
     }
@@ -163,7 +151,17 @@ public class ReservaController {
 
 
     @RequestMapping(value="/add/{nombreEspacio}")
-    public String addReservaEspacio(Model model,  @PathVariable String nombreEspacio, @ModelAttribute("reserva") ReservaSvc reservaService) {
+    public String addReservaEspacio(Model model,  @PathVariable String nombreEspacio, @ModelAttribute("reserva") ReservaSvc reservaService, BindingResult bindingResult) {
+
+        ReservaValidator reservaValidator = new ReservaValidator();
+        reservaValidator.validate(reservaService.crearReserva(), bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("reserva", reservaService);
+            model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(reservaService.getNombreEspacio()));
+            model.addAttribute("fechaMinima", LocalDate.now().toString());
+            return "redirect:/espacioPublico/info/"+reservaService.getNombreEspacio();
+        }
 
         reservaService.setIdentificador(reservaDao.getSiguienteIdentificadorReserva());
         model.addAttribute("reserva", reservaService);
@@ -202,9 +200,9 @@ public class ReservaController {
         notificacionDao.addNotificacion(notificacion);
 
         //Correo de confirmacion de la reserva
-        CorreoController.enviaCorreo(new Correo(user.getGamil(),"Reserva para el dia "+reserva.getFecha().toString(),
+        CorreoController.enviaCorreo(new Correo(user.getGamil(),"Nueva reserva el día "+reserva.getFecha(),
                 "Usted ha realizado una reserva en la zona "+reserva.getIdentificadorZona()+".\n" +
-                        "La reserva comienza "+reserva.getHoraEntrada()+" y acaba a las "+reserva.getHoraSalida()+"."));
+                        "La reserva es el dia "+reserva.getFecha()+" ,comienza a las "+reserva.getHoraEntrada()+" y acaba a las "+reserva.getHoraSalida()+"."));
 
         return "redirect:list?nueva="+reserva.getIdentificador();
     }

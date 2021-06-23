@@ -116,10 +116,14 @@ public class EspacioPublicoDao {
     }
 
     public void creaZonas(String nombreEspacio, int num, int ini){
-        for (int i = ini; i < num; i++) {
-            jdbcTemplate.update("INSERT INTO Zona VALUES(?,?,?,?)",i+"-"+nombreEspacio,
-                    "Sin descripcion", 5,nombreEspacio);
+        try {
+            for (int i = ini; i < num; i++) {
+                jdbcTemplate.update("INSERT INTO Zona VALUES(?,?,?,?)",i+"-"+nombreEspacio,
+                        "Sin descripcion", 5,nombreEspacio);
+            }
+        }catch (Exception ignored){
         }
+
     }
 
     public int getOcupacionActual(String nombreEspacio){

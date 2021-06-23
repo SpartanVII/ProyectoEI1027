@@ -21,7 +21,7 @@
             <td><label>Localización Geogrfica</label></td>
             <td><input type="text"  th:field="*{localizacionGeografica}" required /></td>
 
-            <td><label>Ocupación</label></td>
+            <td><label>Cap.Máx</label></td>
             <td><input type="number" th:field="*{ocupacion}" min="10" max="4000" step="10"/></td>
         </tr>
         <tr>
@@ -75,7 +75,7 @@
     </table><br>
     <input type="submit" th:onclick="return confirm('¿Estas seguro de añadir el Espacio Público?');"
            class="btn btn-success" value="Añadir" />
-    <a  th:href="@{/espacioPublico/listRegistrado}"><button type="button" class="btn btn-warning">Volver</button></a>
+    <a  th:href="@{/espacioPublico/listRegistrado}"><button type="button" class="btn btn-secondary">Volver</button></a>
 </form>
 </div>
 </body>

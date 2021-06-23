@@ -2,7 +2,6 @@ package mvc.controller;
 
 import mvc.dao.*;
 import mvc.model.EspacioPublico;
-import mvc.model.FranjaEspacio;
 import mvc.model.GestorMunicipal;
 import mvc.model.UserDetails;
 import mvc.services.ReservaSvc;
@@ -13,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -127,9 +127,11 @@ public class EspacioPublicoController {
             reservaService.setNombreEspacio(nombre);
             model.addAttribute("reserva", reservaService);
             model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(nombre));
+            model.addAttribute("fechaMinima", LocalDate.now().toString());
             return "espacioPublico/infoConReserva";
         }
-        if(user.getRol().equals("Controlador")) return "espacioPublico/infoRegistrado";
+
+        if(user.getRol().equals("controlador")) return "espacioPublico/infoControlador";
         GestorMunicipal gestorMunicipal= gestorMunicipalDao.getGestorMunicipal(user.getUsername());
 
         if(gestorMunicipal.getNombreMunicipio().equals(espacioPublico.getNombreMunicipio())) model.addAttribute("esMio","si");

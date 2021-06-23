@@ -13,34 +13,21 @@
             <thead>
             <tr>
                 <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Localización Geografica</th>
-                <th>Ocupación</th>
-                <th>Longitud</th>
-                <th>Amplitud</th>
-                <th>Orientación</th>
-                <th>Comentario</th>
                 <th>Tipo Terreno</th>
                 <th>Tipo Acceso</th>
                 <th>Municipio</th>
-
+                <th></th>
             </tr>
 
             </thead>
             <tbody>
             <tr th:each="espacioPublico: ${espaciosPublicos}">
                 <td th:text="${espacioPublico.nombre}"></td>
-                <td th:text="${espacioPublico.descripcion}"></td>
-                <td th:text="${espacioPublico.localizacionGeografica}"></td>
-                <td th:text="${espacioPublico.ocupacion}"></td>
-                <td th:text="${espacioPublico.longitud}"></td>
-                <td th:text="${espacioPublico.amplitud}"></td>
-                <td th:text="${espacioPublico.orientacion}"></td>
-                <td th:text="${espacioPublico.comentario}"></td>
                 <td th:text="${espacioPublico.tipoTerreno}"></td>
                 <td th:text="${espacioPublico.tipoAcceso}"></td>
                 <td th:text="${espacioPublico.nombreMunicipio}"></td>
-                </td>
+                <td><a th:href="@{/espacioPublico/info/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-info" type="button">Info</a></td>
+
             </tr>
             </tbody>
 
@@ -57,7 +44,7 @@
             </ul>
         </nav>
     </div>
-    <a  th:href="@{/controlador/indice}"><button type="button" class="btn btn-warning">Volver</button></a>
+    <a  th:href="@{/controlador/indice}"><button type="button" class="btn btn-secondary">Volver</button></a>
 </div>
 </body>
 </html>
