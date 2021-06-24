@@ -33,7 +33,7 @@ class CiudadanoValidator implements Validator {
 
         if (ciudadano.getDni().trim().equals("USADO"))
             errors.rejectValue("dni", "obligatorio",
-                    "Ya existe un usuario registrado con este dni");
+                    "Dni ya registrado");
 
         if (ciudadano.getDni().trim().equals(""))
             errors.rejectValue("dni", "obligatorio",
@@ -53,7 +53,7 @@ class CiudadanoValidator implements Validator {
 
         if (ciudadano.getEmail().trim().equals("USADO"))
             errors.rejectValue("email", "obligatorio",
-                    "Ya existe un usuario registrado con este email");
+                    "E-mail en uso");
 
         if (ciudadano.getEmail().trim().equals(""))
             errors.rejectValue("email", "obligatorio",
