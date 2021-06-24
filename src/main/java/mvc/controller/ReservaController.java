@@ -176,20 +176,15 @@ public class ReservaController {
         UserDetails user = (UserDetails) session.getAttribute("user");
         reservaService.setIdentificador(reservaDao.getSiguienteIdentificadorReserva());
         Reserva reserva = reservaService.crearReserva();
-        int numPersonas = reserva.getNumPersonas();
-        int personasMaxZona=zonaDao.getZona(reserva.getIdentificadorZona()).getCapMaxima();
 
-        //Ponemos las personas ennegativo para que lo detecte el validador que no caben todas
-        if(personasMaxZona-numPersonas<0) numPersonas=-1*personasMaxZona;
-
-        reserva.setNumPersonas(numPersonas);
         ReservaValidator reservaValidator = new ReservaValidator();
         reservaValidator.validate(reserva, bindingResult);
         if (bindingResult.hasErrors()) {
+            model.addAttribute("zonas", reservaDao.getZonasDisponibles(reservaService.crearReserva()));
             model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(reserva.getNombreEspacio()));
             return "/reserva/add";
         }
-        reservaDao.addReserva(reserva);
+        reservaDao.addReserva(reserva,reservaService.getZonas());
         
         //Añadimos una notificaion
         Notificacion notificacion = new Notificacion();

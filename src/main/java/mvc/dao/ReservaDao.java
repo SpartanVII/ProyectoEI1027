@@ -27,16 +27,27 @@ public class ReservaDao {
     }
 
 
-    public void addReserva(Reserva reserva) {
+    public void addReserva(Reserva reserva, String zonas) {
         jdbcTemplate.update("INSERT INTO Reserva  VALUES(?,?,?,?,?,?,?,?,?)",
                 reserva.getIdentificador(), reserva.getNumPersonas(), reserva.getFecha(), reserva.getEstado(), reserva.getDniCiudadano(),
                 reserva.getHoraEntrada(), reserva.getHoraSalida(), reserva.getNombreEspacio(), reserva.getIdentificadorZona());
+
+        String[] zonitas = zonas.split(",");
+        if(reserva.getNumPersonas()>=5)
+            jdbcTemplate.update("INSERT INTO Ocupa VALUES(?,?)",reserva.getIdentificador(),zonitas[0]);
+        if(reserva.getNumPersonas()>=10)
+            jdbcTemplate.update("INSERT INTO Ocupa VALUES(?,?)",reserva.getIdentificador(),zonitas[1]);
+        if(reserva.getNumPersonas()>=15)
+            jdbcTemplate.update("INSERT INTO Ocupa VALUES(?,?)",reserva.getIdentificador(),zonitas[2]);;
+        if(reserva.getNumPersonas()>=20)
+            jdbcTemplate.update("INSERT INTO Ocupa VALUES(?,?)",reserva.getIdentificador(),zonitas[3]);;
     }
 
 
     public void deleteReserva(Integer identificador) {
-        jdbcTemplate.update("DELETE from Reserva where identificador=?",
-                identificador);
+        jdbcTemplate.update("DELETE from Reserva where identificador=?", identificador);
+
+        jdbcTemplate.update("DELETE from Ocupa where identificador_reserva=?", identificador);
     }
     public void deleteReserva(Reserva reserva) {
         jdbcTemplate.update("DELETE from Reserva where identificador=?",
