@@ -22,7 +22,6 @@ public final class ReservaRowMapper implements
         reserva.setDniCiudadano(rs.getString("dni_ciudadano"));
         reserva.setHoraEntrada(rs.getObject("horaEntrada", LocalTime.class));
         reserva.setHoraSalida(rs.getObject("horaSalida", LocalTime.class));
-        reserva.setIdentificadorZona(rs.getString("identificador_zona"));
         reserva.setNombreEspacio(rs.getString("nombreEspacio"));
         return reserva;
     }

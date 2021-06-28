@@ -59,16 +59,23 @@
     <form th:if="${espacioPublico.tipoAcceso}==RESTRINGIDO" action="#" th:object="${reserva}" th:action="@{/reserva/add/{nombre}(nombre=${reserva.nombreEspacio})}"  method="post">
         <table>
             <tr>
-                <td><label>Fecha</label></td>
+                <td><label>Fecha:</label></td>
                 <td><input type="date" th:field="*{fecha}" th:min="${fechaMinima}" required/></td>
 
-                <td><label>Franja Horaria</label></td>
+                <td><label>Hora:</label></td>
                 <td><select class="form_control" type="FranjaEspacio" th:field="*{franja}">
                     <option th:each="franja : ${franjas}"
                             th:value="${franja}"
                             th:text="${franja}"></option>
                 </select></td>
                 <td th:if="${#fields.hasErrors('franja')}" th:errors="*{franja}" class="error"></td>
+
+            </tr>
+            <tr>
+                <td><label>NºPersonas:</label></td>
+                <td><input type="number" placeholder="1" value="1" min="1" max="20"  th:field="*{numPersonas}" /></td>
+                <td th:if="${#fields.hasErrors('numPersonas')}" th:errors="*{numPersonas}" class="error"></td>
+
             </tr>
         </table><br>
         <input type="submit" class="btn btn-primary"  value="Reservar" />

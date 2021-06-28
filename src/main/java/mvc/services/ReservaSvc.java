@@ -2,8 +2,11 @@ package mvc.services;
 
 
 import mvc.model.Reserva;
+import mvc.model.Zona;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class ReservaSvc implements ReservaService{
 
@@ -17,16 +20,35 @@ public class ReservaSvc implements ReservaService{
     private String zona2;
     private String zona3;
     private String zona4;
+    private String zonas;
     private String nombreEspacio;
 
-    public ReservaSvc(Reserva reserva) {
+    public ReservaSvc(Reserva reserva, List<Zona> zonas) {
         this.identificador = reserva.getIdentificador();
-        this.numPersonas = reserva.getNumPersonas();
+        this.franja=reserva.getHoraEntrada().toString()+" / "+reserva.getHoraSalida().toString();
+        this.numPersonas=reserva.getNumPersonas();
+        this.estado=reserva.getEstado();
         this.fecha = reserva.getFecha().toString();
         this.dni = reserva.getDniCiudadano();
+        StringBuilder zonass= new StringBuilder();
+        for(int i=0; i<zonas.size();i++){
+            zonass.append(zonas.get(i).getIdentificador());
+            if(i+1!=zonas.size()) zonass.append(", ");
+        }
+        this.zonas=zonass.toString();
+        this.nombreEspacio=reserva.getNombreEspacio();
+
+    }
+
+    public String getZonas() {
+        return  zonas;
     }
 
     public ReservaSvc() {
+    }
+
+    public String getEstado() {
+        return estado;
     }
 
     public Integer getIdentificador() {
@@ -69,17 +91,14 @@ public class ReservaSvc implements ReservaService{
         this.dni = dni;
     }
 
-    public String getZonas() {
-        StringBuilder x = new StringBuilder();
-        if(zona1!=null) x.append(zona1);
-        x.append(",");
-        if(zona2!=null) x.append(zona2);
-        x.append(",");
-        if(zona3!=null) x.append(zona3);
-        x.append(",");
-        if(zona4!=null) x.append(zona4);
-        x.append(",");
-        return x.toString();
+    public String getFusionZonas() {
+        StringBuilder dev = new StringBuilder();
+        dev.append(zona1);
+        if(zona2!=null) dev.append(",").append(zona2);
+        if(zona3!=null) dev.append(",").append(zona3);
+        if(zona4!=null) dev.append(",").append(zona4);
+
+        return dev.toString();
     }
 
     public String getZona1() {

@@ -9,6 +9,13 @@ public class Zona {
     private int capMaxima;
     private String nombreEspacio;
 
+    public Zona(String identificador){
+        this.identificador=identificador;
+    }
+
+    public Zona(){
+    }
+
     public String getDescripcion() {
         return descripcion;
     }

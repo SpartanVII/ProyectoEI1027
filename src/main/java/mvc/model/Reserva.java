@@ -16,16 +16,7 @@ public class Reserva {
     private LocalTime horaEntrada;
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime horaSalida;
-    private String identificadorZona;
     private String nombreEspacio;
-
-    public String getIdentificadorZona() {
-        return identificadorZona;
-    }
-
-    public void setIdentificadorZona(String identificadorZona) {
-        this.identificadorZona = identificadorZona;
-    }
 
     public Integer getIdentificador() {
         return identificador;

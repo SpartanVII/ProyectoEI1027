@@ -127,7 +127,7 @@ public class EspacioPublicoController {
             reservaService.setNombreEspacio(nombre);
             model.addAttribute("reserva", reservaService);
             model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(nombre));
-            model.addAttribute("fechaMinima", LocalDate.now().toString());
+            model.addAttribute("fechaMinima", LocalDate.now().plusDays(1).toString());
             return "espacioPublico/infoConReserva";
         }
 

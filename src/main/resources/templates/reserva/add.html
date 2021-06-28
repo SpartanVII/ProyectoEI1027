@@ -15,14 +15,12 @@
             <input th:type="hidden" th:field="*{identificador}" th:value="${reserva.identificador}"/>
             <input th:type="hidden" th:field="*{dni}" th:value="${reserva.dni}"/>
             <input th:type="hidden" th:field="*{nombreEspacio}" th:value="${reserva.nombreEspacio}"/>
+            <input th:type="hidden" th:field="*{fecha}" th:value="${reserva.fecha}"/>
+            <input th:type="hidden" th:field="*{franja}" th:value="${reserva.franja}"/>
+            <input th:type="hidden" th:field="*{numPersonas}" th:value="${reserva.numPersonas}"/>
             <tr>
                 <td><label>Nombre Espacio: </label></td>
                 <td th:text="${reserva.nombreEspacio}"  th:field="*{nombreEspacio}" th:value="reserva.nombreEspacio">></td>
-                <td th:if="${#fields.hasErrors('numPersonas')}" th:errors="*{numPersonas}" class="error"></td>
-            </tr>
-            <tr>
-                <td><label>Num Personas</label></td>
-                <td><input type="number" placeholder="1" value="1" min="1" max="20"  th:field="*{numPersonas}" /></td>
                 <td th:if="${#fields.hasErrors('numPersonas')}" th:errors="*{numPersonas}" class="error"></td>
             </tr>
             <tr>
@@ -32,30 +30,34 @@
                             th:value="${zona.identificador}"
                             th:text="${zona.identificador}"></option>
                 </select></td>
+                <td th:if="${#fields.hasErrors('zona1')}" th:errors="*{zona1}" class="error"></td>
             </tr>
-            <tr>
+            <tr  th:if="${reserva.numPersonas}>5">
                 <td><label>Zonas 2</label></td>
                 <td><select class="form_control"  th:field="*{zona2}">
                     <option th:each="zona : ${zonas}"
                             th:value="${zona.identificador}"
                             th:text="${zona.identificador}"></option>
                 </select></td>
+                <td th:if="${#fields.hasErrors('zona2')}" th:errors="*{zona2}" class="error"></td>
             </tr>
-            <tr>
+            <tr  th:if="${reserva.numPersonas}>10">
                 <td><label>Zonas 3</label></td>
                 <td><select class="form_control"  th:field="*{zona3}">
                     <option th:each="zona : ${zonas}"
                             th:value="${zona.identificador}"
                             th:text="${zona.identificador}"></option>
                 </select></td>
+                <td th:if="${#fields.hasErrors('zona3')}" th:errors="*{zona3}" class="error"></td>
             </tr>
-            <tr>
+            <tr  th:if="${reserva.numPersonas}>15">
                 <td><label>Zonas 4</label></td>
                 <td><select class="form_control"  th:field="*{zona4}">
                     <option th:each="zona : ${zonas}"
                             th:value="${zona.identificador}"
                             th:text="${zona.identificador}"></option>
                 </select></td>
+                <td th:if="${#fields.hasErrors('zona4')}" th:errors="*{zona1}" class="error"></td>
             </tr>
         </table><br>
         <p>

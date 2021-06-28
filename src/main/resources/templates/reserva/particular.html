@@ -14,12 +14,11 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Zona</th>
                 <th>Num Personas</th>
                 <th>Estado</th>
                 <th>Fecha</th>
-                <th>Hora Entrada</th>
-                <th>Hora Salida</th>
+                <th>Hora</th>
+                <th>Zonas</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -28,12 +27,11 @@
             <tr th:each="reserva: ${reservas}"
                 th:class="${#strings.equals(nueva,reserva.identificador)}?'bg-info text-white'">
                 <td th:text="${reserva.identificador}"></td>
-                <td th:text="${reserva.identificadorZona}"></td>
                 <td th:text="${reserva.numPersonas}"></td>
                 <td th:text="${reserva.estado}"></td>
                 <td th:text="${reserva.fecha}"></td>
-                <td th:text="${reserva.horaEntrada}"></td>
-                <td th:text="${reserva.horaSalida}"></td>
+                <td th:text="${reserva.franja}"></td>
+                <td th:text="${reserva.zonas}"></td>
                 <td><a th:if="${reserva.estado}=='PENDIENTE_USO'" th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}"
                        th:onclick="return confirm('¿Estas seguro de borrar la reserva con  Identificador \'' +[[${reserva.identificador}]]+'\'?');"
                        class="btn btn-danger" role="button">Cancelar</a></td>
