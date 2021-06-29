@@ -15,8 +15,8 @@
             <td><label>Nombre: </label></td>
             <td th:text="${espacioPublico.nombre}" ></td>
 
-            <td><label>Ocupación: </label></td>
-            <td th:text="${ocupacion}" ></td>
+            <td th:if="${espacioPublico.tipoAcceso}==RESTRINGIDO"><label>Ocupación: </label></td>
+            <td th:if="${espacioPublico.tipoAcceso}==RESTRINGIDO" th:text="${ocupacion}" ></td>
         </tr>
         <tr>
             <td><label>Loc.Geográfica: </label></td>

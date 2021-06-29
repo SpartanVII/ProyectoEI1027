@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseGestorMunicipal}">
 <head>
-    <title>Gestionar Espacios Publicos</title>
+    <title>Espacios Públicos</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
 
@@ -29,7 +29,11 @@
                 <td th:text="${espacioPublico.tipoTerreno}"></td>
                 <td th:text="${espacioPublico.tipoAcceso}"></td>
                 <td th:text="${espacioPublico.nombreMunicipio}"></td>
-                <td><a th:href="@{/espacioPublico/info/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-info" type="button">Info</a></td>
+
+
+                <td><a th:href="@{/espacioPublico/info/{nombre}(nombre=${espacioPublico.nombre})}"
+                       th:class="${#strings.equals(nuevo,espacioPublico.nombre)}?'btn btn-light':'btn btn-info'"
+                      type="button">Info</a></td>
                 </td>
             </tr>
             </tbody>

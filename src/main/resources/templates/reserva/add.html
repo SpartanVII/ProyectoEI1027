@@ -20,8 +20,7 @@
             <input th:type="hidden" th:field="*{numPersonas}" th:value="${reserva.numPersonas}"/>
             <tr>
                 <td><label>Nombre Espacio: </label></td>
-                <td th:text="${reserva.nombreEspacio}"  th:field="*{nombreEspacio}" th:value="reserva.nombreEspacio">></td>
-                <td th:if="${#fields.hasErrors('numPersonas')}" th:errors="*{numPersonas}" class="error"></td>
+                <td th:text="${reserva.nombreEspacio}"  th:field="*{nombreEspacio}" th:value="reserva.nombreEspacio"></td>
             </tr>
             <tr>
                 <td><label>Zonas 1</label></td>
@@ -57,7 +56,7 @@
                             th:value="${zona.identificador}"
                             th:text="${zona.identificador}"></option>
                 </select></td>
-                <td th:if="${#fields.hasErrors('zona4')}" th:errors="*{zona1}" class="error"></td>
+                <td th:if="${#fields.hasErrors('zona4')}" th:errors="*{zona4}" class="error"></td>
             </tr>
         </table><br>
         <p>

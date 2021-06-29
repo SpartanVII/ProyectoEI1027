@@ -37,7 +37,6 @@ public class ReservaSvc implements ReservaService{
         }
         this.zonas=zonass.toString();
         this.nombreEspacio=reserva.getNombreEspacio();
-
     }
 
     public String getZonas() {

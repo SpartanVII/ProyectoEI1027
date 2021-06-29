@@ -10,15 +10,17 @@
 <div layout:fragment="content">
 <h2>Nuevo Espacio Público</h2>
 <form action="#" th:action="@{/espacioPublico/add}" th:object="${espacioPublico}" method="post">
+    <input th:type="hidden" th:field="*{nombreMunicipio}" th:value="${espacioPublico.nombreMunicipio}"/>
     <table>
 
         <tbody>
         <tr>
             <td><label>Nombre</label></td>
             <td><input type="text" th:field="*{nombre}"  required /></td>
+            <td th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="error"></td>
         </tr>
         <tr>
-            <td><label>Localización Geogrfica</label></td>
+            <td><label>Localización Geográfica</label></td>
             <td><input type="text"  th:field="*{localizacionGeografica}" required /></td>
 
             <td><label>Cap.Máx</label></td>
@@ -42,12 +44,7 @@
 
         <tr>
             <td><label>Municipio</label></td>
-            <td><select class="form_control"  th:field="*{nombreMunicipio}">
-                <option th:each="municipio : ${municipios}"
-                        th:value="${municipio.nombre}"
-                        th:text="${municipio.nombre}"></option>
-            </select></td>
-
+            <th scope="row" th:text="${espacioPublico.nombreMunicipio}"  th:field="*{nombreMunicipio}" th:value="espacioPublico.nombreMunicipio"></th>
 
             <td><label>Orientación</label></td>
             <td><input type="text" th:field="*{orientacion}" required/></td>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseCiudadano}">
 <head>
-    <title>Modificar Espacio Publico</title>
+    <title>Información Espacio Publico</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
 
@@ -15,8 +15,8 @@
             <td><label>Nombre: </label></td>
             <td th:text="${espacioPublico.nombre}" ></td>
 
-            <td><label>Ocupación: </label></td>
-            <td th:text="${ocupacion}" ></td>
+            <td th:if="${espacioPublico.tipoAcceso}==RESTRINGIDO"><label>Ocupación: </label></td>
+            <td th:if="${espacioPublico.tipoAcceso}==RESTRINGIDO" th:text="${ocupacion}" ></td>
         </tr>
         <tr>
             <td><label>Loc.Geo.: </label></td>
@@ -57,6 +57,7 @@
     </table>
     </form><br>
     <form th:if="${espacioPublico.tipoAcceso}==RESTRINGIDO" action="#" th:object="${reserva}" th:action="@{/reserva/add/{nombre}(nombre=${reserva.nombreEspacio})}"  method="post">
+        <p>Rellene los campos para realizar una reserva</p>
         <table>
             <tr>
                 <td><label>Fecha:</label></td>

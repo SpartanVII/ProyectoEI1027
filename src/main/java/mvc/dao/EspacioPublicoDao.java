@@ -128,8 +128,8 @@ public class EspacioPublicoDao {
 
     public int getOcupacionActual(String nombreEspacio){
         try {
-            Integer ocpuacion =  jdbcTemplate.queryForObject("SELECT SUM(numPersonas) from Reservas WHERE fecha=? AND horaEntrada<=? AND horaSalida>=?",
-                    Integer.class, nombreEspacio, LocalDate.now(), LocalTime.now(), LocalTime.now());
+            Integer ocpuacion =  jdbcTemplate.queryForObject("SELECT SUM(numPersonas) from Reservas WHERE fecha=? AND horaEntrada<=? AND horaSalida>? AND nombreEspacio=? AND estado='EN_USO'",
+                    Integer.class, LocalDate.now(), LocalTime.now(), LocalTime.now(), nombreEspacio);
             return ocpuacion==null?0:ocpuacion;
         }
         catch (Exception e){ return 0;}

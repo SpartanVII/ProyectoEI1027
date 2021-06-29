@@ -33,63 +33,74 @@ class ReservaValidator implements Validator {
         ReservaSvc reservasvc = (ReservaSvc) obj;
         Reserva reserva = reservasvc.crearReserva();
 
-        if(reservasvc.getNumPersonas()>0 && reservasvc.getZona1().equals("--------"))
-            errors.rejectValue("zona1", "obligatorio",
-                    "Debe seleccionar una zona");
-
-        if (reservasvc.getNumPersonas()>5) {
-            if (reservasvc.getZona2().equals("--------"))
-                errors.rejectValue("zona2", "obligatorio",
+        if (reservasvc.getZona1()!=null) {
+            if (reservasvc.getNumPersonas() > 0 && reservasvc.getZona1().equals("--------"))
+                errors.rejectValue("zona1", "obligatorio",
                         "Debe seleccionar una zona");
 
-            if (reservasvc.getZona1().equals(reservasvc.getZona2()))
-                errors.rejectValue("zona2", "obligatorio",
-                        "Debe seleccionar una zona distinta a la zona 1");
+            if (reservasvc.getNumPersonas() > 5) {
+                if (reservasvc.getZona2().equals("--------"))
+                    errors.rejectValue("zona2", "obligatorio",
+                            "Debe seleccionar una zona");
+
+                if (reservasvc.getZona1().equals(reservasvc.getZona2()))
+                    errors.rejectValue("zona2", "obligatorio",
+                            "Debe seleccionar una zona distinta a la zona 1");
+            }
+
+            if (reservasvc.getNumPersonas() > 10) {
+                if (reservasvc.getZona3().equals("--------"))
+                    errors.rejectValue("zona3", "obligatorio",
+                            "Debe seleccionar una zona");
+
+                if (reservasvc.getZona1().equals(reservasvc.getZona3()))
+                    errors.rejectValue("zona3", "obligatorio",
+                            "Debe seleccionar una zona distinta a la zona 1");
+
+                if (reservasvc.getZona2().equals(reservasvc.getZona3()))
+                    errors.rejectValue("zona3", "obligatorio",
+                            "Debe seleccionar una zona distinta a la zona 2");
+
+            }
+
+            if (reservasvc.getNumPersonas() > 15) {
+                if (reservasvc.getZona4().equals("--------"))
+                    errors.rejectValue("zona4", "obligatorio",
+                            "Debe seleccionar una zona");
+
+                if (reservasvc.getZona1().equals(reservasvc.getZona4()))
+                    errors.rejectValue("zona4", "obligatorio",
+                            "Debe seleccionar una zona distinta a la zona 1");
+
+                if (reservasvc.getZona2().equals(reservasvc.getZona4()))
+                    errors.rejectValue("zona4", "obligatorio",
+                            "Debe seleccionar una zona distinta a la zona 2");
+
+                if (reservasvc.getZona3().equals(reservasvc.getZona4()))
+                    errors.rejectValue("zona4", "obligatorio",
+                            "Debe seleccionar una zona distinta a la zona 3");
+            }
         }
-
-        if (reservasvc.getNumPersonas()>10) {
-            if (reservasvc.getZona3().equals("--------"))
-                errors.rejectValue("zona3", "obligatorio",
-                        "Debe seleccionar una zona");
-
-            if (reservasvc.getZona1().equals(reservasvc.getZona3()))
-                errors.rejectValue("zona3", "obligatorio",
-                        "Debe seleccionar una zona distinta a la zona 1");
-
-            if (reservasvc.getZona2().equals(reservasvc.getZona3()))
-                errors.rejectValue("zona3", "obligatorio",
-                        "Debe seleccionar una zona distinta a la zona 2");
-
-        }
-
-        if(reservasvc.getNumPersonas()>15){
-            if (reservasvc.getZona4().equals("--------"))
-                errors.rejectValue("zona4", "obligatorio",
-                        "Debe seleccionar una zona");
-
-            if (reservasvc.getZona1().equals(reservasvc.getZona4()))
-                errors.rejectValue("zona4", "obligatorio",
-                        "Debe seleccionar una zona distinta a la zona 1");
-
-            if (reservasvc.getZona2().equals(reservasvc.getZona4()))
-                errors.rejectValue("zona4", "obligatorio",
-                        "Debe seleccionar una zona distinta a la zona 2");
-
-            if (reservasvc.getZona3().equals(reservasvc.getZona4()))
-                errors.rejectValue("zona4", "obligatorio",
-                        "Debe seleccionar una zona distinta a la zona 3");
-        }
+        else {
+            if (reservasvc.getNumPersonas() < 0) {
+                System.out.println(reservasvc.getNumPersonas());
+                errors.rejectValue("numPersonas", "obligatorio",
+                        "Solo quedan plazas para " + (-reservasvc.getNumPersonas()) + " personas");
 
 
-        if (reserva.getFecha().compareTo(LocalDate.now())<0) {
-            errors.rejectValue("fecha", "obligatorio",
-                    "La fecha de reserva debe ser mayor o igual a la actual");
-
-            if (reserva.getHoraEntrada().compareTo(LocalTime.now()) < 0)
                 errors.rejectValue("franja", "obligatorio",
-                        "La hora de entrada debe ser mayor a la actual");
-        }
+                        "Pruebe otro dia o hora para saber si hay plazas");
+            }
 
+            if (reserva.getFecha().compareTo(LocalDate.now()) < 0)
+                errors.rejectValue("fecha", "obligatorio",
+                        "La fecha de reserva debe ser mayor o igual a la actual");
+
+            if (reserva.getFecha().compareTo(LocalDate.now())==0 && reserva.getHoraEntrada().compareTo(LocalTime.now()) < 0)
+                    errors.rejectValue("franja", "obligatorio",
+                            "La hora de entrada debe ser mayor a la actual");
+
+        }
     }
 }
 
@@ -101,6 +112,7 @@ public class ReservaController {
     private FranjaEspacioDao franjaEspacioDao;
     private NotificacionDao notificacionDao;
     private CiudadanoDao ciudadanoDao;
+    private EspacioPublicoDao espacioPublicoDao;
     private int pageLength = 8;
 
     @Autowired
@@ -120,6 +132,9 @@ public class ReservaController {
 
     @Autowired
     public void setCiudadanoDao(CiudadanoDao ciudadanoDao){this.ciudadanoDao=ciudadanoDao;}
+
+    @Autowired
+    public void  setEspacioPublicoDao(EspacioPublicoDao espacioPublicoDao){this.espacioPublicoDao=espacioPublicoDao;}
 
 
     @RequestMapping("/list")
@@ -205,14 +220,30 @@ public class ReservaController {
 
 
     @RequestMapping(value="/add/{nombreEspacio}")
-    public String addReservaEspacio(Model model,  @PathVariable String nombreEspacio, @ModelAttribute("reserva") ReservaSvc reservaService, HttpSession session) {
+    public String addReservaEspacio(Model model,  @PathVariable String nombreEspacio, @ModelAttribute("reserva") ReservaSvc reservaService, HttpSession session, BindingResult bindingResult) {
 
         UserDetails user = (UserDetails) session.getAttribute("user");
+        List<Zona> disponibles = reservaDao.getZonasDisponibles(reservaService.crearReserva());
+        int numPersonas = reservaService.getNumPersonas();
+        if (reservaService.getNumPersonas()>disponibles.size()*5) reservaService.setNumPersonas(-disponibles.size()*5);
 
+        ReservaValidator reservaValidator = new ReservaValidator();
+        reservaValidator.validate(reservaService, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            EspacioPublico espacioPublico = espacioPublicoDao.getEspacioPublico(reservaService.getNombreEspacio());
+            reservaService.setNumPersonas(numPersonas);
+            model.addAttribute("ocupacion", espacioPublicoDao.getOcupacionActual(reservaService.getNombreEspacio()));
+            model.addAttribute("espacioPublico", espacioPublico);
+            model.addAttribute("reserva", reservaService);
+            model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(reservaService.getNombreEspacio()));
+            model.addAttribute("fechaMinima", LocalDate.now().toString());
+            return "espacioPublico/infoConReserva";
+        }
         reservaService.setDni(user.getUsername());
         reservaService.setIdentificador(reservaDao.getSiguienteIdentificadorReserva());
         model.addAttribute("reserva", reservaService);
-        List<Zona> disponibles = reservaDao.getZonasDisponibles(reservaService.crearReserva());
+
         disponibles.add(0,new Zona("--------"));
         model.addAttribute("zonas",disponibles );
         return "reserva/add";
@@ -229,7 +260,6 @@ public class ReservaController {
             List<Zona> disponibles = reservaDao.getZonasDisponibles(reserva.crearReserva());
             disponibles.add(0,new Zona("--------"));
             model.addAttribute("zonas",disponibles );
-            model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(reserva.getNombreEspacio()));
             return "/reserva/add";
         }
         reservaDao.addReserva(reserva.crearReserva() , reserva.getFusionZonas());

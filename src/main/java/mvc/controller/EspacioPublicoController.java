@@ -6,19 +6,40 @@ import mvc.model.GestorMunicipal;
 import mvc.model.UserDetails;
 import mvc.services.ReservaSvc;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+
+
+
+class EspacioPublicoValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> cls) {
+        return UserDetails.class.isAssignableFrom(cls);
+    }
+    @Override
+    public void validate(Object obj, Errors errors) {
+
+        EspacioPublico espacioPublico = (EspacioPublico) obj;
+
+        if (espacioPublico.getNombre().equals("USADO"))
+            errors.rejectValue("nombre", "obligatorio",
+                    "Ya existe un espacio con este nombre");
+    }
+}
 
 @Controller
 @RequestMapping("/espacioPublico")
@@ -127,7 +148,7 @@ public class EspacioPublicoController {
             reservaService.setNombreEspacio(nombre);
             model.addAttribute("reserva", reservaService);
             model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(nombre));
-            model.addAttribute("fechaMinima", LocalDate.now().plusDays(1).toString());
+            model.addAttribute("fechaMinima", LocalDate.now().toString());
             return "espacioPublico/infoConReserva";
         }
 
@@ -141,17 +162,29 @@ public class EspacioPublicoController {
     }
 
     @RequestMapping(value="/add")
-    public String addEspacioPublico(Model model) {
+    public String addEspacioPublico(Model model, HttpSession session) {
 
-        model.addAttribute("espacioPublico", new EspacioPublico());
-        model.addAttribute("municipios", municipioDao.getMunicipios());
+        UserDetails user = (UserDetails) session.getAttribute("user");
+
+        String municipioGestor = gestorMunicipalDao.getGestorMunicipal(user.getUsername()).getNombreMunicipio();
+        EspacioPublico espacioPublico = new EspacioPublico();
+        espacioPublico.setNombreMunicipio(municipioGestor);
+        model.addAttribute("espacioPublico", espacioPublico);
         return "espacioPublico/add";
     }
 
     @RequestMapping(value="/add", method= RequestMethod.POST)
-    public String processAddSubmit(@ModelAttribute("espacioPublico") EspacioPublico espacioPublico,  BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
+    public String processAddSubmit(@ModelAttribute("espacioPublico") EspacioPublico espacioPublico, Model model, BindingResult bindingResult) {
+
+        String nombre = espacioPublico.getNombre();
+        if(espacioPublicoDao.getEspacioPublico(espacioPublico.getNombre())!=null) espacioPublico.setNombre("USADO");
+        Validator validator = new EspacioPublicoValidator();
+        validator.validate(espacioPublico,bindingResult);
+        if (bindingResult.hasErrors()){
+            espacioPublico.setNombre(nombre);
+            model.addAttribute("espacioPublico", espacioPublico);
             return "espacioPublico/add";
+        }
 
         espacioPublicoDao.addEspacioPublico(espacioPublico);
 

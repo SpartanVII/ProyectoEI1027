@@ -14,21 +14,19 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Num Personas</th>
                 <th>Estado</th>
+                <th>Núm.Personas</th>
                 <th>Fecha</th>
                 <th>Hora</th>
                 <th>Zonas</th>
-                <th></th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="reserva: ${reservas}"
                 th:class="${#strings.equals(nueva,reserva.identificador)}?'bg-info text-white'">
-                <td th:text="${reserva.identificador}"></td>
-                <td th:text="${reserva.numPersonas}"></td>
+                <th scope="row" th:text="${reserva.identificador}"></td>
                 <td th:text="${reserva.estado}"></td>
+                <td th:text="${reserva.numPersonas}"></td>
                 <td th:text="${reserva.fecha}"></td>
                 <td th:text="${reserva.franja}"></td>
                 <td th:text="${reserva.zonas}"></td>
