@@ -231,12 +231,12 @@ public class ReservaController {
         reservaValidator.validate(reservaService, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            EspacioPublico espacioPublico = espacioPublicoDao.getEspacioPublico(reservaService.getNombreEspacio());
+            EspacioPublico espacioPublico = espacioPublicoDao.getEspacioPublico(nombreEspacio);
             reservaService.setNumPersonas(numPersonas);
-            model.addAttribute("ocupacion", espacioPublicoDao.getOcupacionActual(reservaService.getNombreEspacio()));
+            model.addAttribute("ocupacion", espacioPublicoDao.getOcupacionActual(nombreEspacio));
             model.addAttribute("espacioPublico", espacioPublico);
             model.addAttribute("reserva", reservaService);
-            model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(reservaService.getNombreEspacio()));
+            model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(nombreEspacio));
             model.addAttribute("fechaMinima", LocalDate.now().toString());
             return "espacioPublico/infoConReserva";
         }
