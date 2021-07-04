@@ -147,7 +147,7 @@ public class EspacioPublicoController {
             reservaService.setDni(user.getUsername());
             reservaService.setNombreEspacio(nombre);
             model.addAttribute("reserva", reservaService);
-            model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(nombre));
+            model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacioNormales(nombre));
             model.addAttribute("fechaMinima", LocalDate.now().toString());
             return "espacioPublico/infoConReserva";
         }
@@ -217,6 +217,6 @@ public class EspacioPublicoController {
     @RequestMapping(value="/updateGestor/{nombre}", method = RequestMethod.GET)
     public String elegirOpcionEditar(Model model, @PathVariable String nombre) {
         model.addAttribute("espacio", espacioPublicoDao.getEspacioPublico(nombre));
-        return "gestorMunicipal/indiceEditar";
+        return "espacioPublico/indiceEditar";
     }
 }

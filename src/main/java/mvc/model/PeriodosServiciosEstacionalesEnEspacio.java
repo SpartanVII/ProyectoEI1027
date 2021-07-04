@@ -8,9 +8,9 @@ import java.util.Date;
 
 public class PeriodosServiciosEstacionalesEnEspacio {
 
-    @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate fechaInicio;
-    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate fechaFin;
     private String nombreEspacioPublico;
     private String nombreServicioEstacional;

@@ -14,6 +14,15 @@ public class FranjaEspacio {
     private LocalTime horaSalida;
     private String nombreEspacio;
 
+    public FranjaEspacio() {
+    }
+
+    public FranjaEspacio(LocalTime horaEntrada, LocalTime horaSalida, String nombreEspacio) {
+        this.horaEntrada = horaEntrada;
+        this.horaSalida = horaSalida;
+        this.nombreEspacio = nombreEspacio;
+    }
+
     public LocalTime getHoraEntrada() {
         return horaEntrada;
     }

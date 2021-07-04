@@ -236,7 +236,7 @@ public class ReservaController {
             model.addAttribute("ocupacion", espacioPublicoDao.getOcupacionActual(nombreEspacio));
             model.addAttribute("espacioPublico", espacioPublico);
             model.addAttribute("reserva", reservaService);
-            model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacio(nombreEspacio));
+            model.addAttribute("franjas",franjaEspacioDao.getFranjasEspacioNormales(nombreEspacio));
             model.addAttribute("fechaMinima", LocalDate.now().toString());
             return "espacioPublico/infoConReserva";
         }

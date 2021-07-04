@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseGestorMunicipal}">
+<head>
+    <title>Franjas Horarias</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.css" />
+
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Lista de franjas</h1>
+    <h2 th:text="${nombre}"></h2>
+    <div th:if="${#lists.isEmpty(franjas)}">Este espacio no tiene franjas</div>
+    <table  th:unless="${#lists.isEmpty(franjas)}" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Hora Entrada</th>
+            <th>Hora Salida</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="franja: ${franjas}">
+            <td th:text="${franja.entrada}"></td>
+            <td th:text="${franja.salida}"></td>
+            <td><a th:href="@{/franjaEspacio/delete/{nombre}/{horaEntrada}/{horaSalida}
+                (nombre=${franja.nombreEspacio}, horaEntrada=${franja.entrada}, horaSalida=${franja.salida})}"
+                   th:onclick="return confirm('¿Estas seguro de borrar la franja horaria que va de ' +[[${franja.entrada}]]+' a '+[[${franja.salida}]]+'?');"
+                   class="btn btn-danger" role="button">Borrar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table><br><p>
+    <a th:href="@{/franjaEspacio/add/{nombre}(nombre=${nombre})}"><button type="button" class="btn btn-primary">Añadir franja</button></a>
+    </p>
+    <a th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${nombre})}"><button type="button" class="btn btn-secondary">Volver</button></a>
+</div>
+</body>
+</html>

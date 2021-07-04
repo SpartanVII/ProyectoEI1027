@@ -8,24 +8,24 @@
 </head>
 <body>
 <div layout:fragment="content">
-<h1>Notificaciones</h1>
+    <h1>Notificaciones</h1>
     <div th:if="${#lists.isEmpty(notificaciones)}">No tienes notificaciones</div>
-        <table  th:unless="${#lists.isEmpty(notificaciones)}" class="table table-striped">
-            <thead>
-            <tr>
-                <th>Mensaje</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="notificacion: ${notificaciones}">
-                <td th:text="${notificacion.mensaje}"></td>
-                <td><a th:href="@{/notificacion/delete/{identificador}(identificador=${notificacion.identificador})}" class="btn btn-danger" role="button">Borrar</a>
-                </td>
-            </tr>
-            </tbody>
-        </table><br>
-        <a th:href="@{/ciudadano/indice}"><button type="button" class="btn btn-secondary">Volver</button></a>
+    <table  th:unless="${#lists.isEmpty(notificaciones)}" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Mensaje</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="notificacion: ${notificaciones}">
+            <td th:text="${notificacion.mensaje}"></td>
+            <td><a th:href="@{/notificacion/delete/{identificador}(identificador=${notificacion.identificador})}" class="btn btn-danger" role="button">Borrar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table><br>
+    <a th:href="@{/ciudadano/indice}"><button type="button" class="btn btn-secondary">Volver</button></a>
 </div>
 </body>
 </html>

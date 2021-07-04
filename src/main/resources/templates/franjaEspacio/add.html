@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragmentos/baseGestorMunicipal}">
+<head>
+    <title>Añadir franja horaria</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"  href="https://bootswatch.com/5/minty/bootstrap.css" />
+
+</head>
+<body>
+<div layout:fragment="content">
+<h1>Añadir franja horaria</h1>
+    <h2 th:text="${nombre}"></h2>
+    <form align="center" action="#" th:action="@{/franjaEspacio/add}"
+          th:object="${franja}" method="post">
+        <input th:type="hidden" th:field="*{nombreEspacio}" th:value="${franja.nombreEspacio}"/>
+        <table>
+            <tr>
+                <td>
+                <label>Hora Entrada:</label><input type="time"  min="08:00" max="21:00" step="900" th:field="*{horaEntrada}"/></td>
+            </tr>
+            <tr>
+                <td><label>Hora Salida:</label><input type="time" min="08:00" max="21:00" step="900" th:field="*{horaSalida}"/></td>
+            </tr>
+            <tr><td th:if="${#fields.hasErrors('horaSalida')}" th:errors="*{horaSalida}" class="error"></td></tr>
+
+
+        </table><br>
+        <input class="btn btn-success" type="submit" value="Añadir franja" />
+    </form>
+    <br>
+    <a th:href="@{/franjaEspacio/list/{nombre}(nombre=${nombre})}">
+        <button type="button" class="btn btn-secondary">Volver</button></a>
+
+</div>
+</body>
+</html>

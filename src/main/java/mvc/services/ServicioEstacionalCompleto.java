@@ -3,6 +3,8 @@ package mvc.services;
 import mvc.model.PeriodosServiciosEstacionalesEnEspacio;
 import mvc.model.ServicioEstacional;
 
+import java.time.format.DateTimeFormatter;
+
 public class ServicioEstacionalCompleto {
 
     private String nombre;
@@ -12,7 +14,8 @@ public class ServicioEstacionalCompleto {
     public ServicioEstacionalCompleto(ServicioEstacional servicioEstacional, PeriodosServiciosEstacionalesEnEspacio per){
         this.nombre=servicioEstacional.getNombre();
         this.tipoServicio=servicioEstacional.getTipoServicio();
-        this.duracion=per.getFechaInicio().toString()+" al "+per.getFechaFin().toString();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        this.duracion=formatter.format(per.getFechaInicio())+" al "+formatter.format(per.getFechaFin());
 
     }
 
