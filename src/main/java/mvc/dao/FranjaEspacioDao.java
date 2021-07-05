@@ -38,7 +38,7 @@ public class FranjaEspacioDao {
             if (reserva.getEstado().equals("PENDIENTE_USO")){
                 //Este mensaje no haria falta porque dias antes de la eliminación retirariamos la opción para reservar en esta franja
                 String mensaje = "La reserva que tenia de "+reserva.getHoraEntrada()+" a "+reserva.getHoraSalida()
-                        +" en la fecha "+reserva.getFecha()+" ha sido cancelada porque debido a la reciente eliminacion" +
+                        +" en la fecha "+reserva.getFecha()+" ha sido cancelada debido a la reciente eliminacion " +
                         "de la franja horaria. Disculpe las molestias";
 
                 Ciudadano ciudadano=jdbcTemplate.queryForObject("SELECT * from Ciudadano WHERE dni=?", new CiudadanoRowMapper(), reserva.getDniCiudadano());

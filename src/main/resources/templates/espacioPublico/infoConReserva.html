@@ -69,15 +69,17 @@
                             th:value="${franja}"
                             th:text="${franja}"></option>
                 </select></td>
-                <td th:if="${#fields.hasErrors('franja')}" th:errors="*{franja}" class="error"></td>
+
 
             </tr>
             <tr>
                 <td><label>NºPersonas:</label></td>
                 <td><input type="number" placeholder="1" value="1" min="1" max="20"  th:field="*{numPersonas}" /></td>
-                <td th:if="${#fields.hasErrors('numPersonas')}" th:errors="*{numPersonas}" class="error"></td>
-
             </tr>
+        </table>
+        <table>
+            <tr><td th:if="${#fields.hasErrors('franja')}" th:errors="*{franja}" class="error"></td></tr>
+            <tr><td th:if="${#fields.hasErrors('numPersonas')}" th:errors="*{numPersonas}" class="error"></td></tr>
         </table><br>
         <input type="submit" class="btn btn-primary"  value="Reservar" />
     </form>

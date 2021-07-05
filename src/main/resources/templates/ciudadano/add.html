@@ -296,7 +296,7 @@
         </tr>
         <tr>
             <td><label>Pin</label></td>
-            <td><input type="text" maxlength="4"   pattern="[0-9]{4}" title="El pin debe tener 4 dígitos"  th:field="*{pin}" /></td>
+            <td><input type="text" maxlength="4"   pattern="[0-9]{4}" title="El pin debe tener 4 dígitos"  th:field="*{pin}" required/></td>
             <td th:if="${#fields.hasErrors('pin')}" th:errors="*{pin}" class="error"></td>
         </tr>
     </table><br>

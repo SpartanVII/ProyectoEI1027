@@ -82,8 +82,7 @@ class ReservaValidator implements Validator {
             }
         }
         else {
-            if (reservasvc.getNumPersonas() < 0) {
-                System.out.println(reservasvc.getNumPersonas());
+            if (reservasvc.getNumPersonas() <= 0) {
                 errors.rejectValue("numPersonas", "obligatorio",
                         "Solo quedan plazas para " + (-reservasvc.getNumPersonas()) + " personas");
 

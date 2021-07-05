@@ -6,6 +6,7 @@ import mvc.dao.CiudadanoDao;
 import mvc.dao.ControladorDao;
 import mvc.dao.GestorMunicipalDao;
 import mvc.model.*;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -75,30 +76,34 @@ public class LoginController {
             return "login";
         }
 
-        GestorMunicipal gestor = gestorMunicipalDao.getGestorMunicipal(user.getUsername(), user.getPassword());
-        Ciudadano ciudadano = ciudadanoDao.getCiudadano(user.getUsername(), user.getPassword());
-        Controlador controlador= controladorDao.getControlador(user.getUsername(), user.getPassword());
-        user.setPassword(""); //Como ya no necesitamos la contraseña, la borramos por motivos de seguridad
+        BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
 
-        if(gestor!=null){
+        GestorMunicipal gestor = gestorMunicipalDao.getGestorMunicipal(user.getUsername());
+        Ciudadano ciudadano = ciudadanoDao.getCiudadano(user.getUsername());
+        Controlador controlador= controladorDao.getControlador(user.getUsername());
+
+        if(gestor!=null && passwordEncryptor.checkPassword(user.getPassword(),gestor.getPin())){
             user.setNombre(gestor.getNombre());
             user.setGmail(gestor.getEmail());
+            user.setPassword("");
             user.setRol("gestorMunicipal");
             session.setAttribute("user", user);
             return "redirect:/gestorMunicipal/indice";
         }
 
-        if(ciudadano!=null){
+        if(ciudadano!=null && passwordEncryptor.checkPassword(user.getPassword(),ciudadano.getPin())){
             user.setNombre(ciudadano.getNombre());
             user.setGmail(ciudadano.getEmail());
+            user.setPassword("");
             user.setRol("ciudadano");
             session.setAttribute("user", user);
             return "redirect:/ciudadano/indice";
         }
 
-        if(controlador!=null){
+        if(controlador!=null && passwordEncryptor.checkPassword(user.getPassword(),controlador.getPin())){
             user.setNombre(controlador.getNombre());
             user.setGmail(controlador.getEmail());
+            user.setPassword("");
             user.setRol("controlador");
             session.setAttribute("user", user);
             return "redirect:/controlador/indice";

@@ -22,7 +22,7 @@ public final class ControladorRowMapper implements
         controlador.setPais(rs.getString("pais"));
         controlador.setDireccion(rs.getString("direccion"));
         controlador.setEmail(rs.getString("email"));
-        controlador.setEmail(rs.getString("pin"));
+        controlador.setPin(rs.getString("pin"));
         return controlador;
     }
 }

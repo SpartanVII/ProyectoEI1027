@@ -6,6 +6,7 @@ import mvc.model.Zona;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ReservaSvc implements ReservaService{
@@ -37,6 +38,20 @@ public class ReservaSvc implements ReservaService{
         }
         this.zonas=zonass.toString();
         this.nombreEspacio=reserva.getNombreEspacio();
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getFechaEspana() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return formatter.format(LocalDate.parse(fecha));
+    }
+
+
+    public void setZonas(String zonas) {
+        this.zonas = zonas;
     }
 
     public String getZonas() {

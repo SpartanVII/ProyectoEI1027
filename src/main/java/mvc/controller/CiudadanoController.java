@@ -2,6 +2,7 @@ package mvc.controller;
 
 import mvc.dao.CiudadanoDao;
 import mvc.model.*;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -116,6 +117,8 @@ public class CiudadanoController {
             return "ciudadano/add";
         }
 
+        BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
+        ciudadano.setPin(passwordEncryptor.encryptPassword(ciudadano.getPin()));
         ciudadanoDao.addCiudadano(ciudadano);
 
         //Añadimos el usuario a la sesión

@@ -3,14 +3,15 @@ package mvc.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.print.attribute.standard.MediaSize;
 import java.time.LocalDate;
 import java.util.Date;
 
 public class PeriodosServiciosEstacionalesEnEspacio {
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
     private LocalDate fechaInicio;
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
     private LocalDate fechaFin;
     private String nombreEspacioPublico;
     private String nombreServicioEstacional;

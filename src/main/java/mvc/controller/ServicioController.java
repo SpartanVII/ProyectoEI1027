@@ -120,6 +120,7 @@ public class ServicioController {
         PeriodosServiciosEstacionalesEnEspacio periodo = new PeriodosServiciosEstacionalesEnEspacio();
         periodo.setNombreServicioEstacional(nombreServicio);
         periodo.setNombreEspacioPublico(nombreEspacio);
+        model.addAttribute("fechaMinima",LocalDate.now());
         model.addAttribute("periodo", periodo);
         return "servicio/addEstacionalIntermedio";
     }
@@ -130,6 +131,7 @@ public class ServicioController {
         ServicioValidator servicioValidator = new ServicioValidator();
         servicioValidator.validate(periodosServiciosEstacionalesEnEspacio, bindingResult);
         if (bindingResult.hasErrors()) {
+            model.addAttribute("fechaMinima",LocalDate.now());
             model.addAttribute("periodo", periodosServiciosEstacionalesEnEspacio);
             return "/servicio/addEstacionalIntermedio";
         }

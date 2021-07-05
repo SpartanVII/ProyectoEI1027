@@ -33,7 +33,7 @@
                 <td th:text="${reserva.dni}"></td>
                 <td th:text="${reserva.estado}"></td>
                 <td th:text="${reserva.numPersonas}"></td>
-                <td th:text="${reserva.fecha}"></td>
+                <td th:text="${reserva.fechaEspana}"></td>
                 <td th:text="${reserva.franja}"></td>
                 <td th:text="${reserva.zonas}"></td>
                 <td><a th:if="${reserva.estado}=='PENDIENTE_USO'" th:href="@{/reserva/cancela/{identificador}(identificador=${reserva.identificador})}"

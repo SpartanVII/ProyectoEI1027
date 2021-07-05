@@ -20,10 +20,10 @@
             <input th:type="hidden" th:field="*{numPersonas}" th:value="${reserva.numPersonas}"/>
             <tr>
                 <td><label>Nombre Espacio: </label></td>
-                <td th:text="${reserva.nombreEspacio}"  th:field="*{nombreEspacio}" th:value="reserva.nombreEspacio"></td>
+                <th scope="row" th:text="${reserva.nombreEspacio}"  th:field="*{nombreEspacio}" th:value="reserva.nombreEspacio"></th>
             </tr>
             <tr>
-                <td><label>Zonas 1</label></td>
+                <td><label>Zona 1</label></td>
                 <td><select class="form_control"  th:field="*{zona1}">
                     <option th:each="zona : ${zonas}"
                             th:value="${zona.identificador}"
@@ -32,7 +32,7 @@
                 <td th:if="${#fields.hasErrors('zona1')}" th:errors="*{zona1}" class="error"></td>
             </tr>
             <tr  th:if="${reserva.numPersonas}>5">
-                <td><label>Zonas 2</label></td>
+                <td><label>Zona 2</label></td>
                 <td><select class="form_control"  th:field="*{zona2}">
                     <option th:each="zona : ${zonas}"
                             th:value="${zona.identificador}"
@@ -41,7 +41,7 @@
                 <td th:if="${#fields.hasErrors('zona2')}" th:errors="*{zona2}" class="error"></td>
             </tr>
             <tr  th:if="${reserva.numPersonas}>10">
-                <td><label>Zonas 3</label></td>
+                <td><label>Zona 3</label></td>
                 <td><select class="form_control"  th:field="*{zona3}">
                     <option th:each="zona : ${zonas}"
                             th:value="${zona.identificador}"
@@ -50,7 +50,7 @@
                 <td th:if="${#fields.hasErrors('zona3')}" th:errors="*{zona3}" class="error"></td>
             </tr>
             <tr  th:if="${reserva.numPersonas}>15">
-                <td><label>Zonas 4</label></td>
+                <td><label>Zona 4</label></td>
                 <td><select class="form_control"  th:field="*{zona4}">
                     <option th:each="zona : ${zonas}"
                             th:value="${zona.identificador}"

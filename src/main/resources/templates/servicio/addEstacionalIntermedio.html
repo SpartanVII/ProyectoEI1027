@@ -16,20 +16,20 @@
             <input th:type="hidden" th:field="*{nombreServicioEstacional}" th:value="periodo.nombreServicioEstacional"/>
             <tr>
                 <td><label>Espacio</label></td>
-                <td th:text="${periodo.nombreEspacioPublico}" th:field="*{nombreEspacioPublico}" th:value="periodo.nombreEspacioPublico"></td>
+                <th scope="row" th:text="${periodo.nombreEspacioPublico}" th:field="*{nombreEspacioPublico}" th:value="periodo.nombreEspacioPublico"></th>
             </tr>
             <tr>
                 <td><label>Servicio</label></td>
-                <td th:text="${periodo.nombreServicioEstacional}" th:field="*{nombreServicioEstacional}" th:value="periodo.nombreServicioEstacional"></td>
+                <th scope="row" th:text="${periodo.nombreServicioEstacional}" th:field="*{nombreServicioEstacional}" th:value="periodo.nombreServicioEstacional"></td>
             </tr>
             <tr>
                 <td><label>Fecha Inicio</label></td>
-                <td><input type="date" th:field="*{fechaInicio}" required/></td>
+                <td><input type="date" th:field="*{fechaInicio}" th:min="${fechaMinima}" required/></td>
                 <td th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}" class="error"></td>
             </tr>
             <tr>
                 <td><label>Fecha Fin</label></td>
-                <td><input type="date" th:field="*{fechaFin}" required/></td>
+                <td><input type="date" th:field="*{fechaFin}" th:min="${fechaMinima}" required/></td>
                 <td th:if="${#fields.hasErrors('fechaFin')}" th:errors="*{fechaFin}" class="error"></td>
             </tr>
         </table><br>
