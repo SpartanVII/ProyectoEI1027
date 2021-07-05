@@ -1,10 +1,10 @@
 package mvc.controller;
 
 import mvc.dao.*;
-import mvc.model.EspacioPublico;
-import mvc.model.GestorMunicipal;
-import mvc.model.UserDetails;
+import mvc.model.*;
+import mvc.services.FranjaEspacioSvc;
 import mvc.services.ReservaSvc;
+import mvc.services.ServicioEstacionalCompleto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
@@ -47,8 +47,11 @@ public class EspacioPublicoController {
 
     private EspacioPublicoDao espacioPublicoDao;
     private GestorMunicipalDao gestorMunicipalDao;
+    private ServicioEstacionalDao servicioEstacionalDao;
+    private ServicioPermaDao servicioPermaDao;
     private FranjaEspacioDao franjaEspacioDao;
     private MunicipioDao municipioDao;
+
     private int pageLength = 6;
 
     @Autowired
@@ -64,6 +67,12 @@ public class EspacioPublicoController {
 
     @Autowired
     public void setMunicipioDao(MunicipioDao municipioDao){this.municipioDao=municipioDao;}
+
+    @Autowired
+    public  void setServicioEstacionalDao(ServicioEstacionalDao servicioEstacionalDao){this.servicioEstacionalDao=servicioEstacionalDao;}
+
+    @Autowired
+    public void setServicioPermaDao(ServicioPermaDao servicioPermaDao){this.servicioPermaDao=servicioPermaDao;}
 
     @RequestMapping("/list")
     public String listRegistradoPaged(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("nuevo") Optional<String> nuevo,  HttpSession session) {
@@ -114,6 +123,24 @@ public class EspacioPublicoController {
         EspacioPublico espacioPublico = espacioPublicoDao.getEspacioPublico(nombre);
         model.addAttribute("ocupacion", espacioPublicoDao.getOcupacionActual(nombre));
         model.addAttribute("espacioPublico", espacioPublico);
+
+        StringBuilder servicios = new StringBuilder("Este espacio cuenta con los siguientes servicios: ");
+        List<ServicioEstacionalCompleto> servicioEstacionals = servicioEstacionalDao.getServiciosEstacionalesEspacio(nombre);
+        List<ServicioPerma> servicioPermas = servicioPermaDao.getServiciosEspacio(nombre);
+        for(int i=0; i< servicioEstacionals.size(); i++){
+            servicios.append(servicioEstacionals.get(i).getNombre());
+            if(servicioPermas.size()!=0) servicios.append(", ");
+            else if(i!=servicioEstacionals.size()-1) servicios.append(", ");
+        }
+
+        for (int i =0; i<servicioPermas.size(); i++){
+            servicios.append(servicioPermas.get(i).getNombre());
+            if(i!=servicioPermas.size()-1) servicios.append(", ");
+        }
+
+        servicios.append(".");
+        model.addAttribute("servicios",servicios.toString());
+        model.addAttribute("numServicios",servicioEstacionals.size()+servicioPermas.size());
 
         if (user==null) return "espacioPublico/infoSinRegistrar";
         if(user.getRol().equals("controlador")) return "espacioPublico/infoControlador";

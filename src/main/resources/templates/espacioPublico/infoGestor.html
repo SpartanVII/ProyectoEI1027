@@ -10,58 +10,58 @@
 <div layout:fragment="content" th:object="${esMio}">
 <h2>Información del Espacio Público</h2>
     <form>
-    <table class="table" th:object="${espacioPublico}" >
-        <tr>
-            <td><label>Nombre: </label></td>
-            <td th:text="${espacioPublico.nombre}" ></td>
+        <table class="table" th:object="${espacioPublico}" >
+            <tr>
+                <td><label>Nombre: </label></td>
+                <td th:text="${espacioPublico.nombre}" ></td>
 
-            <td th:if="${espacioPublico.tipoAcceso}==RESTRINGIDO"><label>Ocupación: </label></td>
-            <td th:if="${espacioPublico.tipoAcceso}==RESTRINGIDO" th:text="${ocupacion}" ></td>
-        </tr>
-        <tr>
-            <td><label>Loc.Geográfica: </label></td>
-            <td th:text="${espacioPublico.localizacionGeografica}"></td>
+                <td th:if="${espacioPublico.tipoAcceso}==RESTRINGIDO"><label>Ocupación: </label></td>
+                <td th:if="${espacioPublico.tipoAcceso}==RESTRINGIDO" th:text="${ocupacion}" ></td>
+            </tr>
+            <tr>
+                <td><label>Loc.Geográfica: </label></td>
+                <td th:text="${espacioPublico.localizacionGeografica}"></td>
 
-            <td><label>Cap.Máx: </label></td>
-            <td th:text="${espacioPublico.ocupacion}" ></td>
-        </tr>
-        <tr>
-            <td><label>Longitud: </label></td>
-            <td th:text="${espacioPublico.longitud}" ></td>
+                <td><label>Cap.Máx: </label></td>
+                <td th:text="${espacioPublico.ocupacion}" ></td>
+            </tr>
+            <tr>
+                <td><label>Longitud: </label></td>
+                <td th:text="${espacioPublico.longitud}" ></td>
 
-            <td><label>Amplitud: </label></td>
-            <td th:text="${espacioPublico.amplitud}" ></td>
-        </tr>
+                <td><label>Amplitud: </label></td>
+                <td th:text="${espacioPublico.amplitud}" ></td>
+            </tr>
 
-        <tr>
-            <td><label>Terreno: </label></td>
-            <td th:text="${espacioPublico.tipoTerreno}"></td>
+            <tr>
+                <td><label>Terreno: </label></td>
+                <td th:text="${espacioPublico.tipoTerreno}"></td>
 
-            <td><label>Accceso: </label></td>
-            <td th:text="${espacioPublico.tipoAcceso}">></td>
-        </tr>
-        <tr>
-            <td><label>Municipio: </label></td>
-            <td th:text="${espacioPublico.nombreMunicipio}" ></td>
+                <td><label>Accceso: </label></td>
+                <td th:text="${espacioPublico.tipoAcceso}">></td>
+            </tr>
+            <tr>
+                <td><label>Municipio: </label></td>
+                <td th:text="${espacioPublico.nombreMunicipio}" ></td>
 
-            <td><label>Orientación: </label></td>
-            <td th:text="${espacioPublico.orientacion}" ></td>
-        </tr>
-        <tr>
-            <td><label>Descripción: </label></td>
-            <td th:text="${espacioPublico.descripcion}"></td>
+                <td><label>Orientación: </label></td>
+                <td th:text="${espacioPublico.orientacion}" ></td>
+            </tr>
+            <tr>
+                <td><label>Descripción: </label></td>
+                <td th:text="${espacioPublico.descripcion}"></td>
 
-            <td><label>Comentario: </label></td>
-            <td  th:text="${espacioPublico.comentario}"></td>
-        </tr>
-    </table><br>
-    <p>
-    <a th:if="${esMio}==si" th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-warning" type="button">Edita</a>
-    <a th:if="${esMio}==si" th:href="@{/espacioPublico/delete/{nombre}(nombre=${espacioPublico.nombre})}"
-       th:onclick="return confirm('¿Estas seguro de borrar es Espacio Público con nombre \'' +[[${espacioPublico.nombre}]]+'\'?');"
-       class="btn btn-danger" role="button">Borra</a>
-    </p>
-    <a  th:href="@{/espacioPublico/list}"><button type="button" class="btn btn-secondary">Volver</button></a>
+                <td><label>Comentario: </label></td>
+                <td  th:text="${espacioPublico.comentario}"></td>
+            </tr>
+        </table><br>
+        <p th:if="${numServicios}!=0" th:text="${servicios}"></p>
+        <a th:if="${esMio}==si" th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-warning" type="button">Edita</a>
+        <a th:if="${esMio}==si" th:href="@{/espacioPublico/delete/{nombre}(nombre=${espacioPublico.nombre})}"
+           th:onclick="return confirm('¿Estas seguro de borrar es Espacio Público con nombre \'' +[[${espacioPublico.nombre}]]+'\'?');"
+           class="btn btn-danger" role="button">Borra</a>
+        </p>
+        <a  th:href="@{/espacioPublico/list}"><button type="button" class="btn btn-secondary">Volver</button></a>
     </form>
 </form>
 </div>

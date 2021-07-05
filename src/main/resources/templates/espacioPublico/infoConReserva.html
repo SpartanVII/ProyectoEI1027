@@ -56,8 +56,9 @@
         </tr>
     </table>
     </form><br>
+    <p th:if="${numServicios}!=0" th:text="${servicios}"></p>
     <form th:if="${espacioPublico.tipoAcceso}==RESTRINGIDO" action="#" th:object="${reserva}" th:action="@{/reserva/add/{nombre}(nombre=${reserva.nombreEspacio})}"  method="post">
-        <p>Rellene los campos para realizar una reserva</p>
+        <h6>Rellene los campos para realizar una reserva</h6>
         <table>
             <tr>
                 <td><label>Fecha:</label></td>
