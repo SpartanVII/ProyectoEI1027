@@ -11,27 +11,41 @@
 <div layout:fragment="content">
     <h1>Lista de franjas</h1>
     <h2 th:text="${nombre}"></h2>
+    <div th:with="franjas=${franjasPaged[__${selectedPage}__]}">
     <div th:if="${#lists.isEmpty(franjas)}">Este espacio no tiene franjas</div>
-    <table  th:unless="${#lists.isEmpty(franjas)}" class="table table-striped">
-        <thead>
-        <tr>
-            <th>Hora Entrada</th>
-            <th>Hora Salida</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="franja: ${franjas}">
-            <td th:text="${franja.entrada}"></td>
-            <td th:text="${franja.salida}"></td>
-            <td><a th:href="@{/franjaEspacio/delete/{nombre}/{horaEntrada}/{horaSalida}
-                (nombre=${franja.nombreEspacio}, horaEntrada=${franja.entrada}, horaSalida=${franja.salida})}"
-                   th:onclick="return confirm('¿Estas seguro de borrar la franja horaria que va de ' +[[${franja.entrada}]]+' a '+[[${franja.salida}]]+'?');"
-                   class="btn btn-danger" role="button">Borrar</a>
-            </td>
-        </tr>
-        </tbody>
-    </table><br><p>
+        <table  th:unless="${#lists.isEmpty(franjas)}" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Hora Entrada</th>
+                <th>Hora Salida</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="franja: ${franjas}" th:class="${#strings.equals(nueva,franja.entradaSalida)}?'bg-info text-white'">
+                <td th:text="${franja.entrada}"></td>
+                <td th:text="${franja.salida}"></td>
+                <td><a th:href="@{/franjaEspacio/delete/{nombre}/{horaEntrada}/{horaSalida}
+                    (nombre=${franja.nombreEspacio}, horaEntrada=${franja.entrada}, horaSalida=${franja.salida})}"
+                       th:onclick="return confirm('¿Estas seguro de borrar la franja horaria que va de ' +[[${franja.entrada}]]+' a '+[[${franja.salida}]]+'?');"
+                       class="btn btn-danger" role="button">Borrar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <nav aria-label="Seleccion de pagina">
+            <ul class="pagination justify-content-center">
+                <li th:class="page-item" th:if="${#lists.size(franjasPaged) > 1}"
+                    th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==selectedPage+1} ? active">
+                    <a th:href="@{/franjaEspacio/list/{nombre}?page={sele}(sele=${pageNumber-1}, nombre=${nombre})}"
+                       th:text=${pageNumber}
+                       th:class="page-link">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <p>
     <a th:href="@{/franjaEspacio/add/{nombre}(nombre=${nombre})}"><button type="button" class="btn btn-primary">Añadir franja</button></a>
     </p>
     <a th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${nombre})}"><button type="button" class="btn btn-secondary">Volver</button></a>

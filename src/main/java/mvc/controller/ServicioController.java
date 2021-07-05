@@ -69,7 +69,6 @@ public class ServicioController {
 
     @RequestMapping("/list")
     public String listServiciosPerma(Model model) {
-
         model.addAttribute("serviciosPerma", servicioPermaDao.getServicios());
         return "/list";
     }

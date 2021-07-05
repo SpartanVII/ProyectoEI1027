@@ -4,7 +4,7 @@ import mvc.model.FranjaEspacio;
 
 import java.time.LocalTime;
 
-public class FranjaEspacioSvc {
+public class FranjaEspacioSvc implements FranjaEspacioService {
 
     private String nombreEspacio;
     private String entrada;
@@ -61,13 +61,17 @@ public class FranjaEspacioSvc {
         this.salida = salida;
     }
 
+    public String getEntradaSalida(){return entrada+"/"+salida;}
 
 
-    public FranjaEspacio creaFranjaEspacio(){
+    @Override
+    public FranjaEspacio crearFranjaEspacio(){
         FranjaEspacio franjaEspacio=new FranjaEspacio();
         franjaEspacio.setNombreEspacio(nombreEspacio);
         franjaEspacio.setHoraEntrada(horaEntrada);
         franjaEspacio.setHoraSalida(horaSalida);
         return franjaEspacio;
     }
+
+
 }
