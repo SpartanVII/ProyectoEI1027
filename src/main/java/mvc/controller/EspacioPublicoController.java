@@ -65,14 +65,15 @@ public class EspacioPublicoController {
     @Autowired
     public void setMunicipioDao(MunicipioDao municipioDao){this.municipioDao=municipioDao;}
 
-    @RequestMapping("/listRegistrado")
+    @RequestMapping("/list")
     public String listRegistradoPaged(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("nuevo") Optional<String> nuevo,  HttpSession session) {
 
         UserDetails user = (UserDetails) session.getAttribute("user");
 
         //Solo los espacios abiertos y restringidos
         List<EspacioPublico> espaciosPublicos;
-        if (user.getRol().equals("ciudadano")) espaciosPublicos= espacioPublicoDao.getEspaciosPublicosNoCerrados();
+        if(user==null) espaciosPublicos= espacioPublicoDao.getEspaciosPublicosNoCerrados();
+        else if (user.getRol().equals("ciudadano")) espaciosPublicos= espacioPublicoDao.getEspaciosPublicosNoCerrados();
         else espaciosPublicos = espacioPublicoDao.getEspaciosPublicos();
         ArrayList<ArrayList<EspacioPublico>> espaciosPaginas= new ArrayList<>();
 
@@ -97,42 +98,14 @@ public class EspacioPublicoController {
         model.addAttribute("selectedPage", currentPage);
         model.addAttribute("nuevo", nuevo.orElse("None"));
 
+        if(user==null) return "espacioPublico/listSinRegistrar";
         if (user.getRol().equals("gestorMunicipal")) return "espacioPublico/listGestor";
         if (user.getRol().equals("controlador")) return "espacioPublico/listControlador";
+
 
         return "espacioPublico/listConReserva";
     }
 
-
-
-    @RequestMapping("/listSinRegistrar")
-    public String listEspacioPublicoSinRegistrar(Model model, @RequestParam("page") Optional<Integer> page) {
-        List<EspacioPublico> espaciosPublicos = espacioPublicoDao.getEspaciosPublicosNoCerrados();
-        ArrayList<ArrayList<EspacioPublico>> espaciosPaginas= new ArrayList<>();
-
-        int ini=0;
-        int fin=pageLength;
-        while (fin<espaciosPublicos.size()) {
-            espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(ini, fin)));
-            ini+=pageLength;
-            fin+=pageLength;
-        }
-        espaciosPaginas.add(new ArrayList<>(espaciosPublicos.subList(ini, espaciosPublicos.size())));
-        model.addAttribute("espaciosPublicosPaged", espaciosPaginas);
-
-        // Paso 2: Crear la lista de numeros de pagina
-        int totalPages = espaciosPaginas.size();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
-        // Paso 3: selectedPage: usar parametro opcional page, o en su defecto, 1
-        int currentPage = page.orElse(0);
-        model.addAttribute("selectedPage", currentPage);
-
-
-        return "espacioPublico/listSinRegistrar";
-    }
 
     @RequestMapping(value="/info/{nombre}")
     public String addEspacioPublico(Model model, HttpSession session, @PathVariable String nombre ) {
@@ -141,6 +114,9 @@ public class EspacioPublicoController {
         EspacioPublico espacioPublico = espacioPublicoDao.getEspacioPublico(nombre);
         model.addAttribute("ocupacion", espacioPublicoDao.getOcupacionActual(nombre));
         model.addAttribute("espacioPublico", espacioPublico);
+
+        if (user==null) return "espacioPublico/infoSinRegistrar";
+        if(user.getRol().equals("controlador")) return "espacioPublico/infoControlador";
 
         if (user.getRol().equals("ciudadano")){
             ReservaSvc reservaService = new ReservaSvc();
@@ -152,9 +128,7 @@ public class EspacioPublicoController {
             return "espacioPublico/infoConReserva";
         }
 
-        if(user.getRol().equals("controlador")) return "espacioPublico/infoControlador";
         GestorMunicipal gestorMunicipal= gestorMunicipalDao.getGestorMunicipal(user.getUsername());
-
         if(gestorMunicipal.getNombreMunicipio().equals(espacioPublico.getNombreMunicipio())) model.addAttribute("esMio","si");
         else model.addAttribute("esMio","no");
 

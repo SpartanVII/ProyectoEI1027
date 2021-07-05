@@ -11,13 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
 class ServicioValidator implements Validator {
 
@@ -31,8 +29,8 @@ class ServicioValidator implements Validator {
         PeriodosServiciosEstacionalesEnEspacio periodosServiciosEstacionalesEnEspacio = (PeriodosServiciosEstacionalesEnEspacio) obj;
 
         if (periodosServiciosEstacionalesEnEspacio.getFechaInicio().compareTo(periodosServiciosEstacionalesEnEspacio.getFechaFin())>0)
-            errors.rejectValue("fechaInicio", "obligatorio",
-                    "La fecha de inicio debe ser mayor a la de fin");
+            errors.rejectValue("fechaFin", "obligatorio",
+                    "La fecha de fin debe ser mayor a la de inicio");
 
         if (periodosServiciosEstacionalesEnEspacio.getFechaInicio().compareTo(LocalDate.now())<0)
             errors.rejectValue("fechaInicio", "obligatorio",
@@ -71,12 +69,14 @@ public class ServicioController {
 
     @RequestMapping("/list")
     public String listServiciosPerma(Model model) {
+
         model.addAttribute("serviciosPerma", servicioPermaDao.getServicios());
         return "/list";
     }
 
     @RequestMapping(value="/listEnEspacio/{nombreEspacio}", method = RequestMethod.GET)
-    public String listServiciosPermaEnEspacio(Model model, @PathVariable String nombreEspacio ) {
+    public String listServiciosPermaEnEspacio(Model model, @PathVariable String nombreEspacio, @RequestParam("nuevo") Optional<String> nuevo ) {
+        model.addAttribute("nuevo",nuevo.orElse("None"));
         model.addAttribute("espacio", espacioPublicoDao.getEspacioPublico(nombreEspacio));
         model.addAttribute("serviciosPerma", servicioPermaDao.getServiciosEspacio(nombreEspacio));
         model.addAttribute("serviciosEstacionales", servicioEstacionalDao.getServiciosEstacionalesEspacio(nombreEspacio));
@@ -102,10 +102,9 @@ public class ServicioController {
     }
 
     @RequestMapping(value="/addPermanente/{nombreEspacio}/{nombreServicio}")
-    public String addServicioPermanente(Model model, @PathVariable String nombreEspacio,
-                                                     @PathVariable String nombreServicio) {
+    public String addServicioPermanente( @PathVariable String nombreEspacio, @PathVariable String nombreServicio) {
         servicioPermaDao.addServicioPermaEnEspacio(nombreServicio, nombreEspacio);
-        return "redirect:/servicio/listEnEspacio/"+nombreEspacio;
+        return "redirect:/servicio/listEnEspacio/"+nombreEspacio+"?nuevo="+nombreServicio;
     }
 
     @RequestMapping(value="/addEstacional/{nombreEspacio}")
@@ -136,7 +135,7 @@ public class ServicioController {
             return "/servicio/addEstacionalIntermedio";
         }
         periodosServiciosEstacionalesEnEspacioDao.addPeriodosServiciosEstacionales(periodosServiciosEstacionalesEnEspacio);
-        return "redirect:/servicio/listEnEspacio/"+periodosServiciosEstacionalesEnEspacio.getNombreEspacioPublico();
+        return "redirect:/servicio/listEnEspacio/"+periodosServiciosEstacionalesEnEspacio.getNombreEspacioPublico()+"?nuevo="+periodosServiciosEstacionalesEnEspacio.getNombreServicioEstacional();
     }
 
 }

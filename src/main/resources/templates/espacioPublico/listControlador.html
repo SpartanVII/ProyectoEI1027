@@ -36,7 +36,7 @@
             <ul class="pagination justify-content-center">
                 <li th:class="page-item" th:if="${#lists.size(espaciosPublicosPaged) > 1}"
                     th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==selectedPage+1} ? active">
-                    <a th:href="@{/espacioPublico/listRegistrado?page={sele}(sele=${pageNumber-1})}"
+                    <a th:href="@{/espacioPublico/list?page={sele}(sele=${pageNumber-1})}"
                        th:text=${pageNumber}
                        th:class="page-link">
                     </a>

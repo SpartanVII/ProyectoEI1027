@@ -17,7 +17,7 @@
                 <th>Tipo Terreno</th>
                 <th>Tipo Acceso</th>
                 <th>Municipio</th>
-
+                <th></th>
             </tr>
 
             </thead>
@@ -28,7 +28,7 @@
                 <td th:text="${espacioPublico.tipoTerreno}"></td>
                 <td th:text="${espacioPublico.tipoAcceso}"></td>
                 <td th:text="${espacioPublico.nombreMunicipio}"></td>
-
+                <td><a th:href="@{/espacioPublico/info/{nombre}(nombre=${espacioPublico.nombre})}"  class="btn btn-info" type="button">Info</a></td>
             </tr>
             </tbody>
 
@@ -37,7 +37,7 @@
             <ul class="pagination justify-content-center">
                 <li th:class="page-item" th:if="${#lists.size(espaciosPublicosPaged) > 1}"
                     th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==selectedPage+1} ? active">
-                    <a th:href="@{/espacioPublico/listSinRegistrar?page={sele}(sele=${pageNumber-1})}"
+                    <a th:href="@{/espacioPublico/list?page={sele}(sele=${pageNumber-1})}"
                        th:text=${pageNumber}
                        th:class="page-link">
                     </a>
