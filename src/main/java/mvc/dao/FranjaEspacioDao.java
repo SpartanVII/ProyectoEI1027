@@ -43,7 +43,7 @@ public class FranjaEspacioDao {
 
                 Ciudadano ciudadano=jdbcTemplate.queryForObject("SELECT * from Ciudadano WHERE dni=?", new CiudadanoRowMapper(), reserva.getDniCiudadano());
                 assert ciudadano != null;
-                CorreoController.enviaCorreo(new Correo(ciudadano.getEmail(),"Cancelación de su reserva con fecha"+reserva.getFecha()+
+                CorreoController.enviaCorreo(new Correo(ciudadano.getEmail(),"Cancelación de su reserva con fecha "+reserva.getFecha()+
                         " de "+ reserva.getHoraEntrada()+" a "+reserva.getHoraSalida(), mensaje));
             }
             jdbcTemplate.update("DELETE from Ocupa where identificador_reserva=?", reserva.getIdentificador());
