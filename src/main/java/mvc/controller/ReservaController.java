@@ -196,17 +196,17 @@ public class ReservaController {
 
         //Cancela reserva
         reservaDao.cancelaReserva(reserva.crearReserva(), estado);
-        String mensaje = "Su reserva con fecha "+reserva.getFecha()+" ha sido cancelada porque ";
+        String mensaje = "Su reserva con fecha "+reserva.getFechaEspana()+" ha sido cancelada porque ";
         Notificacion notificacion = new Notificacion(reserva.getDni(), mensaje);
         model.addAttribute("notificacion", notificacion);
 
         //Correo de aviso de la cancelacion
         try {
             CorreoController.enviaCorreo(new Correo(ciudadanoDao.getCiudadano(reserva.getDni()).getEmail(),
-                    "Cancelación de su reserva del dia "+reserva.getFecha()+" y hora "+ reserva.getFranja(),
-                    "La reserva que tenia lugar en la/s zona/s"+reserva.getFusionZonas()+" de " +reserva.getFranja()+" ha sido cancelada.\n"+
-                            "Para consultar los motivos dirijase a la sección de notificaciones de su cuenta\n"
-                            +"En caso de que no se le indicarán en una notificación se los comunicaremos más adelante.\n Muchas gracias y disculpe las molestias"));
+                    "Cancelación de su reserva del dia "+reserva.getFechaEspana()+" y hora "+ reserva.getFranja(),
+                    "La reserva que tenia lugar en la/s zona/s "+reserva.getZonas()+" de " +reserva.getFranja()+" ha sido cancelada.\n"+
+                            "Para consultar los motivos dirijase a la sección de notificaciones de su cuenta.\n"
+                            +"En caso de que no se le indicarán en una notificación se los comunicaremos más adelante.\nMuchas gracias y disculpe las molestias"));
         }catch (Exception e ){
             System.out.println("No se pudo enviar el correo");
             System.out.println("Esto sucede poque los correos de destino son ficticios");
@@ -268,13 +268,13 @@ public class ReservaController {
         notificacion.setIdentificador(notificacionDao.getSiguienteIdentificadorNotificacion());
         notificacion.setDniCiudadano(reserva.getDni());
         notificacion.setMensaje("Usted ha realizado una reserva en la/s zona/s "+reserva.getFusionZonas()+".\n" +
-                "La reserva es el dia "+reserva.getFecha()+" , de "+reserva.getFranja()+".");
+                "La reserva es el dia "+reserva.getFechaEspana()+" , de "+reserva.getFranja()+".");
         notificacionDao.addNotificacion(notificacion);
 
         //Correo de confirmacion de la reserva
-        CorreoController.enviaCorreo(new Correo(user.getGmail(),"Nueva reserva el día "+reserva.getFecha()+" a las  "+reserva.getFranja(),
+        CorreoController.enviaCorreo(new Correo(user.getGmail(),"Nueva reserva el día "+reserva.getFechaEspana()+" a las  "+reserva.getFranja(),
                 "Usted ha realizado una reserva en la/s zona/s "+reserva.getFusionZonas()+" para un total de "+reserva.getNumPersonas()+" personas.\n"+
-                        "La reserva es el dia "+reserva.getFecha()+" , a las "+reserva.getFranja()+"."));
+                        "La reserva es el dia "+reserva.getFechaEspana()+", a las "+reserva.getFranja()+"."));
 
         return "redirect:list?nueva="+reserva.getIdentificador();
     }
