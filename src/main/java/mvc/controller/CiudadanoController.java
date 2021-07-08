@@ -117,6 +117,7 @@ public class CiudadanoController {
             return "ciudadano/add";
         }
 
+        String contra = ciudadano.getPin();
         BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
         ciudadano.setPin(passwordEncryptor.encryptPassword(ciudadano.getPin()));
         ciudadanoDao.addCiudadano(ciudadano);
@@ -131,7 +132,7 @@ public class CiudadanoController {
 
         //Enviamos correo de confirmacion
         CorreoController.enviaCorreo(new Correo(ciudadano.getEmail(),"Registro en el SANA",
-                "Usted se ha registrado en el SANA correctamene.\n\tSu usario es: "+ciudadano.getDni()+"\n\tSu contraseña es: "+ciudadano.getPin()));
+                "Usted se ha registrado en el SANA correctamene.\n\tSu usario es: "+ciudadano.getDni()+"\n\tSu contraseña es: "+contra));
 
         return "redirect:indice";
     }

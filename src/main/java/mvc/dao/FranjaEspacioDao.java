@@ -31,8 +31,8 @@ public class FranjaEspacioDao {
 
 
     public void deleteFranjaEspacio(FranjaEspacio franjaEspacio) {
-        List<Reserva> reservas = jdbcTemplate.query("SELECT * from Reserva where horaEntrada=? and horaSalida=?",
-                new ReservaRowMapper(), franjaEspacio.getHoraEntrada(), franjaEspacio.getHoraSalida());
+        List<Reserva> reservas = jdbcTemplate.query("SELECT * from Reserva where horaEntrada=? and horaSalida=? and nombreEspacio=?",
+                new ReservaRowMapper(), franjaEspacio.getHoraEntrada(), franjaEspacio.getHoraSalida(), franjaEspacio.getNombreEspacio());
 
         for(Reserva reserva: reservas){
             if (reserva.getEstado().equals("PENDIENTE_USO")){
