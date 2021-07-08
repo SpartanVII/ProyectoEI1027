@@ -67,8 +67,7 @@
                 </select></td>
         </tr>
     </table><br>
-    <input type="submit" th:onclick="return confirm('¿Estas seguro de actualizar el Espacio Público?');"
-           class="btn btn-success" value="Actualizar" />
+    <input type="submit" th:onclick="return confirm('¿Estas seguro de actualizar el Espacio Público?');" class="btn btn-success" value="Actualizar" />
     <a  th:href="@{/espacioPublico/updateGestor/{nombre}(nombre=${espacioPublico.nombre})}"><button type="button" class="btn btn-secondary">Volver</button></a>
 </form>
 </div>

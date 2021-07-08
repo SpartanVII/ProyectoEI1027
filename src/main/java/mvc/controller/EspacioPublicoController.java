@@ -189,7 +189,7 @@ public class EspacioPublicoController {
 
         espacioPublicoDao.addEspacioPublico(espacioPublico);
 
-        return "redirect:/espacioPublico/listRegistrado?nuevo="+espacioPublico.getNombre();
+        return "redirect:/espacioPublico/list?nuevo="+espacioPublico.getNombre();
     }
 
     @RequestMapping(value="/update/{nombre}", method = RequestMethod.GET)
@@ -206,13 +206,13 @@ public class EspacioPublicoController {
         if (bindingResult.hasErrors())
             return "espacioPublico/update";
         espacioPublicoDao.updateEspacioPublico(espacioPublico);
-        return "redirect:listRegistrado";
+        return "redirect:list";
     }
 
     @RequestMapping(value="/delete/{nombre}")
     public String processDelete(@PathVariable String nombre) {
         espacioPublicoDao.deleteEspacioPublico(nombre);
-        return "redirect:/espacioPublico/listRegistrado";
+        return "redirect:/espacioPublico/list";
     }
 
     @RequestMapping(value="/updateGestor/{nombre}", method = RequestMethod.GET)
