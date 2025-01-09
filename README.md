@@ -1,5 +1,5 @@
 # ProyectoEI1027
-Este proyecto ha sido desarrollado por: al386134  y SpartanVII.
+Este proyecto ha sido desarrollado por: Enrique Cueeto Rubio  y TheSpartanVII.
 
 El proyecto consiste en crear una aplicación con spring-boost en la cual se puden gestionar los espacios naturales de una comunidad autonoma.
 
